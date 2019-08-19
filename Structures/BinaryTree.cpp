@@ -1,17 +1,18 @@
+#include "BinaryTree.h"
 #include <iostream>
 #include <stdlib.h>
 #include <fstream>
 #include <string>
 #include <malloc.h>
-#include <BinaryTree.h>
 #include <bits/stdc++.h>
+
 
 using namespace std;
 
 
 NodeBB *Tree = NULL;
 
-NodeBB* NodeABB::Create_Node(std::string Name, int Id){
+NodeBB* NodeABB::Create_Node(string Name, int Id){
     NodeBB *New_Nodo = new NodeBB;
     New_Nodo->Name = Name;
     New_Nodo->Id = Id;
@@ -20,11 +21,11 @@ NodeBB* NodeABB::Create_Node(std::string Name, int Id){
     return New_Nodo;
 }
 
-void NodeABB::SendInsert(std::string Name){
+void NodeABB::SendInsert(string Name){
     InsertNode(Tree,Name);
 }
 
-int NodeABB::IdName(std::string Name){
+int NodeABB::IdName(string Name){
   int Suma= 0;
   string a = Name;
   char buffer[100];
@@ -40,7 +41,7 @@ int NodeABB::IdName(std::string Name){
   return suma;
 }
 
-void NodeABB::InsertNode(NodeBB *&Tree, std::string Name){
+void NodeABB::InsertNode(NodeBB *&Tree, string Name){
     int Id = IdName(Name);
 
     if(Tree == NULL)
@@ -83,7 +84,7 @@ if(Tree == NULL)
 
 }
 
-string NodeABB::InOrder(NodeBB *&Tree, std::string grafica){
+string NodeABB::InOrder(NodeBB *&Tree, string grafica){
     if(Tree!=NULL)
     {
 
@@ -110,7 +111,7 @@ string NodeABB::InOrder(NodeBB *&Tree, std::string grafica){
 }
 
 void NodeABB::Graph(){
-        std::string a = "";
+        string a = "";
         a +="digraph G { \n";
         ofstream fd4("ArbolBB.dot");
         a = InOrder(Tree,a);
@@ -139,7 +140,7 @@ void NodeABB::SentDelete(string Name){
     DeleteNode(Tree,Name);
 }
 
-NodeBB* NodeABB::DeleteNode(NodeBB *&Tree, std::string Name){
+NodeBB* NodeABB::DeleteNode(NodeBB *&Tree,string Name){
   int Id = IdName(Name);
     if(Tree == NULL){
             return Tree;
@@ -175,7 +176,7 @@ NodeBB* NodeABB::DeleteNode(NodeBB *&Tree, std::string Name){
     return Tree;
 }
 
-std::string NodeABB::InOrderE(NodeBB *&Tree, std::string grafica){
+string NodeABB::InOrderE(NodeBB *&Tree,string grafica){
     if(Tree!=NULL)
     {
 
@@ -201,8 +202,33 @@ std::string NodeABB::InOrderE(NodeBB *&Tree, std::string grafica){
     return grafica;
 }
 
+void NodeABB::PrintPreOrder2(){
+
+  PrintPreOrder(Tree);
+
+}
+
+void NodeABB::PrintPreOrder(NodeBB *&Tree){
+  if (Tree != NULL){
+    cout<<Tree->Name+"\n";
+    PrintPreOrder(Tree->SonLeft);
+    PrintPreOrder(Tree->SonRight);
+  }
+}
+
+void NodeABB::PrintPostOrder(){
+  PrintPostOrder2(Tree);
+}
+void NodeABB::PrintPostOrder2(NodeBB *&Tree){
+  if (Tree != NULL){
+    PrintPreOrder(Tree->SonLeft);
+    PrintPreOrder(Tree->SonRight);
+    cout<<Tree->Name+"\n";
+  }
+}
+
 void NodeABB::GraphE(){
-  std::string a = "";
+  string a = "";
   a +="digraph G { \n";
   ofstream fd4("ArbolBBEliminado.dot");
   a = InOrderE(Tree,a);
@@ -214,4 +240,79 @@ void NodeABB::GraphE(){
 
 system("dot -Tjpg ArbolBBEliminado.dot -o ArbolBBEliminado.jpg");
 system("ArbolBBEliminado.jpg");
+}
+
+string NodeABB::PreOrder(NodeBB *&Tree,string grafica){
+  if(Tree!=NULL)
+  {
+    if (Tree->SonLeft != NULL){
+      PreOrder(Tree->SonLeft,grafica);
+      grafica += "Nodo_"+Tree->Name+";";
+      grafica += "\n";
+      grafica += "Nodo_"+Tree->Name+" [label=\"Nombre:"+Tree->Name +" \",shape=box]; \n";
+      grafica += "->";
+
+
+    }
+    if (Tree->SonRight != NULL){
+    PreOrder(Tree->SonRight,grafica);
+    grafica += "Nodo_"+Tree->Name+";";
+    grafica += "\n";
+    grafica += "Nodo_"+Tree->Name+" [label=\"Nombre:"+Tree->Name +" \",shape=box]; \n";
+    grafica += "->";
+
+    }
+    grafica += "\n";
+    grafica += "Nodo_"+Tree->Name+" [label=\"Nombre:"+Tree->Name +" \",shape=box]; \n";
+  }
+  return grafica;
+}
+
+void NodeABB::GraphPreOrder(){
+  string a = "";
+  a +="digraph G { \n";
+  ofstream fd4("ArbolBBEPreorder.dot");
+  a = PreOrder(Tree,a);
+  a += "}";
+  fd4<<a;
+  fd4.flush();
+  fd4.close();
+  cout<<" GENERANDO IMAGEN PreOrder\n";
+system("dot -Tjpg ArbolBBEPreorder.dot -o ArbolBBEPreorder.jpg");
+}
+
+
+string NodeABB::PostOrder(NodeBB *&Tree,string grafica){
+  if(Tree!=NULL)
+  {
+
+      grafica += "Nodo_"+Tree->Name+";";
+      grafica += "\n";
+      grafica += "Nodo_"+Tree->Name+" [label=\"Nombre:"+Tree->Name +" \",shape=box]; \n";
+
+      if (Tree->SonLeft!= NULL){
+          grafica += "->";
+          PreOrder(Tree->SonLeft,grafica);
+
+      }
+      else if (Tree->SonRight != NULL){
+            grafica += "->";
+        PreOrder(Tree->SonRight,grafica);
+      }
+  }
+
+  return grafica;
+}
+
+void NodeABB::GraphPostOrder(){
+  string a = "";
+  a +="digraph G { \n";
+  ofstream fd4("ArbolPost.dot");
+  a = PreOrder(Tree,a);
+  a += "}";
+  fd4<<a;
+  fd4.flush();
+  fd4.close();
+  cout<<" GENERANDO IMAGEN PostOrder\n";
+system("dot -Tjpg ArbolPost.dot -o ArbolPost.jpg");
 }
