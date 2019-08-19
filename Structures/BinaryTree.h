@@ -1,7 +1,5 @@
-#ifndef BINARYTREE_H
-#define BINARYTREE_H
-#include <iostream>
 #include <string>
+#include <iostream>
 
 using namespace std;
 
@@ -12,31 +10,42 @@ struct NodeBB{
   NodeBB *SonRight;
 };
 
-class NodeABB{
-public:
-  NodeABB();
-     int IdName(std::string Name);
-     NodeBB* Create_Node(std::string Name, int Id);
-     void InsertNode(NodeBB *&Tree,std::string Name);
-     void SendInsert(std::string Name);
-     void PrintNode(int Aux);
-     void PrintNode2(NodeBB *&Tree, int Aux);
+class NodeABB
+{
+    public:
+        NodeABB();
+        int IdName(std::string Name);
+        NodeBB* Create_Node(string Name, int Id);
+        void InsertNode(NodeBB *&Tree,string Name);
+        void SendInsert(string Name);
+        void PrintNode(int Aux);
+        void PrintNode2(NodeBB *&Tree, int Aux);
 
-     std::string InOrder(NodeBB *& Tree,std::string Graph);
-     void Graph();
+        string InOrder(NodeBB *& Tree,string Graph);
+        string PreOrder(NodeBB *& Tree,string Graph);
+        string PostOrder(NodeBB *& Tree,string Graph);
 
-     std::string InOrderE(NodeBB *&Tree,std::string Graph);
-     void GraphE();
+        void Graph();
+        void GraphPreOrder();
+        void GraphPostOrder();
 
-     NodeBB * Moretoleft(NodeBB *& Tree);
-     NodeBB * DeleteNode(NodeBB *& Tree, std::string Name);
-     void SentDelete(string Name);
+        void PrintPreOrder2();
+        void PrintPreOrder(NodeBB *& Tree);
+        void PrintPostOrder();
+        void PrintPostOrder2(NodeBB *& Tree);
 
-     NodeBB* ModifyNode(NodeBB *&Tree,string Name, std::string Nombre2);
-     void SentModify(std::string Name, std::string Nombre2);
-     NodeBB *SentFor(std::string Name);
-     NodeBB *SentFor2(NodeBB *&Tree, std::string Name);
 
-     std::string SentGraph();
+        string InOrderE(NodeBB *&Tree,string Graph);
+        void GraphE();
+
+        NodeBB * Moretoleft(NodeBB *& Tree);
+        NodeBB * DeleteNode(NodeBB *& Tree, string Name);
+        void SentDelete(string Name);
+
+        NodeBB* ModifyNode(NodeBB *&Tree,string Name, string Nombre2);
+        void SentModify(string Name, string Nombre2);
+        NodeBB *SentFor(string Name);
+        NodeBB *SentFor2(NodeBB *&Tree, string Name);
+
+        string SentGraph();
 };
-#endif // BINARYTREE_H
