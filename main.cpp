@@ -1,8 +1,8 @@
 #include <iostream>
-#include "Lateral.h"
-#include "Cabecera.h"
-#include "HorizontalList.h"
-#include "VerticalList.h"
+#include "Structures/Lateral.h"
+#include "Structures/Cabecera.h"
+#include "Structures/HorizontalList.h"
+#include "Structures/VerticalList.h"
 #include <stdlib.h>
 #include <fstream>
 #include <string>
@@ -540,7 +540,7 @@ int main() {
     Matrix.InsertMatrix(3,6,255,229,204);
     Matrix.InsertMatrix(5,2,255,229,204);
     Matrix.InsertMatrix(16,11,255,229,204);
-    Matrix.Graph();
+    //Matrix.Graph();
     cout<<"En teoria si se agrego";
     return 0;
 }
