@@ -1,8 +1,8 @@
 #include <iostream>
-#include "Lateral.h"
-#include "Cabecera.h"
-#include "HorizontalList.h"
-#include "VerticalList.h"
+#include "Structures/Lateral.h"
+#include "Structures/Cabecera.h"
+#include "Structures/HorizontalList.h"
+#include "Structures/VerticalList.h"
 #include <stdlib.h>
 #include <fstream>
 #include <string>
