@@ -33,6 +33,7 @@ public:
     MatrixNode *IsCoordinate(int Header, int Lateral);
     void Graph();
     string Dot(string dot);
+    string Dot2(string dot);
 
 
 
