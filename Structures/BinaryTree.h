@@ -15,6 +15,12 @@ struct NodeBB{
     NodeBB *SonRight;
 };
 
+struct ListaNodeBB{
+    int Id;
+    string Name;
+    ListaNodeBB* NextNodeBB;
+};
+
 class BinaryTree {
 public:
     int IdName(string Name);
@@ -24,14 +30,16 @@ public:
     void InsertNode2(NodeBB *&Tree,string Name);
 
     int Compare(string Name1 , string NameTree);
-    void PrintNode(int Aux);
-    void PrintNode2(NodeBB *&Tree, int Aux);
+    void PrintNode();
+    void PrintNode2(NodeBB *&Tree);
 
     string InOrder(NodeBB * &Tree,string Graph);
-    string PreOrder(NodeBB * &Tree,string Graph);
-    string PostOrder(NodeBB * &Tree,string Graph);
+    void InOrder2();
+    void PreOrder();
+    void PostOrder();
 
     void Graph();
+    void GraphInOrder();
     void GraphPreOrder();
     void GraphPostOrder();
 
@@ -50,10 +58,26 @@ public:
 
     NodeBB* ModifyNode(NodeBB *&Tree,string Name, string Nombre2);
     void SentModify(string Name, string Nombre2);
-    NodeBB *SentFor(string Name);
+    string SentFor(string Name);
     NodeBB *SentFor2(NodeBB *&Tree, string Name);
-
     string SentGraph();
+
+    ListaNodeBB *Create_NodeList(int Id, string Name);
+    void InsertListNode(int Id, string Name);
+    void PrintList();
+    void SelectList(int id);
+    void RestValues();
+
+    void PN();
+    void PN2(NodeBB *&Tree);
+
+    void PNPre();
+    void PN2Pre(NodeBB *&Tree);
+    void InsertListNodePre(int Id, string Name);
+
+    void PNPost();
+    void PN2Post(NodeBB *&Tree);
+    void InsertListNodePost(int Id, string Name);
 };
 
 
