@@ -1,0 +1,2 @@
+digraph G { rankdir = "LR" 
+Lucia->Sofia->Alejandra->Herrera->Adriana->Aldair->Edgar}
