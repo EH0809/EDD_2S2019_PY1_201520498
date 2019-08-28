@@ -115,6 +115,7 @@ public:
     void Graph();
     string Dot(string dot);
     string Dot2(string dot);
+    string Dot3(string dot);
 
 };
 
