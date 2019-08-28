@@ -1,9 +1,7 @@
 digraph G { 
 Node_Edgar[label= " <f0> | <f1> Edgar | <f2> " shape = "record"] ;
-Node_Edgar:f2->Node_Aldair:f1;Node_Aldair[label= " <f0> | <f1> Aldair | <f2> " shape = "record"] ;
-Node_Aldair:f0->Node_Sofia:f1;Node_Sofia[label= " <f0> | <f1> Sofia | <f2> " shape = "record"] ;
-Node_Sofia:f0->Node_Lucia:f1;Node_Lucia[label= " <f0> | <f1> Lucia | <f2> " shape = "record"] ;
-Node_Aldair:f2->Node_Adriana:f1;Node_Adriana[label= " <f0> | <f1> Adriana | <f2> " shape = "record"] ;
-Node_Adriana:f2->Node_Herrera:f1;Node_Herrera[label= " <f0> | <f1> Herrera | <f2> " shape = "record"] ;
-Node_Herrera:f2->Node_Alejandra:f1;Node_Alejandra[label= " <f0> | <f1> Alejandra | <f2> " shape = "record"] ;
+Node_Edgar:f0->Node_Alejandra:f1;Node_Alejandra[label= " <f0> | <f1> Alejandra | <f2> " shape = "record"] ;
+Node_Edgar:f2->Node_Maria:f1;Node_Maria[label= " <f0> | <f1> Maria | <f2> " shape = "record"] ;
+Node_Maria:f0->Node_Lucia:f1;Node_Lucia[label= " <f0> | <f1> Lucia | <f2> " shape = "record"] ;
+Node_Maria:f2->Node_Mario2:f1;Node_Mario2[label= " <f0> | <f1> Mario2 | <f2> " shape = "record"] ;
 }
