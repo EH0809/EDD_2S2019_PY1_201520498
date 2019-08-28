@@ -2,6 +2,7 @@
 #include "Structures/Matrix.h"
 #include "Structures/BinaryTree.h"
 #include "Structures/ListFilters.h"
+#include "fstream"
 
 Matrix Matrix;
 BinaryTree BTree;
@@ -14,6 +15,11 @@ void MenuReports();
 void Agregar();
 
 void ADDFilters();
+
+void ReadFirstArchive();
+
+void ArchiveConfig(string Ruta);
+
 
 int main() {
     int a = 0;
@@ -30,6 +36,7 @@ int main() {
             case 1:
                 cout << "File Upload \n";
                 Agregar();
+               // ReadFirstArchive();
                 BTree.PN();
                 BTree.PNPre();
                 BTree.PNPost();
@@ -120,12 +127,12 @@ void Agregar() {
     Matrix.Graph();
     cout << "En teoria si se agrego \n";
     cout << "Arbol Binario \n";
-    BTree.SendInsert("Mario1");
-    BTree.SendInsert("Geoff");
-    BTree.SendInsert("Boo");
-    BTree.SendInsert("Pickachu");
+    BTree.SendInsert("Edgar");
+    BTree.SendInsert("Maria");
+    BTree.SendInsert("Alejandra");
+    BTree.SendInsert("Lucia");
     BTree.SendInsert("Mario2");
-    BTree.SendInsert("Mushroom");
+
 
 
 }
@@ -177,4 +184,55 @@ void ADDFilters() {
                 break;
         }
     }
+}
+
+void ReadFirstArchive() {
+    std::ifstream Archivo("prueba.csv");
+    if (!Archivo.is_open()) cout << "Error \n";
+    string Layer;
+    string File;
+
+    while (Archivo.good()) {
+        getline(Archivo, Layer, ';');
+        getline(Archivo, File, '\n');
+        if (Layer != "File") {
+            if (Layer == "0") {
+                ArchiveConfig(File);
+            }
+        }
+    }
+    Archivo.close();
+}
+
+void ArchiveConfig(string Ruta) {
+    std::ifstream Archivo(Ruta);
+    if (!Archivo.is_open()) cout << "Error \n";
+    string Config;
+    string Value;
+    int Image_width;
+    int Image_height;
+    int Pixel_width;
+    int Pixel_height;
+    while (Archivo.good()) {
+        getline(Archivo, Config, ';');
+        getline(Archivo, Value, '\n');
+        if (Config != "Confing" && Value != "Value") {
+            if (Config == "image_width") {
+                Image_width = stoi(Value);
+            } else if (Config == "image_height") {
+                Image_height = stoi(Value);
+            } else if (Config == "pixel_width") {
+                Pixel_width = stoi(Value);
+            } else if (Config == "pixel_height") {
+                Pixel_height = stoi(Value);
+            }
+        }
+
+    }
+    cout<<"Archivo de Configuracion \n";
+    cout<<"image_width:" <<Image_width<<"\n";
+    cout<<"image_height:" <<Image_height<<"\n";
+    cout<<"Pixel_width:" <<Pixel_width<<"\n";
+    cout<<"Pixel_height:" <<Pixel_height<<"\n";
+    Archivo.close();
 }
