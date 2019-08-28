@@ -1,0 +1,10 @@
+digraph G { 
+ranksep=.50; 
+ rankdir=TB; 
+Node_NEGATIVE-> Node_COLLAGE
+Node_COLLAGE-> Node_NEGATIVE
+Node_COLLAGE-> Node_MOSAIC
+Node_MOSAIC-> Node_COLLAGE
+Node_MOSAIC-> Node_NEGATIVE
+Node_NEGATIVE-> Node_MOSAIC
+Node_MOSAIC}
