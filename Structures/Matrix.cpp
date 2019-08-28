@@ -86,7 +86,6 @@ void  Matrix::Graph() {
     string a = "";
     a ="digraph G { \n";
     ofstream fd4("Matrix.dot");
-    //a += Dot(a);
     a += Dot2(a);
     fd4<<a;
     fd4.flush();
@@ -97,7 +96,7 @@ void  Matrix::Graph() {
 
 string Matrix::Dot(string dot) {
     string NameAnt,Enlaces ="",Nombres="";
-    string grafo ="\n ranksep=.50; \n rankdir=TB; \n node [shape=box];\n";
+    string grafo ="\n ranksep=.50; \n rankdir=TB; \n node [shape=box]; graph[nodesep = 0.5];\n";
     string Rank="{ rank = same; ";
     string Elances2="";
     NodeHeader *Cabecera1 = FirstHeader;
@@ -165,14 +164,16 @@ string Matrix::Dot(string dot) {
 
 string Matrix::Dot2(string dot) {
     string NameAnt,Enlaces ="",Nombres="";
-    string grafo ="\n ranksep=.50; \n rankdir=TB; \n node [shape=box];\n";
+    string grafo ="\n ranksep=.50; \n node [shape=box];\n";
     NodeHeader *Cabecera1 = FirstHeader;
     NodeLateral *Lateral1=FirstLateral;
+    string Subgrafo ="";
     NameAnt = "Terminal";
     string Rank = "{ rank = same; ";
     while(Cabecera1 != NULL){
-        Enlaces += NameAnt +"->"+"X"+std::to_string(Cabecera1->Header)+"[dir=both];\n";
+        Enlaces += NameAnt +"->"+"X"+std::to_string(Cabecera1->Header)+"\n";
         NameAnt = "X"+std::to_string(Cabecera1->Header) ;
+        Subgrafo += "{ rank = same; Terminal ;X"+std::to_string(Cabecera1->Header)+"}\n";
         Enlaces += NameAnt +"-> n"+ std::to_string(Cabecera1->Colum.FirstNodeCentralV->ColMatrix)+std::to_string(Cabecera1->Colum.FirstNodeCentralV->RowMatrix)+"[dir=both]; \n";
         Rank += NameAnt+";";
         Cabecera1 = Cabecera1->NextHeader;
@@ -182,58 +183,75 @@ string Matrix::Dot2(string dot) {
     string Rank3 =" {rank = same;";
     string Enlaces2="";
     string Rnck4="";
+    string SubGrafoY="";
+    string SubGrafoY2="";
+    string SubGrafoY3="";
+    string AuxY3="";
+    string Ranck5=" {rank = same;";
+    string ABS = "Terminal [ label = \"Terminal\", width = 1.5, style = filled,group = 0];\n";
     NameAnt = "Terminal";
     while (Lateral1 != NULL){
         Rank2 =" {rank = same;";
-        Enlaces2 += NameAnt + " -> Y" + std::to_string(Lateral1->Lateral) + ";\n";
+        SubGrafoY3="";
+        Enlaces2 += NameAnt + " -> Y" + std::to_string(Lateral1->Lateral) + "[dir=both];\n";
         NameAnt = "Y" + std::to_string(Lateral1->Lateral);
+        SubGrafoY2 += "{rank = same;Terminal; "+NameAnt+"}\n";
+        SubGrafoY+="Y"+std::to_string(Lateral1->Lateral)+"[group =0;]"+"\n";
         Rank3 += NameAnt +";";
+        Ranck5 +=NameAnt +";";
         Rank2 += NameAnt +";";
+        //SubGrafoY3 += NameAnt+";";
         MatrixNode *temp = Lateral1->Fila.FirstNodeCentralH;
         if (temp != NULL) {
-            Enlaces2 += NameAnt + " ->  n"+ std::to_string(temp->ColMatrix) + std::to_string(temp->RowMatrix)+ ";\n";
+            Enlaces2 += NameAnt + " ->  n"+ std::to_string(temp->ColMatrix) + std::to_string(temp->RowMatrix)+ "[dir=both];\n";
+            SubGrafoY3 += " {rank = same;" +NameAnt +"; n"+ std::to_string(temp->ColMatrix) + std::to_string(temp->RowMatrix)+ "; }\n";
         }
         while (temp != NULL) {
             Nombres += "n" + std::to_string(temp->ColMatrix) + std::to_string(temp->RowMatrix) + "[label=\"" + std::to_string(temp->ColorR) +"-"+ std::to_string(temp->ColorG)+"-"+ std::to_string(temp->ColorB) +"\"];\n";
             if (temp->RightMatrix != NULL) {
-                Enlaces2 += "n" + std::to_string(temp->ColMatrix) + std::to_string(temp->RowMatrix) + " ->  n" + std::to_string(temp->RightMatrix->ColMatrix) + std::to_string(temp->RightMatrix->RowMatrix) + ";\n";
-                //Enlaces2 += "n" + std::to_string(temp->RightMatrix->ColMatrix) + std::to_string(temp->RightMatrix->RowMatrix) +"-> n" + std::to_string(temp->ColMatrix) + std::to_string(temp->RowMatrix) + "\n"
-                //Rank2 += "n" + std::to_string(temp->RightMatrix->ColMatrix) + std::to_string(temp->RightMatrix->RowMatrix)+";";
+                Enlaces2 += "n" + std::to_string(temp->ColMatrix) + std::to_string(temp->RowMatrix) + " ->  n" + std::to_string(temp->RightMatrix->ColMatrix) + std::to_string(temp->RightMatrix->RowMatrix) + "[dir=both];\n";
+                Enlaces2 += " {rank = same;" +NameAnt +"; n"+std::to_string(temp->ColMatrix) + std::to_string(temp->RowMatrix) +";}\n";
             }
             if (temp->LeftMatrix != NULL) {
-                Enlaces2 += "n" + std::to_string(temp->ColMatrix) + std::to_string(temp->RowMatrix) + " ->  n" + std::to_string(temp->LeftMatrix->ColMatrix) + std::to_string(temp->LeftMatrix->RowMatrix) + ";\n";
-                //Enlaces2 +=  "n" + std::to_string(temp->LeftMatrix->ColMatrix) + std::to_string(temp->LeftMatrix->RowMatrix) + "->n" + std::to_string(temp->ColMatrix) + std::to_string(temp->RowMatrix) + ";\n";
-                //Rank2 += "{ rank = same; " +  NameAnt +"; n" + std::to_string(temp->LeftMatrix->ColMatrix) + std::to_string(temp->LeftMatrix->RowMatrix)+"}\n";
-                //Rank2 += "n" + std::to_string(temp->LeftMatrix->ColMatrix) + std::to_string(temp->LeftMatrix->RowMatrix)+";";
+                Enlaces2 += "n" + std::to_string(temp->ColMatrix) + std::to_string(temp->RowMatrix) + " ->  n" + std::to_string(temp->LeftMatrix->ColMatrix) + std::to_string(temp->LeftMatrix->RowMatrix) + "[dir=both];\n";
+                Enlaces2 += " {rank = same;" +NameAnt +"; n"+std::to_string(temp->ColMatrix) + std::to_string(temp->RowMatrix)+ ";}\n";
             }
             if (temp->UpMatrix != NULL) {
-                Enlaces2 += "n" + std::to_string(temp->ColMatrix) + std::to_string(temp->RowMatrix) + " ->  n" + std::to_string(temp->UpMatrix->ColMatrix) + std::to_string(temp->UpMatrix->RowMatrix) + ";\n";
-                //Enlaces2 += "n" + std::to_string(temp->UpMatrix->ColMatrix) + std::to_string(temp->UpMatrix->RowMatrix) +  "->n" + std::to_string(temp->ColMatrix) + std::to_string(temp->RowMatrix) + ";\n";
-                //Rank2 += "{ rank = same; " +  NameAnt +"; n" + std::to_string(temp->UpMatrix->ColMatrix) + std::to_string(temp->UpMatrix->RowMatrix)+"}\n";
-                //Rank2 += "n" + std::to_string(temp->UpMatrix->ColMatrix) + std::to_string(temp->UpMatrix->RowMatrix)+";";
+                Enlaces2 += "n" + std::to_string(temp->ColMatrix) + std::to_string(temp->RowMatrix) + " ->  n" + std::to_string(temp->UpMatrix->ColMatrix) + std::to_string(temp->UpMatrix->RowMatrix) + "[dir=both];\n";
+                Enlaces2 += " {rank = same;" +NameAnt +"; n"+std::to_string(temp->ColMatrix) + std::to_string(temp->RowMatrix) + ";} \n";
 
             }
             if (temp->DownMatrix != NULL) {
-                Enlaces2 += "n" + std::to_string(temp->ColMatrix) + std::to_string(temp->RowMatrix) + " -> n" + std::to_string(temp->DownMatrix->ColMatrix) + std::to_string(temp->DownMatrix->RowMatrix) + ";\n";
-                //Enlaces2 += "n" + std::to_string(temp->DownMatrix->ColMatrix) + std::to_string(temp->DownMatrix->RowMatrix)+"->n" + std::to_string(temp->ColMatrix) + std::to_string(temp->RowMatrix) + "\n";
-                //Rank2 += "{ rank = same; " +  NameAnt +"; n" + std::to_string(temp->DownMatrix->ColMatrix) + std::to_string(temp->DownMatrix->RowMatrix)+"} \n";
-                //  Rank2 += "n" + std::to_string(temp->DownMatrix->ColMatrix) + std::to_string(temp->DownMatrix->RowMatrix)+";";
+                Enlaces2 += "n" + std::to_string(temp->ColMatrix) + std::to_string(temp->RowMatrix) + " -> n" + std::to_string(temp->DownMatrix->ColMatrix) + std::to_string(temp->DownMatrix->RowMatrix) + "[dir=both];\n";
+                Enlaces2 += " {rank = same;" +NameAnt +"; n"+std::to_string(temp->ColMatrix) + std::to_string(temp->RowMatrix) + ";}\n";
+
             }
-            Rank2 += "n" + std::to_string(temp->ColMatrix) + std::to_string(temp->RowMatrix )+";";
+           // Rank2 += "n" + std::to_string(temp->ColMatrix) + std::to_string(temp->RowMatrix )+"[dir=both];";
+            //SubGrafoY3 +="n" + std::to_string(temp->ColMatrix) + std::to_string(temp->RowMatrix )+";";
             temp = temp->RightMatrix;
+
         }//fin while
         Rank2 += "} \n";
+        //SubGrafoY3 += "}";
+        AuxY3 += SubGrafoY3+"\n";
         Rnck4 += Rank2;
+
         //grafo += " }\n";
         Lateral1 = Lateral1->NextLateral;
 
     }
+
     Rank3 += "}";
-    grafo += "\n"+Enlaces+"\n"+Nombres+"\n"+Enlaces2+"\n"+Rnck4+"\n"+Rank+"\n";
+    Ranck5+= "}";
+    //grafo += ABS+"\n"+Enlaces+"\n"+Nombres+"\n"+Enlaces2+"\n"+Rnck4+"\n"+Rank+"\n"+Subgrafo+"\n"+SubGrafoY+"\n";
+    grafo += ABS+"\n"+Subgrafo+"\n"+Enlaces+"\n";
+    grafo += Enlaces2+"\n"+Nombres+"\n"+Rnck4+"\n";
+   // grafo += Subgrafo;
+    //grafo += Enlaces+"\n"+Nombres+"\n"+Rank+"\n";
+    //grafo += Nombres+"\n"+Rnck4+"\n"+Rank+"\n";
     grafo += "}";
     return grafo;
 }
-
 
 
 //*********************************** VERTICAL LIST *************************///////////
