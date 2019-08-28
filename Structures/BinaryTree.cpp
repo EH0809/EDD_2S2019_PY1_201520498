@@ -10,18 +10,17 @@ using namespace std;
 
 NodeBB *ATree = NULL;
 string Pre = "";
-string NameTree="";
-ListaNodeBB *HeadList =NULL;
+string NameTree = "";
+ListaNodeBB *HeadList = NULL;
 ListaNodeBB *EndList = NULL;
-ListaNodeBB *HeadListPreOrden =NULL;
+ListaNodeBB *HeadListPreOrden = NULL;
 ListaNodeBB *EndListPreOrden = NULL;
-ListaNodeBB *HeadListPostOrden =NULL;
+ListaNodeBB *HeadListPostOrden = NULL;
 ListaNodeBB *EndListPostOrden = NULL;
 
-NodeBB *BinaryTree::Create_Node(string Name, int Id) {
+NodeBB *BinaryTree::Create_Node(string Name) {
     NodeBB *New_Nodo = new NodeBB;
     New_Nodo->Name = Name;
-    New_Nodo->Id = Id;
     New_Nodo->SonLeft = NULL;
     New_Nodo->SonRight = NULL;
     return New_Nodo;
@@ -57,6 +56,30 @@ int BinaryTree::IdName(string Name) {
     return suma;
 }
 
+
+void BinaryTree::InsertNode(NodeBB *&Tree, string Name) {
+
+    if (Tree == NULL) {
+        NodeBB *New_Nodo = Create_Node(Name);
+        Tree = New_Nodo;
+    } else {
+
+        string a = Name;
+        char bufferName[100];
+        strcpy(bufferName, a.c_str());
+        string b = Tree->Name;
+        char bufferTree[100];
+        strcpy(bufferTree, b.c_str());
+
+        if (strcmp(bufferName, bufferTree) < 0) {
+            InsertNode(Tree->SonLeft, Name);
+        } else {
+            InsertNode(Tree->SonRight, Name);
+        }
+    }
+}
+
+/*
 void BinaryTree::InsertNode(NodeBB *&Tree, string Name) {
     int Id = IdName(Name);
     if (Tree == NULL) {
@@ -72,21 +95,22 @@ void BinaryTree::InsertNode(NodeBB *&Tree, string Name) {
         }
     }
 }
+*/
 
 
+string Te = "";
 
-string Te ="";
 string BinaryTree::InOrder(NodeBB *&Tree, string grafica) {
     if (Tree != NULL) {
-        if (Te == "left"){
-            grafica += "Node_" + Tree->Name +":f1;";
-        }else if (Te=="right"){
-            grafica += "Node_" + Tree->Name +":f1;";
+        if (Te == "left") {
+            grafica += "Node_" + Tree->Name + ":f1;";
+        } else if (Te == "right") {
+            grafica += "Node_" + Tree->Name + ":f1;";
         }
-        grafica += "Node_"+ Tree->Name +  "[label= \" <f0> | <f1> "+Tree->Name+" | <f2> \" shape = \"record\"] ;\n" ;
+        grafica += "Node_" + Tree->Name + "[label= \" <f0> | <f1> " + Tree->Name + " | <f2> \" shape = \"record\"] ;\n";
 
         if (Tree->SonLeft != NULL) {
-            grafica += "Node_" + Tree->Name+":f0";
+            grafica += "Node_" + Tree->Name + ":f0";
             grafica += "->";
             Te = "left";
             grafica = InOrder(Tree->SonLeft, grafica);
@@ -94,9 +118,9 @@ string BinaryTree::InOrder(NodeBB *&Tree, string grafica) {
         }
 
         if (Tree->SonRight != NULL) {
-            grafica += "Node_" + Tree->Name+":f2";
+            grafica += "Node_" + Tree->Name + ":f2";
             grafica += "->";
-            Te= "right";
+            Te = "right";
             grafica = InOrder(Tree->SonRight, grafica);
         }
 
@@ -127,7 +151,7 @@ NodeBB *BinaryTree::Moretoleft(NodeBB *&Tree) {
     }
     return temp;
 }
-
+/*
 void BinaryTree::SentDelete(string Name) {
 
     DeleteNode(ATree, Name);
@@ -164,7 +188,7 @@ NodeBB *BinaryTree::DeleteNode(NodeBB *&Tree, string Name) {
 
     return Tree;
 }
-
+*/
 string BinaryTree::InOrderE(NodeBB *&Tree, string grafica) {
     if (Tree != NULL) {
         grafica += "Nodo_" + Tree->Name + ";";
@@ -215,45 +239,47 @@ void BinaryTree::PrintPostOrder2(NodeBB *&Tree) {
 }
 
 
+int Contador = 1;
 
-int Contador=1;
 void BinaryTree::PrintNode() {
     PrintNode2(ATree);
 }
+
 void BinaryTree::PrintNode2(NodeBB *&Tree) {
     if (Tree != NULL) {
         PrintNode2(Tree->SonLeft);
         cout << std::to_string(Contador) + " " + Tree->Name + "\n";
         Contador++;
-        InsertListNode(Contador,Tree->Name);
+        InsertListNode(Contador, Tree->Name);
         PrintNode2(Tree->SonRight);
     }
 }
 
 string BinaryTree::SentFor(string Name) {
 
-    NodeBB *Temp= SentFor2(ATree,Name);
+    NodeBB *Temp = SentFor2(ATree, Name);
     return Temp->Name;
 }
 
-NodeBB* Aux = NULL;
+NodeBB *Aux = NULL;
+
 NodeBB *BinaryTree::SentFor2(NodeBB *&Tree, string Name) {
-    if(Tree != NULL){
-        if(Tree->Name == Name){
-            Aux= Tree;
+    if (Tree != NULL) {
+        if (Tree->Name == Name) {
+            Aux = Tree;
         }
-        if(Tree->SonLeft != NULL){
-            SentFor2(Tree->SonLeft,Name);
+        if (Tree->SonLeft != NULL) {
+            SentFor2(Tree->SonLeft, Name);
         }
-        if(Tree->SonRight != NULL){
-            SentFor2(Tree->SonRight,Name);
+        if (Tree->SonRight != NULL) {
+            SentFor2(Tree->SonRight, Name);
         }
     }
     return Aux;
 }
 
-ListaNodeBB *BinaryTree::Create_NodeList(int Id,string Name) {
-    ListaNodeBB * AuxL = new ListaNodeBB;
+ListaNodeBB *BinaryTree::Create_NodeList(int Id, string Name) {
+    ListaNodeBB *AuxL = new ListaNodeBB;
     AuxL->Id = Id;
     AuxL->Name = Name;
     AuxL->NextNodeBB = NULL;
@@ -263,17 +289,17 @@ ListaNodeBB *BinaryTree::Create_NodeList(int Id,string Name) {
 
 void BinaryTree::PrintList() {
     ListaNodeBB *AuxList = HeadList;
-    while(AuxList != NULL){
-        cout<<std::to_string(AuxList->Id) +"-"+AuxList->Name+"\n";
+    while (AuxList != NULL) {
+        cout << std::to_string(AuxList->Id) + "-" + AuxList->Name + "\n";
         AuxList = AuxList->NextNodeBB;
     }
 }
 
 void BinaryTree::SelectList(int id) {
     ListaNodeBB *AuxL = HeadList;
-    while(AuxL != NULL){
-        if (AuxL->Id == id){
-            cout<<"Se Encontron "+AuxL->Name+" \n";
+    while (AuxL != NULL) {
+        if (AuxL->Id == id) {
+            cout << "Se Encontron " + AuxL->Name + " \n";
         }
         AuxL = AuxL->NextNodeBB;
     }
@@ -282,19 +308,21 @@ void BinaryTree::SelectList(int id) {
 void BinaryTree::RestValues() {
     Contador = 0;
 }
-string Io="";
+
+string Io = "";
 
 void BinaryTree::InOrder2() {
     ListaNodeBB *Aux1 = HeadList;
-    while(Aux1 != NULL){
-        if ( Aux1->NextNodeBB != NULL){
-            Io += Aux1->Name +"->";
-        }else{
+    while (Aux1 != NULL) {
+        if (Aux1->NextNodeBB != NULL) {
+            Io += Aux1->Name + "->";
+        } else {
             Io += Aux1->Name;
         }
         Aux1 = Aux1->NextNodeBB;
     }
 }
+
 void BinaryTree::GraphInOrder() {
     string a = "";
     a += "digraph G { rankdir = \"LR\" \n";
@@ -309,36 +337,39 @@ void BinaryTree::GraphInOrder() {
     system("dot -Tjpg InOrder.dot -o InOrder.jpg");
 }
 
-int Contador1=1;
+int Contador1 = 1;
+
 void BinaryTree::PN() {
     PN2(ATree);
 }
+
 void BinaryTree::PN2(NodeBB *&Tree) {
     if (Tree != NULL) {
         PN2(Tree->SonLeft);
         Contador1++;
-        InsertListNode(Contador,Tree->Name);
+        InsertListNode(Contador, Tree->Name);
         PN2(Tree->SonRight);
     }
 }
 
 void BinaryTree::InsertListNode(int Id, string Name) {
-    ListaNodeBB * New_Node =Create_NodeList(Id,Name);
-    if (HeadList == NULL){
+    ListaNodeBB *New_Node = Create_NodeList(Id, Name);
+    if (HeadList == NULL) {
         HeadList = EndList = New_Node;
-    }else{
+    } else {
         EndList->NextNodeBB = New_Node;
         EndList = EndList->NextNodeBB;
     }
 }
+
 string ab = "";
 
-void  BinaryTree::PreOrder() {
+void BinaryTree::PreOrder() {
     ListaNodeBB *Aux1 = HeadListPreOrden;
-    while(Aux1 != NULL){
-        if ( Aux1->NextNodeBB != NULL){
-            ab += Aux1->Name +"->";
-        }else{
+    while (Aux1 != NULL) {
+        if (Aux1->NextNodeBB != NULL) {
+            ab += Aux1->Name + "->";
+        } else {
             ab += Aux1->Name;
         }
         Aux1 = Aux1->NextNodeBB;
@@ -358,38 +389,41 @@ void BinaryTree::GraphPreOrder() {
     cout << " GENERANDO IMAGEN PreOrder\n";
     system("dot -Tjpg Preorder.dot -o Preorder.jpg");
 }
-int ContadorPre=1;
+
+int ContadorPre = 1;
 
 void BinaryTree::PNPre() {
     PN2Pre(ATree);
 }
+
 void BinaryTree::PN2Pre(NodeBB *&Tree) {
     if (Tree != NULL) {
         ContadorPre++;
-        InsertListNodePre(ContadorPre,Tree->Name);
+        InsertListNodePre(ContadorPre, Tree->Name);
         PN2Pre(Tree->SonLeft);
         PN2Pre(Tree->SonRight);
     }
 }
 
 void BinaryTree::InsertListNodePre(int Id, string Name) {
-    ListaNodeBB * New_Node =Create_NodeList(Id,Name);
-    if (HeadListPreOrden == NULL){
+    ListaNodeBB *New_Node = Create_NodeList(Id, Name);
+    if (HeadListPreOrden == NULL) {
         HeadListPreOrden = EndListPreOrden = New_Node;
-    }else{
+    } else {
         EndListPreOrden->NextNodeBB = New_Node;
         EndListPreOrden = EndListPreOrden->NextNodeBB;
     }
 }
 
 
-string PO="";
+string PO = "";
+
 void BinaryTree::PostOrder() {
     ListaNodeBB *Aux1 = HeadListPostOrden;
-    while(Aux1 != NULL){
-        if ( Aux1->NextNodeBB != NULL){
-            PO += Aux1->Name +"->";
-        }else{
+    while (Aux1 != NULL) {
+        if (Aux1->NextNodeBB != NULL) {
+            PO += Aux1->Name + "->";
+        } else {
             PO += Aux1->Name;
         }
         Aux1 = Aux1->NextNodeBB;
@@ -409,7 +443,9 @@ void BinaryTree::GraphPostOrder() {
     cout << " GENERANDO IMAGEN PostOrder\n";
     system("dot -Tjpg PostOrder.dot -o PostOrder.jpg");
 }
-int ContadorPost=1;
+
+int ContadorPost = 1;
+
 void BinaryTree::PNPost() {
     PN2Post(ATree);
 }
@@ -420,15 +456,15 @@ void BinaryTree::PN2Post(NodeBB *&Tree) {
         PN2Post(Tree->SonLeft);
         PN2Post(Tree->SonRight);
         ContadorPost++;
-        InsertListNodePost(ContadorPre,Tree->Name);
+        InsertListNodePost(ContadorPre, Tree->Name);
     }
 }
 
 void BinaryTree::InsertListNodePost(int Id, string Name) {
-    ListaNodeBB * New_Node =Create_NodeList(Id,Name);
-    if (HeadListPostOrden == NULL){
+    ListaNodeBB *New_Node = Create_NodeList(Id, Name);
+    if (HeadListPostOrden == NULL) {
         HeadListPostOrden = EndListPostOrden = New_Node;
-    }else{
+    } else {
         EndListPostOrden->NextNodeBB = New_Node;
         EndListPostOrden = EndListPostOrden->NextNodeBB;
     }
