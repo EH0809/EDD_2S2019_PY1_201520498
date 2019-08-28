@@ -6,11 +6,13 @@
 #define P1_BINARYTREE_H
 #include <string>
 #include <iostream>
+#include "Matrix.h"
+
 using namespace std;
 
 struct NodeBB{
-    std::string Name;
-    int Id;
+    string Name;
+    MatrixNode * NameMatrix;
     NodeBB *SonLeft;
     NodeBB *SonRight;
 };
@@ -24,7 +26,7 @@ struct ListaNodeBB{
 class BinaryTree {
 public:
     int IdName(string Name);
-    NodeBB* Create_Node(string Name,int Id);
+    NodeBB* Create_Node(string Name);
     void SendInsert(string Name);
     void InsertNode(NodeBB *&Tree,string Name);
     void InsertNode2(NodeBB *&Tree,string Name);
