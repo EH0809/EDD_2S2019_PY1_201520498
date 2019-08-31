@@ -10,7 +10,6 @@ using namespace std;
 struct MatrixNode{
     int RowMatrix;
     int ColMatrix;
-    int NumLayer;
     int ColorR;
     int ColorG;
     int ColorB;
@@ -22,6 +21,19 @@ struct MatrixNode{
     MatrixNode *UnderMatrix;
 };
 
+
+class DepthList{
+public:
+    MatrixNode * FirstNodeCentralP;
+    MatrixNode * EndNodeCentralP;
+    bool IsEmptyP();
+    void AddDepth(MatrixNode *& Node);
+    void AddDepthStart(MatrixNode *& Node);
+    void AddDepthBetween(MatrixNode *& Node);
+    void AddDepthInEnd(MatrixNode *& Node);
+    void GoDepthlList();
+
+};
 class VerticalList {
 public:
     MatrixNode *FirstNodeCentralV;
