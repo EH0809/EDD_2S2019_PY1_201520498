@@ -267,6 +267,8 @@ NodeBB *BinaryTree::SentFor2(NodeBB *&Tree, string Name) {
     if (Tree != NULL) {
         if (Tree->Name == Name) {
             Aux = Tree;
+            User= Tree->Name;
+            cout<<"Se encontro a:" +User+"\n";
         }
         if (Tree->SonLeft != NULL) {
             SentFor2(Tree->SonLeft, Name);
@@ -300,6 +302,7 @@ void BinaryTree::SelectList(int id) {
     while (AuxL != NULL) {
         if (AuxL->Id == id) {
             cout << "Se Encontron " + AuxL->Name + " \n";
+            User = AuxL->Name;
         }
         AuxL = AuxL->NextNodeBB;
     }
