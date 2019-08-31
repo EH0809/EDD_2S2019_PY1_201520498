@@ -63,6 +63,9 @@ public:
     string SentFor(string Name);
     NodeBB *SentFor2(NodeBB *&Tree, string Name);
     string SentGraph();
+    string User ="";
+
+    //*********************** LIST ************///////
 
     ListaNodeBB *Create_NodeList(int Id, string Name);
     void InsertListNode(int Id, string Name);
