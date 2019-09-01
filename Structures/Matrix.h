@@ -13,31 +13,17 @@ struct MatrixNode{
     int ColorR;
     int ColorG;
     int ColorB;
+    int Total;
     MatrixNode *UpMatrix;
     MatrixNode *DownMatrix;
     MatrixNode *RightMatrix;
     MatrixNode *LeftMatrix;
-    MatrixNode *FrontMatrix;
-    MatrixNode *UnderMatrix;
 };
 
-
-class DepthList{
-public:
-    MatrixNode * FirstNodeCentralP;
-    MatrixNode * EndNodeCentralP;
-    bool IsEmptyP();
-    void AddDepth(MatrixNode *& Node);
-    void AddDepthStart(MatrixNode *& Node);
-    void AddDepthBetween(MatrixNode *& Node);
-    void AddDepthInEnd(MatrixNode *& Node);
-    void GoDepthlList();
-
-};
 class VerticalList {
 public:
-    MatrixNode *FirstNodeCentralV;
-    MatrixNode *EndNodeCentralV;
+    MatrixNode *FirstNodeCentralV=NULL;
+    MatrixNode *EndNodeCentralV=NULL;
     bool IsEmpty();
     void AddLateral(MatrixNode *& Node);
     void AddLateralStart(MatrixNode *& Node);
@@ -56,8 +42,8 @@ struct NodeHeader{
 
 class HorizontalList {
 public:
-    MatrixNode *FirstNodeCentralH;
-    MatrixNode *EndNodeCentralH;
+    MatrixNode *FirstNodeCentralH=NULL;
+    MatrixNode *EndNodeCentralH=NULL;
     bool IsEmpty();
     void AddHorizontal(MatrixNode *& Node);
     void AddHorizontalStart(MatrixNode *& Node);
@@ -118,7 +104,7 @@ public:
 
     MatrixNode *Create_NodeMatrix(int Header, int Lateral, int ColorR, int ColorG, int ColorB);
     //void ADDMatrix(int layer_number,int Header, int Lateral, int ColorR, int ColorG, int ColorB);
-    void InsertMatrix(int Header, int Lateral, int ColorR, int ColorG, int ColorB);
+    void InsertMatrix(int Header, int Lateral,int ColorR, int ColorG, int ColorB);
     int Max_Headers();
     int Max_Laterales();
     //void FillInMatrix(string Ruta);
@@ -128,7 +114,8 @@ public:
     string Dot(string dot);
     string Dot2(string dot);
     string Dot3(string dot);
-
+    string TotalRGBaHexa(MatrixNode *& Temp);
+    //******************************************************/////////////////////
 };
 
 
