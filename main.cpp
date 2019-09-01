@@ -4,11 +4,13 @@
 #include "Structures/Matrix.h"
 #include "Structures/BinaryTree.h"
 #include "Structures/ListFilters.h"
+#include "Structures/ListMatix.h"
 #include "fstream"
 
 Matrix MATRIX;
 BinaryTree BTree;
 ListFilters Filters;
+ListMatix LMatrix;
 
 using namespace std;
 
@@ -22,7 +24,7 @@ void ReadFirstArchive();
 
 void ArchiveConfig(string Ruta);
 
-void ReadCapa(string Ruta, string Profundidad);
+void ReadCapa(string Ruta);
 
 void ReadCapa1(string Archivo);
 
@@ -30,13 +32,17 @@ void EnviarAMatrix(int Header, int Lateral, int ColorR, int ColorG, int ColorB);
 
 void ArchiveCapa(string Ruta);
 
+void ADDListMatix(int Id, string Name);
+
+void MenuCapas();
 int ContadorCapas;
 int MaxCol;
 int MaxFil;
 string GeneralUser;
 string Capas = "";
+MatrixList *TempMatrix;
 
-void DesEncapar(string Archivo);
+void DesEncapar();
 
 
 int main() {
@@ -53,10 +59,9 @@ int main() {
         switch (a) {
             case 1:
                 cout << "File Upload \n";
-                //Agregar();
-                //ReadFirstArchive();
-                ReadCapa("capad1.csv", "1");
-                DesEncapar(Capas);
+                ReadFirstArchive();
+                LMatrix.PrintList();
+                LMatrix.ADDMatrix();
                 BTree.PN();
                 BTree.PNPre();
                 BTree.PNPost();
@@ -120,6 +125,7 @@ void MenuReports() {
                 BTree.GraphPostOrder();
                 break;
             case 5:
+                MenuCapas();
                 break;
             case 6:
                 break;
@@ -154,7 +160,7 @@ void Agregar() {
     MATRIX.InsertMatrix(3, 6, 255, 229, 204);
     MATRIX.InsertMatrix(5, 2, 255, 229, 204);
     MATRIX.InsertMatrix(16, 11, 255, 229, 204);
-*/
+
     MATRIX.InsertMatrix(4, 2, 225, 268, 251);
     MATRIX.InsertMatrix(5, 2, 228, 147, 369);
     MATRIX.InsertMatrix(6, 2, 147, 369, 258);
@@ -195,6 +201,7 @@ void Agregar() {
     BTree.SendInsert("Alejandra");
     BTree.SendInsert("Lucia");
     BTree.SendInsert("Mario2");
+     */
 
 
 }
@@ -254,17 +261,18 @@ void ADDFilters() {
 
 void ReadFirstArchive() {
     std::ifstream Archivo("prueba.csv");
-    if (!Archivo.is_open()) cout << "Error \n";
+    if (!Archivo.is_open()) cout << "Error al Abrir Primer Archivo \n";
     string Layer;
     string File;
-    while (Archivo.good()) {
+    while (!Archivo.fail()) {
         getline(Archivo, Layer, ',');
         getline(Archivo, File, '\n');
         if (Layer != "Layer") {
             if (Layer == "0") {
-                // ArchiveConfig(File);
-            } else {
-                ReadCapa(File, Layer);
+                ArchiveConfig(File);
+            } else if (Layer != "") {
+                int Capa = atoi(Layer.c_str());
+                ADDListMatix(Capa, File);
             }
 
         }
@@ -272,16 +280,24 @@ void ReadFirstArchive() {
     Archivo.close();
 }
 
+void ADDListMatix(int Id, string Name) {
+    LMatrix.AddMatrixList(Id, Name);
+    TempMatrix = LMatrix.SearchHeader(Id);
+    ReadCapa(Name);
+    TempMatrix->Archivo = Capas;
+    Capas="";
+}
+
 void ArchiveConfig(string Ruta) {
     std::ifstream Archivo(Ruta);
-    if (!Archivo.is_open()) cout << "Error \n";
+    if (!Archivo.is_open()) cout << "Error Archivo Config \n";
     string Config;
     string Value;
     int Image_width;
     int Image_height;
     int Pixel_width;
     int Pixel_height;
-    while (Archivo.good()) {
+    while (!Archivo.fail()) {
         getline(Archivo, Config, ';');
         getline(Archivo, Value, '\n');
         if (Config != "Confing" && Value != "Value") {
@@ -305,17 +321,15 @@ void ArchiveConfig(string Ruta) {
     Archivo.close();
 }
 
-
-void ReadCapa(string Ruta, string Profundidad) {
+void ReadCapa(string Ruta) {
     ifstream file(Ruta);
     if (!file) {
-        cout << "Error \n";
+        cout << "Error Leer Capa\n";
     }
     string linea, archivo;
     while (getline(file, linea)) {
         archivo += linea + "\n";
     }
-    cout << archivo;
     ReadCapa1(archivo);
 }
 
@@ -332,7 +346,7 @@ void ReadCapa1(string Archivo) {
     int ContadorFilas = 1;
     int ContadorColumnas = 1;
     int ContadorMaxCol;
-    while (ss.good()) {
+    while (!ss.fail()) {
         while (getline(ss, aux, ',')) {
             if (aux != "x") {
                 if (aux != "x\nx") {
@@ -345,11 +359,13 @@ void ReadCapa1(string Archivo) {
                         int R = std::atoi(ColorR.c_str());
                         int G = std::atoi(ColorG.c_str());
                         int B = std::atoi(ColorB.c_str());
+                        if (R  != 0){
                         aux4 += "Col:" + to_string(ContadorColumnas) + " Fil:" + to_string(ContadorFilas) +
                                 " ColorR: " + to_string(R) + " ColorG: " + to_string(G) + " ColorB:" + to_string(B) +
                                 "\n";
                         Temp += to_string(ContadorColumnas) + "," + to_string(ContadorFilas) + "," + to_string(R) +
                                 "," + to_string(G) + "," + to_string(B) + "\n";
+                        }
                         ContadorColumnas = 1;
                     } else {
                         stringstream aux7(aux);
@@ -366,6 +382,8 @@ void ReadCapa1(string Archivo) {
 
                         Temp += to_string(ContadorColumnas) + "," + to_string(ContadorFilas) + "," + to_string(R) +
                                 "," + to_string(G) + "," + to_string(B) + "\n";
+
+                        //   TempMatrix->PunteroMatrix.InsertMatrix(ContadorColumnas,ContadorFilas,R,G,B);
                     }
                 } else {
                     ContadorMaxCol = ContadorColumnas;
@@ -374,15 +392,15 @@ void ReadCapa1(string Archivo) {
                 }
             }
             ContadorColumnas++;
-
         }
     }
-    cout << Temp;
     Capas = Temp;
-   // DesEncapar(Capas);
+    //cout << Capas;
 }
 
-void DesEncapar(string Archivo) {
+void DesEncapar() {
+
+    string Archivo = Capas;
     string Col;
     string Fil;
     string R;
@@ -400,44 +418,20 @@ void DesEncapar(string Archivo) {
         int ColorR = atoi(R.c_str());
         int ColorG = atoi(G.c_str());
         int ColorB = atoi(B.c_str());
-        MATRIX.InsertMatrix(Columna,Fila,ColorR,ColorG,ColorG);
+        if (TempMatrix->PunteroMatrix.IsEmptyLateral() == true && TempMatrix->PunteroMatrix.IsEmptyCabecera() == true) {
+            cout << "Nombre Matrix: " + TempMatrix->Name << "\n";
+        }
+        TempMatrix->PunteroMatrix.InsertMatrix(Columna, Fila, ColorR, ColorG, ColorB);
     }
+
+    Capas = "";
 }
 
 
-void ArchiveCapa(string Ruta) {
-    std::ifstream Archivo(Ruta);
-    std::ifstream Archivo1(Ruta);
-    if (!Archivo.is_open()) cout << "Error \n";
-    string Valor;
-    string ValorR;
-    string ValorG;
-    string ValorB;
-    ContadorCapas++;
-    int ContadorFilas = -1;
-    int ContadorColumnas = 0;
-    int ColorR;
-    int ColorG;
-    int ColorB;
-    int Co = 0;
-    while (Archivo.good()) {
-        getline(Archivo, ValorB, '\n');
-        if (Co == 0) {
-            for (int i = 1; i <= ValorB.length(); i += 2) {
-                ContadorColumnas++;
-                Co = i;
-            }
-        }
-    }
-    Archivo.close();
-    while (Archivo1.good()) {
-        getline(Archivo1, ValorG, '\n');
-        ContadorFilas++;
-    }
-    Archivo1.close();
-    cout << "Tam fil:" + to_string(ContadorFilas) + "\n";
-    cout << "Tam Col:" + to_string(ContadorColumnas) + "\n";
-    MaxCol = ContadorColumnas;
-    MaxFil = ContadorFilas;
-
+void MenuCapas(){
+    int ab =0;
+    LMatrix.MostarCapas();
+    cout<<"Insert your Choise \n";
+    cin>>ab;
+    LMatrix.GraphCapas(ab);
 }
