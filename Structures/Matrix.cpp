@@ -95,7 +95,6 @@ void Matrix::Graph() {
     fd4 << a;
     fd4.flush();
     fd4.close();
-
     cout << " GENERANDO IMAGEN Matrix \n";
     system("dot -Tpng Matrix.dot -o Matrix.png");
 }
@@ -308,11 +307,11 @@ string Matrix::Dot3(string dot) {
             //grafo +="{ rank = same; Y" + to_string(Lateral1->Lateral) +";Y"+ to_string(Lateral1->NextLateral->Lateral)+"}\n";
         }
         MatrixNode *temp = Lateral1->Fila.FirstNodeCentralH;
-        int cont =0;
+        int cont = 0;
         while (temp != NULL) {
             grafo += "n" + std::to_string(temp->ColMatrix) + std::to_string(temp->RowMatrix) + "[label=\"" +
-                    std::to_string(temp->ColorR) + "-" + std::to_string(temp->ColorG) + "-" +
-                   std::to_string(temp->ColorB) + "\"  width = 1.5, group = " + to_string(temp->ColMatrix) + " ];\n";
+                     std::to_string(temp->ColorR) + "-" + std::to_string(temp->ColorG) + "-" +
+                     std::to_string(temp->ColorB) + "\"  width = 1.5, group = " + to_string(temp->ColMatrix) + " ];\n";
 
             if (temp->RightMatrix != NULL) {
                 grafo +=
@@ -325,8 +324,8 @@ string Matrix::Dot3(string dot) {
                         std::to_string(temp->RightMatrix->RowMatrix) +
                         "[dir=both];\n";
 
-                grafo +="{ rank = same; n" + to_string(Lateral1->Lateral) + "; n" + std::to_string(temp->ColMatrix) +
-                        std::to_string(temp->RowMatrix) + "} \n";
+                grafo += "{ rank = same; n" + to_string(Lateral1->Lateral) + "; n" + std::to_string(temp->ColMatrix) +
+                         std::to_string(temp->RowMatrix) + "} \n";
             }
 
             if (temp->DownMatrix != NULL) {
@@ -336,8 +335,8 @@ string Matrix::Dot3(string dot) {
                         std::to_string(temp->DownMatrix->RowMatrix) +
                         "[dir=both];\n";
 
-                grafo +="{ rank = same; Y" + to_string(Lateral1->Lateral) + "; n" + std::to_string(temp->ColMatrix) +
-                        std::to_string(temp->RowMatrix) + "} \n";
+                grafo += "{ rank = same; Y" + to_string(Lateral1->Lateral) + "; n" + std::to_string(temp->ColMatrix) +
+                         std::to_string(temp->RowMatrix) + "} \n";
 
             }
 
@@ -359,7 +358,7 @@ string Matrix::Dot3(string dot) {
         }
         grafo += "X" + to_string(Cabecera1->Header) + "-> n" +
                  std::to_string(Cabecera1->Colum.FirstNodeCentralV->ColMatrix) +
-                std::to_string(Cabecera1->Colum.FirstNodeCentralV->RowMatrix) + "[dir=both]; \n";
+                 std::to_string(Cabecera1->Colum.FirstNodeCentralV->RowMatrix) + "[dir=both]; \n";
         Cabecera1 = Cabecera1->NextHeader;
     }
 
@@ -375,7 +374,7 @@ bool VerticalList::IsEmpty() {
 }
 
 void VerticalList::AddLateral(MatrixNode *&Node) {
-    if (IsEmpty()) {
+    if (FirstNodeCentralV == NULL) {
         FirstNodeCentralV = EndNodeCentralV = Node;
     } else {
         if (Node->RowMatrix < FirstNodeCentralV->RowMatrix) {
@@ -586,7 +585,7 @@ NodeHeader *Matrix::SearchHeader(int Header) {
         while (Aux->Header != Header) {
             Aux = Aux->NextHeader;
         }
-        cout << "Si se Encuentra Matrix";
+        //cout << "Si se Encuentra Matrix \n";
         return Aux;
     } else {
         cout << "No se ha Encontrado";
@@ -770,4 +769,14 @@ string Matrix::DotLaterales() {
     Dot += "label = \"Laterales \";\n";
     Dot += "} \n";
     return Dot;
+}
+
+
+//********************************CONVERTIR DE RGB A HEXA **************//////
+string Matrix::TotalRGBaHexa(MatrixNode *&Temp) {
+   /* std::stringstream ss;
+    ss << "#";
+    ss << std::hex << (Temp->ColorR << 16 | Temp->ColorG << 8 | Temp->ColorB);
+    return  ss.c_str();
+*/
 }
