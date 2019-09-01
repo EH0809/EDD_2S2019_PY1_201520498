@@ -1,0 +1,53 @@
+digraph { 
+node [shape=box]
+graph[nodesep = 0.5];
+Terminal[ label = "Terminal ", width = 1.5 style = filled ,group = 0 ];
+e0[ shape = point, width = 0 ]
+e1[ shape = point, width = 0 ]
+Terminal -> Y2[dir=both]; 
+Y2[width = 1.5 style = filled , group =0];
+Y2-> Y4[dir=both];
+n22[label="111-222-333"  width = 1.5, group = 2 ];
+n22-> n27[dir=both];
+{ rank = same; Y2; n22} 
+Y4[width = 1.5 style = filled , group =0];
+Y4-> Y5[dir=both];
+n74[label="555-777-999"  width = 1.5, group = 7 ];
+Y4-> n74[dir=both];
+n74-> n84[dir=both];
+{ rank = same; n4; n74} 
+n74-> n75[dir=both];
+{ rank = same; Y4; n74} 
+n84[label="555-777-999"  width = 1.5, group = 8 ];
+n84-> n85[dir=both];
+{ rank = same; Y4; n84} 
+Y5[width = 1.5 style = filled , group =0];
+Y5-> Y7[dir=both];
+n75[label="555-777-999"  width = 1.5, group = 7 ];
+Y5-> n75[dir=both];
+n75-> n85[dir=both];
+{ rank = same; n5; n75} 
+n85[label="555-777-999"  width = 1.5, group = 8 ];
+Y7[width = 1.5 style = filled , group =0];
+n07[label="888-999-555"  width = 1.5, group = 0 ];
+Y7-> n07[dir=both];
+n07-> n27[dir=both];
+{ rank = same; n7; n07} 
+n27[label="888-999-555"  width = 1.5, group = 2 ];
+Terminal ->X0[dir=both]; 
+{ rank = same;Terminal; X0 }
+X0[width = 1.5 style = filled , group =0];
+X0-> X2[dir=both];
+{ rank = same; X0;X2 }
+X0-> n07[dir=both]; 
+X2[width = 1.5 style = filled , group =2];
+X2-> X7[dir=both];
+{ rank = same; X2;X7 }
+X2-> n22[dir=both]; 
+X7[width = 1.5 style = filled , group =7];
+X7-> X8[dir=both];
+{ rank = same; X7;X8 }
+X7-> n74[dir=both]; 
+X8[width = 1.5 style = filled , group =8];
+X8-> n84[dir=both]; 
+}
