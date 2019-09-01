@@ -1,0 +1,170 @@
+digraph { 
+node [shape=box]
+graph[nodesep = 0.5];
+Terminal[ label = "Terminal ", width = 1.5 style = filled ,group = 0 ];
+e0[ shape = point, width = 0 ]
+e1[ shape = point, width = 0 ]
+Terminal -> Y6[dir=both]; 
+Y6[width = 1.5 style = filled , group =0];
+Y6-> Y7[dir=both];
+n46[label="444-777-555"  width = 1.5, group = 4 ];
+Y6-> n46[dir=both];
+n46-> n56[dir=both];
+{ rank = same; n6; n46} 
+n46-> n47[dir=both];
+{ rank = same; Y6; n46} 
+n56[label="456-789-123"  width = 1.5, group = 5 ];
+Y6-> n56[dir=both];
+n56-> n66[dir=both];
+{ rank = same; n6; n56} 
+n56-> n57[dir=both];
+{ rank = same; Y6; n56} 
+n66[label="852-741-963"  width = 1.5, group = 6 ];
+Y6-> n66[dir=both];
+n66-> n76[dir=both];
+{ rank = same; n6; n66} 
+n66-> n67[dir=both];
+{ rank = same; Y6; n66} 
+n76[label="852-852-789"  width = 1.5, group = 7 ];
+n76-> n77[dir=both];
+{ rank = same; Y6; n76} 
+Y7[width = 1.5 style = filled , group =0];
+Y7-> Y8[dir=both];
+n47[label="444-777-888"  width = 1.5, group = 4 ];
+Y7-> n47[dir=both];
+n47-> n57[dir=both];
+{ rank = same; n7; n47} 
+n47-> n48[dir=both];
+{ rank = same; Y7; n47} 
+n57[label="456-789-258"  width = 1.5, group = 5 ];
+Y7-> n57[dir=both];
+n57-> n67[dir=both];
+{ rank = same; n7; n57} 
+n57-> n58[dir=both];
+{ rank = same; Y7; n57} 
+n67[label="789-456-159"  width = 1.5, group = 6 ];
+Y7-> n67[dir=both];
+n67-> n77[dir=both];
+{ rank = same; n7; n67} 
+n67-> n68[dir=both];
+{ rank = same; Y7; n67} 
+n77[label="486-426-741"  width = 1.5, group = 7 ];
+n77-> n78[dir=both];
+{ rank = same; Y7; n77} 
+Y8[width = 1.5 style = filled , group =0];
+Y8-> Y9[dir=both];
+n28[label="111-222-333"  width = 1.5, group = 2 ];
+Y8-> n28[dir=both];
+n28-> n38[dir=both];
+{ rank = same; n8; n28} 
+n38[label="777-888-999"  width = 1.5, group = 3 ];
+Y8-> n38[dir=both];
+n38-> n48[dir=both];
+{ rank = same; n8; n38} 
+n48[label="222-666-444"  width = 1.5, group = 4 ];
+Y8-> n48[dir=both];
+n48-> n58[dir=both];
+{ rank = same; n8; n48} 
+n48-> n49[dir=both];
+{ rank = same; Y8; n48} 
+n58[label="456-465-456"  width = 1.5, group = 5 ];
+Y8-> n58[dir=both];
+n58-> n68[dir=both];
+{ rank = same; n8; n58} 
+n58-> n59[dir=both];
+{ rank = same; Y8; n58} 
+n68[label="852-741-456"  width = 1.5, group = 6 ];
+Y8-> n68[dir=both];
+n68-> n78[dir=both];
+{ rank = same; n8; n68} 
+n68-> n69[dir=both];
+{ rank = same; Y8; n68} 
+n78[label="741-852-741"  width = 1.5, group = 7 ];
+Y8-> n78[dir=both];
+n78-> n88[dir=both];
+{ rank = same; n8; n78} 
+n78-> n79[dir=both];
+{ rank = same; Y8; n78} 
+n88[label="123-741-148"  width = 1.5, group = 8 ];
+Y8-> n88[dir=both];
+n88-> n98[dir=both];
+{ rank = same; n8; n88} 
+n98[label="357-15-852"  width = 1.5, group = 9 ];
+Y9[width = 1.5 style = filled , group =0];
+Y9-> Y13[dir=both];
+n49[label="666-888-999"  width = 1.5, group = 4 ];
+Y9-> n49[dir=both];
+n49-> n59[dir=both];
+{ rank = same; n9; n49} 
+n49-> n413[dir=both];
+{ rank = same; Y9; n49} 
+n59[label="123-456-852"  width = 1.5, group = 5 ];
+Y9-> n59[dir=both];
+n59-> n69[dir=both];
+{ rank = same; n9; n59} 
+n59-> n513[dir=both];
+{ rank = same; Y9; n59} 
+n69[label="852-741-632"  width = 1.5, group = 6 ];
+Y9-> n69[dir=both];
+n69-> n79[dir=both];
+{ rank = same; n9; n69} 
+n69-> n613[dir=both];
+{ rank = same; Y9; n69} 
+n79[label="852-963-741"  width = 1.5, group = 7 ];
+n79-> n713[dir=both];
+{ rank = same; Y9; n79} 
+Y13[width = 1.5 style = filled , group =0];
+n013[label="741-789-541"  width = 1.5, group = 0 ];
+Y13-> n013[dir=both];
+n013-> n413[dir=both];
+{ rank = same; n13; n013} 
+n413[label="777-888-222"  width = 1.5, group = 4 ];
+Y13-> n413[dir=both];
+n413-> n513[dir=both];
+{ rank = same; n13; n413} 
+n513[label="123-147-852"  width = 1.5, group = 5 ];
+Y13-> n513[dir=both];
+n513-> n613[dir=both];
+{ rank = same; n13; n513} 
+n613[label="456-789-154"  width = 1.5, group = 6 ];
+Y13-> n613[dir=both];
+n613-> n713[dir=both];
+{ rank = same; n13; n613} 
+n713[label="741-789-541"  width = 1.5, group = 7 ];
+Terminal ->X0[dir=both]; 
+{ rank = same;Terminal; X0 }
+X0[width = 1.5 style = filled , group =0];
+X0-> X2[dir=both];
+{ rank = same; X0;X2 }
+X0-> n013[dir=both]; 
+X2[width = 1.5 style = filled , group =2];
+X2-> X3[dir=both];
+{ rank = same; X2;X3 }
+X2-> n28[dir=both]; 
+X3[width = 1.5 style = filled , group =3];
+X3-> X4[dir=both];
+{ rank = same; X3;X4 }
+X3-> n38[dir=both]; 
+X4[width = 1.5 style = filled , group =4];
+X4-> X5[dir=both];
+{ rank = same; X4;X5 }
+X4-> n46[dir=both]; 
+X5[width = 1.5 style = filled , group =5];
+X5-> X6[dir=both];
+{ rank = same; X5;X6 }
+X5-> n56[dir=both]; 
+X6[width = 1.5 style = filled , group =6];
+X6-> X7[dir=both];
+{ rank = same; X6;X7 }
+X6-> n66[dir=both]; 
+X7[width = 1.5 style = filled , group =7];
+X7-> X8[dir=both];
+{ rank = same; X7;X8 }
+X7-> n76[dir=both]; 
+X8[width = 1.5 style = filled , group =8];
+X8-> X9[dir=both];
+{ rank = same; X8;X9 }
+X8-> n88[dir=both]; 
+X9[width = 1.5 style = filled , group =9];
+X9-> n98[dir=both]; 
+}
