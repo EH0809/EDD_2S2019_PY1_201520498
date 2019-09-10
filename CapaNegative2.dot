@@ -1,0 +1,52 @@
+digraph{
+node [shape=box]
+graph[nodesep = 0.5];
+Terminal [ label = "Matrix", width = 1.5, style = filled, group = 0 ];
+e0[ shape = point, width = 0 ]
+e1[ shape = point, width = 0 ]
+Terminal -> Y3 [dir=both];
+Y3[label = "F3 "   width = 1.5 style = filled, group =0];
+Y3-> Y4[dir=both];
+Y3-> X10_3[dir=both];
+{ rank = same; Y3; X10_3 }
+Y4[label = "F4 "   width = 1.5 style = filled, group =0];
+Y4-> Y5[dir=both];
+Y4-> X10_4[dir=both];
+{ rank = same; Y4; X10_4 }
+Y5[label = "F5 "   width = 1.5 style = filled, group =0];
+Y5-> Y6[dir=both];
+Y5-> X11_5[dir=both];
+{ rank = same; Y5; X11_5 }
+Y6[label = "F6 "   width = 1.5 style = filled, group =0];
+Y6-> Y6[dir=both];
+Y6-> X12_6[dir=both];
+{ rank = same; Y6; X12_6 }
+Y6[label = "F6 "   width = 1.5 style = filled, group =0];
+Y6-> Y6[dir=both];
+Y6-> X11_6[dir=both];
+{ rank = same; Y6; X11_6 }
+Y6[label = "F6 "   width = 1.5 style = filled,group =0];
+Y6-> X10_6[dir=both];
+{ rank = same; Y6; X10_6 }
+Terminal -> X10 [dir=both];
+X10[label = "C10 "   width = 1.5 style = filled, group =10];
+X10-> X11[dir=both];
+{ rank = same; Terminal; X10 }
+X10_3[label = "236,236,236 "   width = 1.5, group =10];
+X10-> X10_3[dir=both];
+X10_4[label = "236,236,236 "   width = 1.5, group =10];
+X10_3-> X10_4[dir=both];
+X10_6[label = "236,236,236 "   width = 1.5, group =10];
+X10_4-> X10_6[dir=both];
+X11[label = "C11 "   width = 1.5 style = filled, group =11];
+X11-> X12[dir=both];
+{ rank = same; Terminal; X11 }
+X11_5[label = "236,236,236 "   width = 1.5, group =11];
+X11-> X11_5[dir=both];
+X11_6[label = "2,2,2 "   width = 1.5, group =11];
+X11_5-> X11_6[dir=both];
+X12[label = "C12 "   width = 1.5 style = filled, group =12];
+{ rank = same; Terminal; X12 }
+X12_6[label = "236,236,236 "   width = 1.5, group =12];
+X12-> X12_6[dir=both];
+}
