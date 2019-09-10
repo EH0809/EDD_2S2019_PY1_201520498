@@ -6,13 +6,12 @@
 #define P1_BINARYTREE_H
 #include <string>
 #include <iostream>
-#include "Matrix.h"
-
+#include "ListMatix.h"
 using namespace std;
 
 struct NodeBB{
     string Name;
-    MatrixNode * NameMatrix;
+    ListMatix ListadeCapas;
     NodeBB *SonLeft;
     NodeBB *SonRight;
 };
