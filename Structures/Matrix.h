@@ -65,8 +65,6 @@ class Matrix {
 public:
 
     //**********************CABECERA**********************************//
-
-
     NodeHeader *FirstHeader= NULL;
     NodeHeader *EndHeader= NULL;
     bool IsEmptyCabecera();
