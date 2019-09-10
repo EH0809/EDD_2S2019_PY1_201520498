@@ -5,12 +5,25 @@
 #include "Structures/BinaryTree.h"
 #include "Structures/ListFilters.h"
 #include "Structures/ListMatix.h"
+#include "Structures/MatrixB.h"
+#include "Structures/Grayscale.h"
 #include "fstream"
 
 Matrix MATRIX;
 BinaryTree BTree;
 ListFilters Filters;
 ListMatix LMatrix;
+//CompleteMatrix CMatrix;
+MatrixB MatrixB;
+Grayscale Grayscale;
+
+
+int Image_width;
+int Image_height;
+int Pixel_width;
+int Pixel_height;
+int contadorLineal = 0;
+
 
 using namespace std;
 
@@ -32,9 +45,16 @@ void EnviarAMatrix(int Header, int Lateral, int ColorR, int ColorG, int ColorB);
 
 void ArchiveCapa(string Ruta);
 
+void ReadCapas(string Ruta);
+
 void ADDListMatix(int Id, string Name);
 
 void MenuCapas();
+
+void MenuCapasFiltros();
+
+void MenuFiltros();
+
 int ContadorCapas;
 int MaxCol;
 int MaxFil;
@@ -43,7 +63,6 @@ string Capas = "";
 MatrixList *TempMatrix;
 
 void DesEncapar();
-
 
 int main() {
     int a = 0;
@@ -59,9 +78,15 @@ int main() {
         switch (a) {
             case 1:
                 cout << "File Upload \n";
+                //Agregar();
                 ReadFirstArchive();
                 LMatrix.PrintList();
+                LMatrix.AgregarMatrixCompleta();
                 LMatrix.ADDMatrix();
+                LMatrix.MandarTamanio(Image_width, Image_height);
+                LMatrix.GraficarLFilas();
+                LMatrix.MandarHtml();
+                LMatrix.MandarCSS(Image_width, Image_height, Pixel_width, Pixel_height);
                 BTree.PN();
                 BTree.PNPre();
                 BTree.PNPost();
@@ -77,7 +102,8 @@ int main() {
                 BTree.RestValues();
                 break;
             case 3:
-                ADDFilters();
+                //ADDFilters();
+                MenuFiltros();
                 break;
             case 4:
                 break;
@@ -128,6 +154,7 @@ void MenuReports() {
                 MenuCapas();
                 break;
             case 6:
+                LMatrix.GraficarMatizCompleta();
                 break;
             case 7:
                 Filters.GraphList();
@@ -206,6 +233,29 @@ void Agregar() {
 
 }
 
+void MenuFiltros() {
+    bool a = false;
+    int ab = 0;
+    while (a != true) {
+        cout << "Insert your Option \n";
+        cout << "1. Complete Image \n";
+        cout << "2. Layers \n";
+        cout << "3. Exit \n";
+        cin >> ab;
+        switch (ab) {
+            case 1:
+                ADDFilters();
+                break;
+            case 2:
+                MenuCapasFiltros();
+                break;
+            case 3:
+                a = true;
+                break;
+        }
+    }
+}
+
 void ADDFilters() {
     if (GeneralUser != " ") {
         int a = 0;
@@ -226,10 +276,14 @@ void ADDFilters() {
                 case 1:
                     cout << "NEGATIVE \n";
                     Filters.InsertNodeFilter("NEGATIVE");
+                    LMatrix.MandarHtmlNEGATIVE();
+                    LMatrix.MandarCSSNEGATIVE(Image_width, Image_height, Pixel_width, Pixel_height);
                     break;
                 case 2:
                     cout << "GRAYSCALE \n";
                     Filters.InsertNodeFilter("GRAYSCALE");
+                    LMatrix.MandarHtmGRAYSCALEl();
+                    LMatrix.MandarCSSGRAYSCALE(Image_width, Image_height, Pixel_width, Pixel_height);
                     break;
                 case 3:
                     cout << "X-MIRROR \n";
@@ -260,7 +314,10 @@ void ADDFilters() {
 }
 
 void ReadFirstArchive() {
-    std::ifstream Archivo("prueba.csv");
+    string a = "";
+    cout << "Insert the Name file \n";
+    cin >> a;
+    std::ifstream Archivo(a);
     if (!Archivo.is_open()) cout << "Error al Abrir Primer Archivo \n";
     string Layer;
     string File;
@@ -281,11 +338,13 @@ void ReadFirstArchive() {
 }
 
 void ADDListMatix(int Id, string Name) {
+
     LMatrix.AddMatrixList(Id, Name);
     TempMatrix = LMatrix.SearchHeader(Id);
     ReadCapa(Name);
     TempMatrix->Archivo = Capas;
-    Capas="";
+    Capas = "";
+    //TempMatrix = NULL;
 }
 
 void ArchiveConfig(string Ruta) {
@@ -293,12 +352,9 @@ void ArchiveConfig(string Ruta) {
     if (!Archivo.is_open()) cout << "Error Archivo Config \n";
     string Config;
     string Value;
-    int Image_width;
-    int Image_height;
-    int Pixel_width;
-    int Pixel_height;
+
     while (!Archivo.fail()) {
-        getline(Archivo, Config, ';');
+        getline(Archivo, Config, ',');
         getline(Archivo, Value, '\n');
         if (Config != "Confing" && Value != "Value") {
             if (Config == "image_width") {
@@ -324,13 +380,14 @@ void ArchiveConfig(string Ruta) {
 void ReadCapa(string Ruta) {
     ifstream file(Ruta);
     if (!file) {
-        cout << "Error Leer Capa\n";
+        cout << "Error Leer Capa \n";
     }
     string linea, archivo;
     while (getline(file, linea)) {
         archivo += linea + "\n";
     }
-    ReadCapa1(archivo);
+
+    ReadCapas(archivo);
 }
 
 void ReadCapa1(string Archivo) {
@@ -343,14 +400,18 @@ void ReadCapa1(string Archivo) {
     string ColorG = "";
     string ColorB = "";
     string aux4 = "";
+    string aux77 = "";
+    string aux9 = "";
     int ContadorFilas = 1;
     int ContadorColumnas = 1;
     int ContadorMaxCol;
     while (!ss.fail()) {
         while (getline(ss, aux, ',')) {
             if (aux != "x") {
-                if (aux != "x\nx") {
-                    if (ContadorColumnas == ContadorMaxCol) {
+                //if (aux != "x\nx") {
+                if (ContadorColumnas <= Image_width) {
+                    if (ContadorColumnas == Image_width) {
+                        //if (ContadorColumnas == ColMAix) {
                         stringstream aux5(aux);
                         getline(aux5, aux6, '\n');
                         getline(aux5, ColorR, '-');
@@ -359,14 +420,17 @@ void ReadCapa1(string Archivo) {
                         int R = std::atoi(ColorR.c_str());
                         int G = std::atoi(ColorG.c_str());
                         int B = std::atoi(ColorB.c_str());
-                        if (R  != 0){
-                        aux4 += "Col:" + to_string(ContadorColumnas) + " Fil:" + to_string(ContadorFilas) +
-                                " ColorR: " + to_string(R) + " ColorG: " + to_string(G) + " ColorB:" + to_string(B) +
-                                "\n";
-                        Temp += to_string(ContadorColumnas) + "," + to_string(ContadorFilas) + "," + to_string(R) +
-                                "," + to_string(G) + "," + to_string(B) + "\n";
+                        if (R != 0) {
+                            aux4 += "Col:" + to_string(ContadorColumnas) + " Fil:" + to_string(ContadorFilas) +
+                                    " ColorR: " + to_string(R) + " ColorG: " + to_string(G) + " ColorB:" +
+                                    to_string(B) +
+                                    "\n";
+                            Temp += to_string(ContadorColumnas) + "," + to_string(ContadorFilas) + "," + to_string(R) +
+                                    "," + to_string(G) + "," + to_string(B) + "\n";
+
                         }
-                        ContadorColumnas = 1;
+                        ContadorColumnas = 0;
+                        ContadorFilas++;
                     } else {
                         stringstream aux7(aux);
                         getline(aux7, ColorR, '-');
@@ -386,7 +450,7 @@ void ReadCapa1(string Archivo) {
                         //   TempMatrix->PunteroMatrix.InsertMatrix(ContadorColumnas,ContadorFilas,R,G,B);
                     }
                 } else {
-                    ContadorMaxCol = ContadorColumnas;
+                    //ContadorMaxCol = ContadorColumnas;
                     ContadorColumnas = 1;
                     ContadorFilas++;
                 }
@@ -395,9 +459,240 @@ void ReadCapa1(string Archivo) {
         }
     }
     Capas = Temp;
-    //cout << Capas;
+    cout << "Hola";
+    cout << Capas;
 }
 
+
+void ReadCapas(string Archivo) {
+    std::stringstream ss(Archivo);
+    string aux;
+    string aux2;
+    string aux6;
+    string Temp = "";
+    string ColorR = "";
+    string ColorG = "";
+    string ColorB = "";
+    string aux4 = "";
+    string aux9 = "";
+    int contadorL = 0;
+    int ContadorFilas = 1;
+    int ContadorColumnas = 1;
+    while (getline(ss, aux)) {
+        stringstream aux777(aux);
+        while (!aux777.fail()) {
+            while (getline(aux777, aux, ',')) {
+                contadorL++;
+                if (aux != "x") {
+                    if (ContadorColumnas != Image_width) {
+                        stringstream aux5(aux);
+                        //getline(aux5, aux6, '\n');
+                        getline(aux5, ColorR, '-');
+                        getline(aux5, ColorG, '-');
+                        getline(aux5, ColorB, '-');
+                        int R = std::atoi(ColorR.c_str());
+                        int G = std::atoi(ColorG.c_str());
+                        int B = std::atoi(ColorB.c_str());
+                        if (R != 0) {
+                            /* aux4 += "Col:" + to_string(ContadorColumnas) + " Fil:" + to_string(ContadorFilas) +
+                                     " ColorR: " + to_string(R) + " ColorG: " + to_string(G) + " ColorB:" +
+                                     to_string(B) +
+                                     "\n";
+                                    */
+                            Temp += to_string(ContadorColumnas) + "," + to_string(ContadorFilas) + "," + to_string(R) +
+                                    "," + to_string(G) + "," + to_string(B) + "," + to_string(contadorL) + "\n";
+
+                        }
+                    } else if (ContadorColumnas == Image_width) {
+                        stringstream aux7(aux);
+                        getline(aux7, ColorR, '-');
+                        getline(aux7, ColorG, '-');
+                        getline(aux7, ColorB, '-');
+                        int R = std::atoi(ColorR.c_str());
+                        int G = std::atoi(ColorG.c_str());
+                        int B = std::atoi(ColorB.c_str());
+                        /*
+                        aux4 += "Col:" + to_string(ContadorColumnas) + " Fil:" + to_string(ContadorFilas) +
+                                " ColorR: " + to_string(R) + " ColorG: " + to_string(G) + " ColorB:" + to_string(B) +
+                                "\n";
+                        */
+                        Temp += to_string(ContadorColumnas) + "," + to_string(ContadorFilas) + "," + to_string(R) +
+                                "," + to_string(G) + "," + to_string(B) + "," + to_string(contadorL) + "\n";
+
+                        ContadorColumnas = 1;
+                        ContadorFilas++;
+                    }
+                }
+                if (ContadorColumnas == Image_width) {
+                    ContadorColumnas = 1;
+                    ContadorFilas++;
+                } else {
+                    ContadorColumnas++;
+                }
+            }
+        }
+    }
+    //contadorLineal = contadorL;
+    Capas = Temp;
+    contadorL = 0;
+}
+
+
+void MenuCapas() {
+    int ab = 0;
+    LMatrix.MostarCapas();
+    cout << "Insert your Choise \n";
+    cin >> ab;
+    LMatrix.GrayscapeCapas(ab);
+}
+
+void MenuCapasFiltros() {
+    int ab = 0;
+    LMatrix.MostarCapas();
+    cout << "Insert your Choise \n";
+    cin >> ab;
+    //LMatrix.GrayscapeCapas(ab);
+    LMatrix.NegativeCapas(ab);
+
+}
+
+void ADDFiltrosCapas(int ab){
+        if (GeneralUser != " ") {
+            int a = 0;
+            while (a != 8) {
+                cout << "Image:" + GeneralUser + "\n";
+                cout << "1.  NEGATIVE\n";
+                cout << "2.  GRAYSCALE\n";
+                cout << "3. X-MIRROR\n";
+                cout << "4. Y-MIRROR\n";
+                cout << "5. DOUBLE MIRROR\n";
+                cout << "6. COLLAGE\n";
+                cout << "7. MOSAIC\n";
+                cout << "8. EXIT\n";
+                cout << "Insert your choise \n";
+                cin >>
+                    a;
+                switch (a) {
+                    case 1:
+                        cout << "NEGATIVE \n";
+                        Filters.InsertNodeFilter("NEGATIVE");
+                        //LMatrix.MandarHtmlNEGATIVE();
+                        //LMatrix.MandarCSSNEGATIVE(Image_width, Image_height, Pixel_width, Pixel_height);
+                        LMatrix.NegativeCapas(ab);
+                        break;
+                    case 2:
+                        cout << "GRAYSCALE \n";
+                        Filters.InsertNodeFilter("GRAYSCALE");
+                        LMatrix.GrayscapeCapas(ab)
+                        //LMatrix.MandarHtmGRAYSCALEl();
+                        //LMatrix.MandarCSSGRAYSCALE(Image_width, Image_height, Pixel_width, Pixel_height);
+                        break;
+                    case 3:
+                        cout << "X-MIRROR \n";
+                        Filters.InsertNodeFilter("X_MIRROR");
+                        break;
+                    case 4:
+                        cout << "Y-MIRROR \n";
+                        Filters.InsertNodeFilter("Y_MIRROR");
+                        break;
+                    case 5:
+                        cout << "DOUBLE MIRROR \n";
+                        Filters.InsertNodeFilter("DOUBLE MIRROR");
+                        break;
+                    case 6:
+                        cout << "COLLAGE\n";
+                        Filters.InsertNodeFilter("COLLAGE");
+                        break;
+                    case 7:
+                        cout << "MOSAIC\n";
+                        Filters.InsertNodeFilter("MOSAIC");
+                        break;
+                    case 8:
+                        a = 8;
+                        break;
+                }
+            }
+        }
+    }
+
+/*
+void ReadCapas(string Archivo) {
+    std::stringstream ss(Archivo);
+    string aux;
+    string aux2;
+    string aux6;
+    int contadorLineal =1;
+    string Temp = "";
+    string ColorR = "";
+    string ColorG = "";
+    string ColorB = "";
+    string aux4 = "";
+    string aux9 = "";
+    int ContadorFilas = 1;
+    int ContadorColumnas = 1;
+    while (getline(ss, aux)) {
+        stringstream aux777(aux);
+        while (!aux777.fail()) {
+            while (getline(aux777, aux, ',')) {
+                if (aux != "x") {
+                    if (ContadorColumnas != Image_width) {
+                        stringstream aux5(aux);
+                        //getline(aux5, aux6, '\n');
+                        getline(aux5, ColorR, '-');
+                        getline(aux5, ColorG, '-');
+                        getline(aux5, ColorB, '-');
+                        int R = std::atoi(ColorR.c_str());
+                        int G = std::atoi(ColorG.c_str());
+                        int B = std::atoi(ColorB.c_str());
+                        if (R != 0) {
+                            aux4 += "Col:" + to_string(ContadorColumnas) + " Fil:" + to_string(ContadorFilas) +
+                                    " ColorR: " + to_string(R) + " ColorG: " + to_string(G) + " ColorB:" +
+                                    to_string(B) +
+                                    "\n";
+                            Temp += to_string(ContadorColumnas) + "," + to_string(ContadorFilas) + "," + to_string(R) +
+                                    "," + to_string(G) + "," + to_string(B) + ","+to_string(contadorLineal)+"\n";
+
+                        }
+
+
+                    } else {
+                        stringstream aux7(aux);
+                        getline(aux7, ColorR, '-');
+                        getline(aux7, ColorG, '-');
+                        getline(aux7, ColorB, '-');
+                        int R = std::atoi(ColorR.c_str());
+                        int G = std::atoi(ColorG.c_str());
+                        int B = std::atoi(ColorB.c_str());
+
+                        aux4 += "Col:" + to_string(ContadorColumnas) + " Fil:" + to_string(ContadorFilas) +
+                                " ColorR: " + to_string(R) + " ColorG: " + to_string(G) + " ColorB:" + to_string(B) +
+                                "\n";
+
+                        Temp += to_string(ContadorColumnas) + "," + to_string(ContadorFilas) + "," + to_string(R) +
+                                "," + to_string(G) + "," + to_string(B) +","+to_string(contadorLineal)+ "\n";
+
+                        //   TempMatrix->PunteroMatrix.InsertMatrix(ContadorColumnas,ContadorFilas,R,G,B);
+                        ContadorColumnas = 0;
+                        ContadorFilas++;
+                        contadorLineal++;
+                    }
+                }
+                if (ContadorColumnas == Image_width) {
+                    ContadorColumnas = 1;
+                    ContadorFilas++;
+                    contadorLineal++;
+                } else {
+                    ContadorColumnas++;
+                }
+            }
+        }
+    }
+
+    Capas = Temp;
+}
+*/
+
+/*
 void DesEncapar() {
 
     string Archivo = Capas;
@@ -426,12 +721,5 @@ void DesEncapar() {
 
     Capas = "";
 }
+*/
 
-
-void MenuCapas(){
-    int ab =0;
-    LMatrix.MostarCapas();
-    cout<<"Insert your Choise \n";
-    cin>>ab;
-    LMatrix.GraphCapas(ab);
-}
