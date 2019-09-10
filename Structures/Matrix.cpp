@@ -333,7 +333,7 @@ string Matrix::Dot3(string dot) {
                         "n" + std::to_string(temp->ColMatrix) + std::to_string(temp->RowMatrix) + "-> n" +
                         std::to_string(temp->DownMatrix->ColMatrix) +
                         std::to_string(temp->DownMatrix->RowMatrix) +
-                        "[dir=both];\n";
+                        "[dir=both]; \n";
 
                 grafo += "{ rank = same; Y" + to_string(Lateral1->Lateral) + "; n" + std::to_string(temp->ColMatrix) +
                          std::to_string(temp->RowMatrix) + "} \n";
