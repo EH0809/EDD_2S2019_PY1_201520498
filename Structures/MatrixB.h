@@ -75,8 +75,9 @@ public:
     void GraficarMatrixC();
     string DotMatrixC(string dot);
     string DotMatirx2C(string Dot);
+    string DotCompleta();
 
-    
+
     string DotGrayScape(string Dot);
     string DotNegative(string Dot);
 };
