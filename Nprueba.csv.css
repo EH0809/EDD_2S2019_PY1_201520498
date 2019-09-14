@@ -1,0 +1,55 @@
+body {
+  background: #333333;      /* Background color of the whole page */
+  height: 100vh;            /* 100 viewport heigh units */
+  display: flex;            /* defines a flex container */
+  justify-content: center;  /* centers the canvas horizontally */
+  align-items: center;      /* centers the canvas vertically */
+} 
+.canvas {
+  width:150px;   /* Width of the canvas */
+  height:150px;  /* Height of the canvas */
+} 
+.pixel {
+  width:30px;    /* Width of each pixel */
+  height:30px;   /* Height of each pixel */
+  float: left;    /* Everytime it fills the canvas div it will begin a new line */
+  box-shadow: 0px 0px 1px #fff;  /* Leave commented, showing the pixel boxes */
+} 
+.pixel:nth-child(3){
+background:#ffffff;} 
+.pixel:nth-child(5){
+background:#ffffff;} 
+.pixel:nth-child(7){
+background:#ffffff;} 
+.pixel:nth-child(8){
+background:#ffffff;} 
+.pixel:nth-child(9){
+background:#ffffff;} 
+.pixel:nth-child(12){
+background:#ffffff;} 
+.pixel:nth-child(13){
+background:#ffffff;} 
+.pixel:nth-child(14){
+background:#ffffff;} 
+.pixel:nth-child(1){
+background:#686868;} 
+.pixel:nth-child(5){
+background:#686868;} 
+.pixel:nth-child(21){
+background:#686868;} 
+.pixel:nth-child(22){
+background:#686868;} 
+.pixel:nth-child(24){
+background:#686868;} 
+.pixel:nth-child(25){
+background:#686868;} 
+.pixel:nth-child(5){
+background:#a1a1a1;} 
+.pixel:nth-child(6){
+background:#a1a1a1;} 
+.pixel:nth-child(10){
+background:#a1a1a1;} 
+.pixel:nth-child(17){
+background:#a1a1a1;} 
+.pixel:nth-child(19){
+background:#a1a1a1;} 
