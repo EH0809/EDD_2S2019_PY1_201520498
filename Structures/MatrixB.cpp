@@ -469,6 +469,7 @@ string MatrixB::DotMatirx2C(string Dot) {
     return Dot;
 }
 
+
 string MatrixB::DotGrayScape(string Dot) {
     NodeMatrixB2 *temp = HeadNode->RightNodeMatrix;
     NodeMatrixB2 *temp2 = HeadNode->DownNodeMatrix;
