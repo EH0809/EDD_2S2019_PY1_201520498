@@ -1,0 +1,298 @@
+digraph Sparse_Matrix{
+node [shape=box]
+graph[nodesep = 0.5];
+Terminal [ label = "Matrix", width = 1.5, style = filled, group = 0 ];
+e0[ shape = point, width = 0 ]
+e1[ shape = point, width = 0 ]
+Terminal -> Y1 [dir=both];
+Y1[label = "F1 "   width = 1.5 style = filled, group =0];
+Y1-> Y1[dir=both];
+Y1-> X16_1[dir=both];
+{ rank = same; Y1; X16_1 }
+Y1[label = "F1 "   width = 1.5 style = filled, group =0];
+Y1-> Y1[dir=both];
+Y1-> X10_1[dir=both];
+{ rank = same; Y1; X10_1 }
+Y1[label = "F1 "   width = 1.5 style = filled, group =0];
+Y1-> Y1[dir=both];
+Y1-> X9_1[dir=both];
+{ rank = same; Y1; X9_1 }
+Y1[label = "F1 "   width = 1.5 style = filled, group =0];
+Y1-> Y1[dir=both];
+Y1-> X8_1[dir=both];
+{ rank = same; Y1; X8_1 }
+Y1[label = "F1 "   width = 1.5 style = filled, group =0];
+Y1-> Y1[dir=both];
+Y1-> X7_1[dir=both];
+{ rank = same; Y1; X7_1 }
+Y1[label = "F1 "   width = 1.5 style = filled, group =0];
+Y1-> Y1[dir=both];
+Y1-> X6_1[dir=both];
+{ rank = same; Y1; X6_1 }
+Y1[label = "F1 "   width = 1.5 style = filled, group =0];
+Y1-> Y2[dir=both];
+Y1-> X5_1[dir=both];
+{ rank = same; Y1; X5_1 }
+Y2[label = "F2 "   width = 1.5 style = filled, group =0];
+Y2-> Y2[dir=both];
+Y2-> X14_2[dir=both];
+{ rank = same; Y2; X14_2 }
+Y2[label = "F2 "   width = 1.5 style = filled, group =0];
+Y2-> Y2[dir=both];
+Y2-> X13_2[dir=both];
+{ rank = same; Y2; X13_2 }
+Y2[label = "F2 "   width = 1.5 style = filled, group =0];
+Y2-> Y2[dir=both];
+Y2-> X12_2[dir=both];
+{ rank = same; Y2; X12_2 }
+Y2[label = "F2 "   width = 1.5 style = filled, group =0];
+Y2-> Y2[dir=both];
+Y2-> X11_2[dir=both];
+{ rank = same; Y2; X11_2 }
+Y2[label = "F2 "   width = 1.5 style = filled, group =0];
+Y2-> Y2[dir=both];
+Y2-> X10_2[dir=both];
+{ rank = same; Y2; X10_2 }
+Y2[label = "F2 "   width = 1.5 style = filled, group =0];
+Y2-> Y2[dir=both];
+Y2-> X9_2[dir=both];
+{ rank = same; Y2; X9_2 }
+Y2[label = "F2 "   width = 1.5 style = filled, group =0];
+Y2-> Y2[dir=both];
+Y2-> X8_2[dir=both];
+{ rank = same; Y2; X8_2 }
+Y2[label = "F2 "   width = 1.5 style = filled, group =0];
+Y2-> Y2[dir=both];
+Y2-> X7_2[dir=both];
+{ rank = same; Y2; X7_2 }
+Y2[label = "F2 "   width = 1.5 style = filled, group =0];
+Y2-> Y2[dir=both];
+Y2-> X6_2[dir=both];
+{ rank = same; Y2; X6_2 }
+Y2[label = "F2 "   width = 1.5 style = filled, group =0];
+Y2-> Y8[dir=both];
+Y2-> X5_2[dir=both];
+{ rank = same; Y2; X5_2 }
+Y8[label = "F8 "   width = 1.5 style = filled, group =0];
+Y8-> Y8[dir=both];
+Y8-> X11_8[dir=both];
+{ rank = same; Y8; X11_8 }
+Y8[label = "F8 "   width = 1.5 style = filled, group =0];
+Y8-> Y8[dir=both];
+Y8-> X10_8[dir=both];
+{ rank = same; Y8; X10_8 }
+Y8[label = "F8 "   width = 1.5 style = filled, group =0];
+Y8-> Y8[dir=both];
+Y8-> X9_8[dir=both];
+{ rank = same; Y8; X9_8 }
+Y8[label = "F8 "   width = 1.5 style = filled, group =0];
+Y8-> Y8[dir=both];
+Y8-> X8_8[dir=both];
+{ rank = same; Y8; X8_8 }
+Y8[label = "F8 "   width = 1.5 style = filled, group =0];
+Y8-> Y8[dir=both];
+Y8-> X6_8[dir=both];
+{ rank = same; Y8; X6_8 }
+Y8[label = "F8 "   width = 1.5 style = filled, group =0];
+Y8-> Y9[dir=both];
+Y8-> X5_8[dir=both];
+{ rank = same; Y8; X5_8 }
+Y9[label = "F9 "   width = 1.5 style = filled, group =0];
+Y9-> Y9[dir=both];
+Y9-> X14_9[dir=both];
+{ rank = same; Y9; X14_9 }
+Y9[label = "F9 "   width = 1.5 style = filled, group =0];
+Y9-> Y9[dir=both];
+Y9-> X13_9[dir=both];
+{ rank = same; Y9; X13_9 }
+Y9[label = "F9 "   width = 1.5 style = filled, group =0];
+Y9-> Y9[dir=both];
+Y9-> X12_9[dir=both];
+{ rank = same; Y9; X12_9 }
+Y9[label = "F9 "   width = 1.5 style = filled, group =0];
+Y9-> Y9[dir=both];
+Y9-> X11_9[dir=both];
+{ rank = same; Y9; X11_9 }
+Y9[label = "F9 "   width = 1.5 style = filled, group =0];
+Y9-> Y9[dir=both];
+Y9-> X9_9[dir=both];
+{ rank = same; Y9; X9_9 }
+Y9[label = "F9 "   width = 1.5 style = filled, group =0];
+Y9-> Y9[dir=both];
+Y9-> X8_9[dir=both];
+{ rank = same; Y9; X8_9 }
+Y9[label = "F9 "   width = 1.5 style = filled, group =0];
+Y9-> Y9[dir=both];
+Y9-> X6_9[dir=both];
+{ rank = same; Y9; X6_9 }
+Y9[label = "F9 "   width = 1.5 style = filled, group =0];
+Y9-> Y9[dir=both];
+Y9-> X5_9[dir=both];
+{ rank = same; Y9; X5_9 }
+Y9[label = "F9 "   width = 1.5 style = filled, group =0];
+Y9-> Y10[dir=both];
+Y9-> X4_9[dir=both];
+{ rank = same; Y9; X4_9 }
+Y10[label = "F10 "   width = 1.5 style = filled, group =0];
+Y10-> Y10[dir=both];
+Y10-> X14_10[dir=both];
+{ rank = same; Y10; X14_10 }
+Y10[label = "F10 "   width = 1.5 style = filled, group =0];
+Y10-> Y10[dir=both];
+Y10-> X13_10[dir=both];
+{ rank = same; Y10; X13_10 }
+Y10[label = "F10 "   width = 1.5 style = filled, group =0];
+Y10-> Y10[dir=both];
+Y10-> X12_10[dir=both];
+{ rank = same; Y10; X12_10 }
+Y10[label = "F10 "   width = 1.5 style = filled, group =0];
+Y10-> Y10[dir=both];
+Y10-> X11_10[dir=both];
+{ rank = same; Y10; X11_10 }
+Y10[label = "F10 "   width = 1.5 style = filled, group =0];
+Y10-> Y10[dir=both];
+Y10-> X6_10[dir=both];
+{ rank = same; Y10; X6_10 }
+Y10[label = "F10 "   width = 1.5 style = filled, group =0];
+Y10-> Y10[dir=both];
+Y10-> X5_10[dir=both];
+{ rank = same; Y10; X5_10 }
+Y10[label = "F10 "   width = 1.5 style = filled, group =0];
+Y10-> Y10[dir=both];
+Y10-> X4_10[dir=both];
+{ rank = same; Y10; X4_10 }
+Y10[label = "F10 "   width = 1.5 style = filled, group =0];
+Y10-> Y11[dir=both];
+Y10-> X3_10[dir=both];
+{ rank = same; Y10; X3_10 }
+Y11[label = "F11 "   width = 1.5 style = filled, group =0];
+Y11-> Y11[dir=both];
+Y11-> X12_11[dir=both];
+{ rank = same; Y11; X12_11 }
+Y11[label = "F11 "   width = 1.5 style = filled,group =0];
+Y11-> X5_11[dir=both];
+{ rank = same; Y11; X5_11 }
+Terminal -> X3 [dir=both];
+X3[label = "C3 "   width = 1.5 style = filled, group =3];
+X3-> X4[dir=both];
+{ rank = same; Terminal; X3 }
+X3_10[label = "228,29,29 "   width = 1.5, group =3];
+X3-> X3_10[dir=both];
+X4[label = "C4 "   width = 1.5 style = filled, group =4];
+X4-> X5[dir=both];
+{ rank = same; Terminal; X4 }
+X4_9[label = "228,29,29 "   width = 1.5, group =4];
+X4-> X4_9[dir=both];
+X4_10[label = "228,29,29 "   width = 1.5, group =4];
+X4_9-> X4_10[dir=both];
+X5[label = "C5 "   width = 1.5 style = filled, group =5];
+X5-> X6[dir=both];
+{ rank = same; Terminal; X5 }
+X5_1[label = "228,29,29 "   width = 1.5, group =5];
+X5-> X5_1[dir=both];
+X5_2[label = "228,29,29 "   width = 1.5, group =5];
+X5_1-> X5_2[dir=both];
+X5_8[label = "228,29,29 "   width = 1.5, group =5];
+X5_2-> X5_8[dir=both];
+X5_9[label = "228,29,29 "   width = 1.5, group =5];
+X5_8-> X5_9[dir=both];
+X5_10[label = "228,29,29 "   width = 1.5, group =5];
+X5_9-> X5_10[dir=both];
+X5_11[label = "228,29,29 "   width = 1.5, group =5];
+X5_10-> X5_11[dir=both];
+X6[label = "C6 "   width = 1.5 style = filled, group =6];
+X6-> X7[dir=both];
+{ rank = same; Terminal; X6 }
+X6_1[label = "228,29,29 "   width = 1.5, group =6];
+X6-> X6_1[dir=both];
+X6_2[label = "228,29,29 "   width = 1.5, group =6];
+X6_1-> X6_2[dir=both];
+X6_8[label = "228,29,29 "   width = 1.5, group =6];
+X6_2-> X6_8[dir=both];
+X6_9[label = "228,29,29 "   width = 1.5, group =6];
+X6_8-> X6_9[dir=both];
+X6_10[label = "228,29,29 "   width = 1.5, group =6];
+X6_9-> X6_10[dir=both];
+X7[label = "C7 "   width = 1.5 style = filled, group =7];
+X7-> X8[dir=both];
+{ rank = same; Terminal; X7 }
+X7_1[label = "228,29,29 "   width = 1.5, group =7];
+X7-> X7_1[dir=both];
+X7_2[label = "228,29,29 "   width = 1.5, group =7];
+X7_1-> X7_2[dir=both];
+X8[label = "C8 "   width = 1.5 style = filled, group =8];
+X8-> X9[dir=both];
+{ rank = same; Terminal; X8 }
+X8_1[label = "228,29,29 "   width = 1.5, group =8];
+X8-> X8_1[dir=both];
+X8_2[label = "228,29,29 "   width = 1.5, group =8];
+X8_1-> X8_2[dir=both];
+X8_8[label = "228,29,29 "   width = 1.5, group =8];
+X8_2-> X8_8[dir=both];
+X8_9[label = "228,29,29 "   width = 1.5, group =8];
+X8_8-> X8_9[dir=both];
+X9[label = "C9 "   width = 1.5 style = filled, group =9];
+X9-> X10[dir=both];
+{ rank = same; Terminal; X9 }
+X9_1[label = "228,29,29 "   width = 1.5, group =9];
+X9-> X9_1[dir=both];
+X9_2[label = "228,29,29 "   width = 1.5, group =9];
+X9_1-> X9_2[dir=both];
+X9_8[label = "228,29,29 "   width = 1.5, group =9];
+X9_2-> X9_8[dir=both];
+X9_9[label = "228,29,29 "   width = 1.5, group =9];
+X9_8-> X9_9[dir=both];
+X10[label = "C10 "   width = 1.5 style = filled, group =10];
+X10-> X11[dir=both];
+{ rank = same; Terminal; X10 }
+X10_1[label = "228,29,29 "   width = 1.5, group =10];
+X10-> X10_1[dir=both];
+X10_2[label = "228,29,29 "   width = 1.5, group =10];
+X10_1-> X10_2[dir=both];
+X10_8[label = "228,29,29 "   width = 1.5, group =10];
+X10_2-> X10_8[dir=both];
+X11[label = "C11 "   width = 1.5 style = filled, group =11];
+X11-> X12[dir=both];
+{ rank = same; Terminal; X11 }
+X11_2[label = "228,29,29 "   width = 1.5, group =11];
+X11-> X11_2[dir=both];
+X11_8[label = "228,29,29 "   width = 1.5, group =11];
+X11_2-> X11_8[dir=both];
+X11_9[label = "228,29,29 "   width = 1.5, group =11];
+X11_8-> X11_9[dir=both];
+X11_10[label = "228,29,29 "   width = 1.5, group =11];
+X11_9-> X11_10[dir=both];
+X12[label = "C12 "   width = 1.5 style = filled, group =12];
+X12-> X13[dir=both];
+{ rank = same; Terminal; X12 }
+X12_2[label = "228,29,29 "   width = 1.5, group =12];
+X12-> X12_2[dir=both];
+X12_9[label = "228,29,29 "   width = 1.5, group =12];
+X12_2-> X12_9[dir=both];
+X12_10[label = "228,29,29 "   width = 1.5, group =12];
+X12_9-> X12_10[dir=both];
+X12_11[label = "228,29,29 "   width = 1.5, group =12];
+X12_10-> X12_11[dir=both];
+X13[label = "C13 "   width = 1.5 style = filled, group =13];
+X13-> X14[dir=both];
+{ rank = same; Terminal; X13 }
+X13_2[label = "228,29,29 "   width = 1.5, group =13];
+X13-> X13_2[dir=both];
+X13_9[label = "228,29,29 "   width = 1.5, group =13];
+X13_2-> X13_9[dir=both];
+X13_10[label = "228,29,29 "   width = 1.5, group =13];
+X13_9-> X13_10[dir=both];
+X14[label = "C14 "   width = 1.5 style = filled, group =14];
+X14-> X16[dir=both];
+{ rank = same; Terminal; X14 }
+X14_2[label = "228,29,29 "   width = 1.5, group =14];
+X14-> X14_2[dir=both];
+X14_9[label = "228,29,29 "   width = 1.5, group =14];
+X14_2-> X14_9[dir=both];
+X14_10[label = "228,29,29 "   width = 1.5, group =14];
+X14_9-> X14_10[dir=both];
+X16[label = "C16 "   width = 1.5 style = filled, group =16];
+{ rank = same; Terminal; X16 }
+X16_1[label = "0,29,29 "   width = 1.5, group =16];
+X16-> X16_1[dir=both];
+}
