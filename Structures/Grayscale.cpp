@@ -63,14 +63,7 @@ void Grayscale::AdDGRAYSCALEBetween(GrayNode *&Node) {
     while (Aux->Id < Node->Id) {
         Aux = Aux->NextGray;
 
-    }/*
-    Aux = Aux->NextGray;
-    Aux2 = Aux->NextGray;
-    Aux2->PreviuosLinearize = Node;
-    Aux->NextGray = Node;
-    Node->PreviuosLinearize = Aux;
-    Node->NextGray = Aux2;
-    */
+    }
     Aux2 = Aux->PreviuosGray;
     Aux2->NextGray = Node;
     Aux->PreviuosGray= Node;
@@ -149,6 +142,18 @@ string Grayscale::Css(string css, int WidthC, int HeightC, int WidthP, int Heigh
                                                                                "  float: left;    /* Everytime it fills the canvas div it will begin a new line */\n"
                                                                                "  box-shadow: 0px 0px 1px #fff;  /* Leave commented, showing the pixel boxes */\n"
                                                                                "} \n";
+    while (Aux != NULL) {
+        //css += Agrupar(Aux->ColorHexa);
+        css += ".pixel:nth-child("+to_string(Aux->Id)+"){\n";
+        css += "background:"+Aux->ColorHexa+";} \n";
+        Aux = Aux->NextGray;
+    }
+    return css;
+}
+
+string Grayscale::MandarCSS() {
+    GrayNode *Aux = FirstNode;
+    string css ="";
     while (Aux != NULL) {
         //css += Agrupar(Aux->ColorHexa);
         css += ".pixel:nth-child("+to_string(Aux->Id)+"){\n";
