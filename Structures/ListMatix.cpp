@@ -15,8 +15,6 @@
 using namespace std;
 
 string Dot = "";
-CompleteM *Completa;
-CompleteMatrix MatrizCompleta;
 int Contador852 = 1;
 LinearizeMatrix LinealizarMatriz;
 
@@ -112,10 +110,6 @@ void ListMatix::PrintList() {
     }
 }
 
-void ListMatix::AgregarMatrixCompleta() {
-    MatrizCompleta.AddMatrixC(1);
-}
-
 void ListMatix::ADDMatrix() {
     MatrixList *Aux741 = FirstMatrixList;
     while (Aux741 != NULL) {
@@ -160,10 +154,12 @@ void ListMatix::DesEncapar(MatrixList *&Node) {
         if (Col != "") {
             Node->PunteroMatrixB.AddMatrixC(Columna, Fila, ColorR, ColorG, ColorB);
             //cout << "Col:" + Col + " Fil: " + Fil + " R: " + R + " G: " + G + " B: " + B + "\n";
-            LinealizarMatriz.AddLinearize(Pixel,Columna,Fila,ColorR,ColorG,ColorB);
+            //LinealizarMatriz.AddLinearize(Pixel,Columna,Fila,ColorR,ColorG,ColorB);
+            Node->Linalizador.AddLinearize(Pixel,Columna,Fila,ColorR,ColorG,ColorB);
            //cout << "/////////****************Linealizar \n";
            // cout << "Id: " + to_string(Pixel) + " Col:" + to_string(Columna) + " Fil: " + to_string(Fila) + " R: " + to_string(ColorR) + " G: " + to_string(ColorG) + " B: " +
            //         to_string(ColorB) + "\n";
+
         }
 
     }
@@ -171,7 +167,6 @@ void ListMatix::DesEncapar(MatrixList *&Node) {
 
 MatrixList *ListMatix::MandarAGraficar(int Id) {
     MatrixList *Aux = FirstMatrixList;
-
     while (Aux != NULL) {
         if (Aux->Id == Id) {
             return Aux;
@@ -196,6 +191,32 @@ void ListMatix::GraphCapas(int Id) {
     system(command);
 }
 
+void ListMatix::GraficarMatizCompleta() {
+
+    string a ="";
+    ofstream fd4("Completa.dot");
+    //a += Temp->PunteroMatrix.Dot3(a);
+    a += GCompleta();
+    fd4 << a;
+    cout<<a;
+    fd4.flush();
+    fd4.close();
+    cout << " GENERANDO IMAGEN Capa \n";
+    string ab = "dot -Tpng Completa.dot -o Completa.png";
+    const char *command = ab.c_str();
+    system(command);
+}
+
+string ListMatix::GCompleta() {
+    MatrixList * Aux = FirstMatrixList;
+    string a="" ;
+    while(Aux != NULL){
+        a += Aux->PunteroMatrixB.DotMatirx2C(a);
+        Aux = Aux->NextMatrix;
+    }
+    return a;
+}
+
 void ListMatix::MostarCapas() {
     MatrixList *Aux = FirstMatrixList;
     while (Aux != NULL) {
@@ -205,34 +226,550 @@ void ListMatix::MostarCapas() {
 }
 
 
-void ListMatix::GraficarMatizCompleta() {
-    MatrizCompleta.PrintList();
-    CompleteM *Aux = MatrizCompleta.MandarCompleta(1);
-    string a = "";
-    ofstream fd4("MatrizCompleta.dot");
-    a += Aux->PunteroMatriz.Dot3(a);
-    fd4 << a;
-    fd4.flush();
-    fd4.close();
-    cout << " GENERANDO IMAGEN Matriz \n";
-    system("dot -Tpng MatrizCompleta.dot -o MatrizCompleta.png");
-}
-
 void ListMatix::GraficarLFilas() {
     cout << "///************Matriz Linealizada******** \n";
     LinealizarMatriz.PrintList();
 }
 
-void ListMatix::MandarHtml() {
-    LinealizarMatriz.CreateHTML();
+void ListMatix::IntentoMandarHtml1(string name, int tamanio) {
+    string a = "";
+    string nombre = name+".html";
+    ofstream fd4(nombre);
+    a += IntentoMandarHtml2(a,name,tamanio);
+    fd4 << a;
+    fd4.flush();
+    fd4.close();
 }
-void ListMatix::MandarCSS(int WidthC, int HeightC, int WidthP, int HeightP) {
-    LinealizarMatriz.CreateCSS(WidthC,HeightC,WidthP,HeightP);
+
+string ListMatix::IntentoMandarHtml2(string html, string nombre, int tamanio) {
+    html += "<!DOCTYPE html > \n";
+    html += "<html> \n";
+    html += "<head> \n";
+    html += "<link rel=\"stylesheet\" href=\""+nombre+".css\"> \n";
+    html += "</head> \n <body> \n";
+    html += "<div class=\"canvas\"> \n";
+    html += IntentoMandarHtml();
+    html += "</div>\n";
+    html += "</body> \n";
+    html += "</html> \n";
+    return html;
 }
+
+string ListMatix::IntentoMandarHtml() {
+    MatrixList *Aux = FirstMatrixList;
+    string temp ="";
+    temp += Aux->Linalizador.H1();
+    return temp;
+}
+
+void ListMatix::IntentoMandarCSS1(int WidthC, int HeightC, int WidthP, int HeightP,string name) {
+    string a = "";
+    string nombre1 = name+".css";
+    ofstream fd4(nombre1);
+    a += IntentoMandarCSS2(a, WidthC, HeightC, WidthP, HeightP);
+    fd4 << a;
+    fd4.flush();
+    fd4.close();
+}
+
+string ListMatix::IntentoMandarCSS2(string css,int WidthC, int HeightC, int WidthP, int HeightP) {
+    int TCanvasW = WidthP * WidthC;
+    int TConvasH = HeightP * HeightC;
+    css += "body {\n"
+           "  background: #333333;      /* Background color of the whole page */\n"
+           "  height: 100vh;            /* 100 viewport heigh units */\n"
+           "  display: flex;            /* defines a flex container */\n"
+           "  justify-content: center;  /* centers the canvas horizontally */\n"
+           "  align-items: center;      /* centers the canvas vertically */\n"
+           "} \n";
+
+    css += ".canvas {\n"
+           "  width:" + to_string(TCanvasW) + "px;   /* Width of the canvas */\n"
+                                              "  height:" + to_string(TConvasH) + "px;  /* Height of the canvas */\n"
+                                                                                  "} \n";
+    css += ".pixel {\n"
+           "  width:" + to_string(WidthP) + "px;    /* Width of each pixel */\n"
+                                            "  height:" + to_string(HeightP) + "px;   /* Height of each pixel */\n"
+                                                                               "  float: left;    /* Everytime it fills the canvas div it will begin a new line */\n"
+                                                                               "  box-shadow: 0px 0px 1px #fff;  /* Leave commented, showing the pixel boxes */\n"
+                                                                               "} \n";
+    css += IntentoMandarCSS();
+    return css;
+
+}
+
+string ListMatix::IntentoMandarCSS(){
+    MatrixList *Aux = FirstMatrixList;
+    string temp ="";
+    while (Aux != NULL) {
+        temp += Aux->Linalizador.C1();
+        Aux = Aux->NextMatrix;
+    }
+    return temp;
+}
+
 //***************************FILTROS COMPLETOS********************************
+
+
+//*******************************GRAYSCALE*********************************
+void ListMatix::MandarHtmGRAYSCALEl(string name, int tamanio){
+    string a = "";
+    string nombre = "N"+name+".html";
+    ofstream fd4(nombre);
+    a += MandarHtmGRAYSCALE2(a,name);
+    fd4 << a;
+    fd4.flush();
+    fd4.close();
+}
+
+string ListMatix::MandarHtmGRAYSCALE2(string html, string nombre){
+    html += "<!DOCTYPE html > \n";
+    html += "<html> \n";
+    html += "<head> \n";
+    html += "<link rel=\"stylesheet\" href=\" N"+nombre+".css\"> \n";
+    html += "</head> \n <body> \n";
+    html += "<div class=\"canvas\"> \n";
+    html += MandarHtmGRAYSCALE3();
+    html += "</div>\n";
+    html += "</body> \n";
+    html += "</html> \n";
+    return html;
+}
+
+string ListMatix::MandarHtmGRAYSCALE3() {
+    MatrixList *Aux = FirstMatrixList;
+    string temp ="";
+    temp += Aux->Linalizador.H1();
+    return temp;
+}
+
+void ListMatix::MandarCSSGRAYSCALEl(int WidthC, int HeightC, int WidthP, int HeightP,string name) {
+    string a = "";
+    string nombre1 ="N"+name+".css";
+    ofstream fd4(nombre1);
+    a += MandarCSSGRAYSCALE2(a, WidthC, HeightC, WidthP, HeightP);
+    fd4 << a;
+    fd4.flush();
+    fd4.close();
+
+}
+
+string ListMatix::MandarCSSGRAYSCALE2(string css, int WidthC, int HeightC, int WidthP, int HeightP) {
+    int TCanvasW = WidthP * WidthC;
+    int TConvasH = HeightP * HeightC;
+    css += "body {\n"
+           "  background: #333333;      /* Background color of the whole page */\n"
+           "  height: 100vh;            /* 100 viewport heigh units */\n"
+           "  display: flex;            /* defines a flex container */\n"
+           "  justify-content: center;  /* centers the canvas horizontally */\n"
+           "  align-items: center;      /* centers the canvas vertically */\n"
+           "} \n";
+
+    css += ".canvas {\n"
+           "  width:" + to_string(TCanvasW) + "px;   /* Width of the canvas */\n"
+                                              "  height:" + to_string(TConvasH) + "px;  /* Height of the canvas */\n"
+                                                                                  "} \n";
+    css += ".pixel {\n"
+           "  width:" + to_string(WidthP) + "px;    /* Width of each pixel */\n"
+                                            "  height:" + to_string(HeightP) + "px;   /* Height of each pixel */\n"
+                                                                               "  float: left;    /* Everytime it fills the canvas div it will begin a new line */\n"
+                                                                               "  box-shadow: 0px 0px 1px #fff;  /* Leave commented, showing the pixel boxes */\n"
+                                                                               "} \n";
+    css += MandarCSSGRAYSCALE3();
+    return css;
+}
+
+string ListMatix::MandarCSSGRAYSCALE3() {
+    MatrixList *Aux = FirstMatrixList;
+    string temp ="";
+    while (Aux != NULL) {
+        temp += Aux->Linalizador.TraerCSSGRAYSACLE();
+        Aux = Aux->NextMatrix;
+    }
+    return temp;
+}
+
+void ListMatix::EnviarAConvertirGRAYSCALE() {
+    MatrixList *Aux = FirstMatrixList;
+    while(Aux != NULL){
+        Aux->Linalizador.Convertir();
+        Aux = Aux->NextMatrix;
+    }
+}
+
+//****************************NEGATIVE**************************************
+
+void ListMatix::EnviarAConvertirNEGATIVE() {
+    MatrixList *Aux = FirstMatrixList;
+    while(Aux != NULL){
+        Aux->Linalizador.ConvertirNEGATIVE();
+        Aux = Aux->NextMatrix;
+    }
+}
+
+void ListMatix::MandarHTMLNEGATIVE(string name){
+    string a = "";
+    string nombre = "Neg"+name+".html";
+    ofstream fd4(nombre);
+    a += MandarHtmNEGATIVE(a,name);
+    fd4 << a;
+    fd4.flush();
+    fd4.close();
+}
+
+string ListMatix::MandarHtmNEGATIVE(string html, string nombre){
+    html += "<!DOCTYPE html > \n";
+    html += "<html> \n";
+    html += "<head> \n";
+    html += "<link rel=\"stylesheet\" href=\" Neg"+nombre+".css\"> \n";
+    html += "</head> \n <body> \n";
+    html += "<div class=\"canvas\"> \n";
+    html += MandarHtmNEGATIVE3();
+    html += "</div>\n";
+    html += "</body> \n";
+    html += "</html> \n";
+    return html;
+}
+
+string ListMatix::MandarHtmNEGATIVE3() {
+    MatrixList *Aux = FirstMatrixList;
+    string temp ="";
+    temp += Aux->Linalizador.H1();
+    return temp;
+}
+
+void ListMatix::MandarCSSNEGATIVE(int WidthC, int HeightC, int WidthP, int HeightP,string name) {
+    string a = "";
+    string nombre1 ="Neg"+name+".css";
+    ofstream fd4(nombre1);
+    a += MandarCSSNEGATIVE2(a, WidthC, HeightC, WidthP, HeightP);
+    fd4 << a;
+    fd4.flush();
+    fd4.close();
+}
+
+string ListMatix::MandarCSSNEGATIVE2(string css, int WidthC, int HeightC, int WidthP, int HeightP) {
+    int TCanvasW = WidthP * WidthC;
+    int TConvasH = HeightP * HeightC;
+    css += "body {\n"
+           "  background: #333333;      /* Background color of the whole page */\n"
+           "  height: 100vh;            /* 100 viewport heigh units */\n"
+           "  display: flex;            /* defines a flex container */\n"
+           "  justify-content: center;  /* centers the canvas horizontally */\n"
+           "  align-items: center;      /* centers the canvas vertically */\n"
+           "} \n";
+
+    css += ".canvas {\n"
+           "  width:" + to_string(TCanvasW) + "px;   /* Width of the canvas */\n"
+                                              "  height:" + to_string(TConvasH) + "px;  /* Height of the canvas */\n"
+                                                                                  "} \n";
+    css += ".pixel {\n"
+           "  width:" + to_string(WidthP) + "px;    /* Width of each pixel */\n"
+                                            "  height:" + to_string(HeightP) + "px;   /* Height of each pixel */\n"
+                                                                               "  float: left;    /* Everytime it fills the canvas div it will begin a new line */\n"
+                                                                               "  box-shadow: 0px 0px 1px #fff;  /* Leave commented, showing the pixel boxes */\n"
+                                                                               "} \n";
+    css += MandarCSSNEGATIVE3();
+    return css;
+}
+
+string ListMatix::MandarCSSNEGATIVE3() {
+    MatrixList *Aux = FirstMatrixList;
+    string temp ="";
+    while (Aux != NULL) {
+        temp += Aux->Linalizador.MandarAtraerNegativos();
+        Aux = Aux->NextMatrix;
+    }
+    return temp;
+}
+
+void ListMatix::SentToGraph() {
+    MatrixList *Aux = FirstMatrixList;
+    while(Aux != NULL){
+        Aux->Linalizador.ConvertirNEGATIVE();
+        Aux = Aux->NextMatrix;
+    }
+}
+//************************ROTACION Y************************************
+
+void ListMatix::EnviarAConvertirROTACIONY(int WidthC, int HeightC) {
+    MatrixList *Aux = FirstMatrixList;
+    while(Aux != NULL){
+        Aux->Linalizador.ChangeId(WidthC, HeightC);
+        Aux = Aux->NextMatrix;
+    }
+}
+
+void ListMatix::MandarHTMLROTACIONY(string name){
+    string a = "";
+    string nombre = "RY"+name+".html";
+    ofstream fd4(nombre);
+    a += MandarHtMLROTACIONY2(a,name);
+    fd4 << a;
+    fd4.flush();
+    fd4.close();
+}
+
+string ListMatix::MandarHtMLROTACIONY2(string html, string nombre){
+    html += "<!DOCTYPE html > \n";
+    html += "<html> \n";
+    html += "<head> \n";
+    html += "<link rel=\"stylesheet\" href=\" RY"+nombre+".css\"> \n";
+    html += "</head> \n <body> \n";
+    html += "<div class=\"canvas\"> \n";
+    html += MandarHtmROTACIONY3();
+    html += "</div>\n";
+    html += "</body> \n";
+    html += "</html> \n";
+    return html;
+}
+
+string ListMatix::MandarHtmROTACIONY3() {
+    MatrixList *Aux = FirstMatrixList;
+    string temp ="";
+    temp += Aux->Linalizador.H1();
+    return temp;
+}
+
+void ListMatix::MandarCSSROTACIONY(int WidthC, int HeightC, int WidthP, int HeightP,string name) {
+    string a = "";
+    string nombre1 ="RY"+name+".css";
+    ofstream fd4(nombre1);
+    a += MandarCSSROTACIONY2(a, WidthC, HeightC, WidthP, HeightP);
+    fd4 << a;
+    fd4.flush();
+    fd4.close();
+}
+
+string ListMatix::MandarCSSROTACIONY2(string css, int WidthC, int HeightC, int WidthP, int HeightP) {
+    int TCanvasW = WidthP * WidthC;
+    int TConvasH = HeightP * HeightC;
+    css += "body {\n"
+           "  background: #333333;      /* Background color of the whole page */\n"
+           "  height: 100vh;            /* 100 viewport heigh units */\n"
+           "  display: flex;            /* defines a flex container */\n"
+           "  justify-content: center;  /* centers the canvas horizontally */\n"
+           "  align-items: center;      /* centers the canvas vertically */\n"
+           "} \n";
+
+    css += ".canvas {\n"
+           "  width:" + to_string(TCanvasW) + "px;   /* Width of the canvas */\n"
+                                              "  height:" + to_string(TConvasH) + "px;  /* Height of the canvas */\n"
+                                                                                  "} \n";
+    css += ".pixel {\n"
+           "  width:" + to_string(WidthP) + "px;    /* Width of each pixel */\n"
+                                            "  height:" + to_string(HeightP) + "px;   /* Height of each pixel */\n"
+                                                                               "  float: left;    /* Everytime it fills the canvas div it will begin a new line */\n"
+                                                                               "  box-shadow: 0px 0px 1px #fff;  /* Leave commented, showing the pixel boxes */\n"
+                                                                               "} \n";
+    css += MandarCSSROTACIONY3();
+    return css;
+}
+
+string ListMatix::MandarCSSROTACIONY3() {
+    MatrixList *Aux = FirstMatrixList;
+    string temp ="";
+    while (Aux != NULL) {
+        temp += Aux->Linalizador.MandarAtraerRotacionY();
+        Aux = Aux->NextMatrix;
+    }
+    return temp;
+}
+
+
+//*************************ROTACIONES X ******************************
+
+void ListMatix::EnviarAConvertirROTACIONESX(int WidthC, int HeightC) {
+    MatrixList *Aux = FirstMatrixList;
+    while(Aux != NULL){
+        Aux->Linalizador.ChangeIdx(WidthC, HeightC);
+        Aux = Aux->NextMatrix;
+    }
+}
+
+//*************************POR CAPAS *************************************
+//*******************GRAYSCALE**********
+
+void ListMatix::MandarGRAYCAPA(int Id) {
+    MatrixList *Temp = MandarAGraficar(Id);
+    Temp->Linalizador.Convertir();
+}
+
+string VariableCapa ="";
+
+string ListMatix::MandarCSSGrayCApa(int Id) {
+    MatrixList *Temp = MandarAGraficar(Id);
+    string a = Temp->Linalizador.TraerCSSGRAYSACLE();
+    VariableCapa = a;
+    return  VariableCapa;
+}
+
+void ListMatix::MandarHtmGRAYSCALElCAPA(string name){
+    string a = "";
+    string nombre = "GC"+name+".html";
+    ofstream fd4(nombre);
+    a += MandarHtmGRAYSCALE2CAPA(a,name);
+    fd4 << a;
+    fd4.flush();
+    fd4.close();
+}
+
+string ListMatix::MandarHtmGRAYSCALE2CAPA(string html, string nombre){
+    html += "<!DOCTYPE html > \n";
+    html += "<html> \n";
+    html += "<head> \n";
+    html += "<link rel=\"stylesheet\" href=\" GC"+nombre+".css\"> \n";
+    html += "</head> \n <body> \n";
+    html += "<div class=\"canvas\"> \n";
+    html += MandarHtmGRAYSCALE3CAPA();
+    html += "</div>\n";
+    html += "</body> \n";
+    html += "</html> \n";
+    return html;
+}
+
+string ListMatix::MandarHtmGRAYSCALE3CAPA() {
+    MatrixList *Aux = FirstMatrixList;
+    string temp ="";
+    temp += Aux->Linalizador.H1();
+    return temp;
+}
+
+void ListMatix::MandarCSSGRAYSCALElCAPA(int WidthC, int HeightC, int WidthP, int HeightP,string name) {
+    string a = "";
+    string nombre1 ="GC"+name+".css";
+    ofstream fd4(nombre1);
+    a += MandarCSSGRAYSCALE2CAPA(a, WidthC, HeightC, WidthP, HeightP);
+    fd4 << a;
+    fd4.flush();
+    fd4.close();
+}
+
+string ListMatix::MandarCSSGRAYSCALE2CAPA(string css, int WidthC, int HeightC, int WidthP, int HeightP) {
+    int TCanvasW = WidthP * WidthC;
+    int TConvasH = HeightP * HeightC;
+    css += "body {\n"
+           "  background: #333333;      /* Background color of the whole page */\n"
+           "  height: 100vh;            /* 100 viewport heigh units */\n"
+           "  display: flex;            /* defines a flex container */\n"
+           "  justify-content: center;  /* centers the canvas horizontally */\n"
+           "  align-items: center;      /* centers the canvas vertically */\n"
+           "} \n";
+
+    css += ".canvas {\n"
+           "  width:" + to_string(TCanvasW) + "px;   /* Width of the canvas */\n"
+                                              "  height:" + to_string(TConvasH) + "px;  /* Height of the canvas */\n"
+                                                                                  "} \n";
+    css += ".pixel {\n"
+           "  width:" + to_string(WidthP) + "px;    /* Width of each pixel */\n"
+                                            "  height:" + to_string(HeightP) + "px;   /* Height of each pixel */\n"
+                                                                               "  float: left;    /* Everytime it fills the canvas div it will begin a new line */\n"
+                                                                               "  box-shadow: 0px 0px 1px #fff;  /* Leave commented, showing the pixel boxes */\n"
+                                                                               "} \n";
+    css += IntentoMandarCSS();
+
+    css += VariableCapa;
+    return css;
+}
+
+//**********************NEGATIVE****************************
+
+string VariableCapaNegative ="";
+
+void ListMatix::MandarNEGATIVECAPA(int Id) {
+    MatrixList *Temp = MandarAGraficar(Id);
+    Temp->Linalizador.ConvertirNEGATIVE();
+}
+
+string ListMatix::MandarCSSNEGATIVECApa(int Id) {
+    MatrixList *Temp = MandarAGraficar(Id);
+    string a = Temp->Linalizador.MandarAtraerNegativos();
+    VariableCapaNegative = a;
+    return  VariableCapaNegative;
+}
+
+void ListMatix::MandarHtmNEGATIVElCAPA(string name){
+    string a = "";
+    string nombre = "NC"+name+".html";
+    ofstream fd4(nombre);
+    a += MandarHtmNEGATIVE2CAPA(a,name);
+    fd4 << a;
+    fd4.flush();
+    fd4.close();
+}
+
+string ListMatix::MandarHtmNEGATIVE2CAPA(string html, string nombre){
+    html += "<!DOCTYPE html > \n";
+    html += "<html> \n";
+    html += "<head> \n";
+    html += "<link rel=\"stylesheet\" href=\" NC"+nombre+".css\"> \n";
+    html += "</head> \n <body> \n";
+    html += "<div class=\"canvas\"> \n";
+    html += MandarHtmNEGATICE3CAPA();
+    html += "</div>\n";
+    html += "</body> \n";
+    html += "</html> \n";
+    return html;
+}
+
+string ListMatix::MandarHtmNEGATICE3CAPA() {
+    MatrixList *Aux = FirstMatrixList;
+    string temp ="";
+    temp += Aux->Linalizador.H1();
+    return temp;
+}
+
+void ListMatix::MandarCSSNEGATIVECAPA(int WidthC, int HeightC, int WidthP, int HeightP,string name) {
+    string a = "";
+    string nombre1 ="NC"+name+".css";
+    ofstream fd4(nombre1);
+    a += MandarCSSNEGATIVE2CAPA(a, WidthC, HeightC, WidthP, HeightP);
+    fd4 << a;
+    fd4.flush();
+    fd4.close();
+}
+
+string ListMatix::MandarCSSNEGATIVE2CAPA(string css, int WidthC, int HeightC, int WidthP, int HeightP) {
+    int TCanvasW = WidthP * WidthC;
+    int TConvasH = HeightP * HeightC;
+    css += "body {\n"
+           "  background: #333333;      /* Background color of the whole page */\n"
+           "  height: 100vh;            /* 100 viewport heigh units */\n"
+           "  display: flex;            /* defines a flex container */\n"
+           "  justify-content: center;  /* centers the canvas horizontally */\n"
+           "  align-items: center;      /* centers the canvas vertically */\n"
+           "} \n";
+
+    css += ".canvas {\n"
+           "  width:" + to_string(TCanvasW) + "px;   /* Width of the canvas */\n"
+                                              "  height:" + to_string(TConvasH) + "px;  /* Height of the canvas */\n"
+                                                                                  "} \n";
+    css += ".pixel {\n"
+           "  width:" + to_string(WidthP) + "px;    /* Width of each pixel */\n"
+                                            "  height:" + to_string(HeightP) + "px;   /* Height of each pixel */\n"
+                                                                               "  float: left;    /* Everytime it fills the canvas div it will begin a new line */\n"
+                                                                               "  box-shadow: 0px 0px 1px #fff;  /* Leave commented, showing the pixel boxes */\n"
+                                                                               "} \n";
+    css += IntentoMandarCSS();
+
+    css += VariableCapaNegative;
+    return css;
+
+}
+
+
+
+
+
+
+
 void ListMatix::MandarTamanio(int WidthM, int HeightM) {
     LinealizarMatriz.Tamanio(WidthM,HeightM);
 }
+/*
+
+
+
 
 void ListMatix::MandarHtmGRAYSCALEl() {
     LinealizarMatriz.Convertir();
@@ -250,7 +787,7 @@ void ListMatix::MandarCSSNEGATIVE(int WidthC, int HeightC, int WidthP, int Heigh
     LinealizarMatriz.CreateCSSNEGATIVE(WidthC,HeightC,WidthP,HeightP);
 }
 
-//******************FILTROS CAPAS **********************////////////////
+
 
 void ListMatix::GrayscapeCapas(int Id) {
     MatrixList *Temp = MandarAGraficar(Id);
@@ -282,3 +819,20 @@ void ListMatix::NegativeCapas(int Id) {
     const char *command = ab.c_str();
     system(command);
 }
+
+
+
+void ListMatix::MandarRotacionY() {
+    LinealizarMatriz.AgregarRotacionY();
+}
+void ListMatix::CreatHTMLRY() {
+    LinealizarMatriz.CreateHTMLROTATIONY();
+}
+void ListMatix::CSSRY(int WidthC, int HeightC, int WidthP, int HeightP) {
+    LinealizarMatriz.CreateCSSROTATIONY(WidthC,HeightC,WidthP,WidthP);
+}
+
+void ListMatix::EnviarTRotacionY(int WidthM, int HeightM) {
+    LinealizarMatriz.EnviarTamanioRotacionY(WidthM , HeightM);
+}
+*/
