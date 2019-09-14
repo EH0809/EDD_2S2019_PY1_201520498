@@ -142,3 +142,23 @@ string Negative::Css(string css, int WidthC, int HeightC, int WidthP, int Height
     }
     return css;
 }
+
+
+string Negative::MandarCSSNEgativo() {
+    NegativeNode *Aux = FirstNode;
+    string css ="";
+    while (Aux != NULL) {
+        css += ".pixel:nth-child("+to_string(Aux->Id)+"){\n";
+        css += "background:"+Aux->ColorHexa+";} \n";
+        Aux = Aux->NextGray;
+    }
+    return css;
+}
+
+void Negative::MandarMatrix(int Col, int Fil, int ColorR, int ColorG, int ColorB) {
+    NegativeMatrix.AddMatrixC(Col,Fil,ColorR,ColorG,ColorB);
+}
+
+void Negative::GraphMatrix() {
+    NegativeMatrix.GraficarMatrixC();
+}
