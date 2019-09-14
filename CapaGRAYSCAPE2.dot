@@ -1,0 +1,55 @@
+digraph Sparse_Matrix{
+node [shape=box]
+graph[nodesep = 0.5];
+Terminal [ label = "Matrix", width = 1.5, style = filled, group = 0 ];
+e0[ shape = point, width = 0 ]
+e1[ shape = point, width = 0 ]
+Terminal -> Y1 [dir=both];
+Y1[label = "F1 "   width = 1.5 style = filled, group =0];
+Y1-> Y1[dir=both];
+Y1-> X5_1[dir=both];
+{ rank = same; Y1; X5_1 }
+Y1[label = "F1 "   width = 1.5 style = filled, group =0];
+Y1-> Y5[dir=both];
+Y1-> X1_1[dir=both];
+{ rank = same; Y1; X1_1 }
+Y5[label = "F5 "   width = 1.5 style = filled, group =0];
+Y5-> Y5[dir=both];
+Y5-> X5_5[dir=both];
+{ rank = same; Y5; X5_5 }
+Y5[label = "F5 "   width = 1.5 style = filled, group =0];
+Y5-> Y5[dir=both];
+Y5-> X3_5[dir=both];
+{ rank = same; Y5; X3_5 }
+Y5[label = "F5 "   width = 1.5 style = filled, group =0];
+Y5-> Y6[dir=both];
+Y5-> X2_5[dir=both];
+{ rank = same; Y5; X2_5 }
+Y6[label = "F6 "   width = 1.5 style = filled,group =0];
+Y6-> X2_6[dir=both];
+{ rank = same; Y6; X2_6 }
+Terminal -> X1 [dir=both];
+X1[label = "C1 "   width = 1.5 style = filled, group =1];
+X1-> X2[dir=both];
+{ rank = same; Terminal; X1 }
+X1_1[label = "104,104,104 "   width = 1.5, group =1];
+X1-> X1_1[dir=both];
+X2[label = "C2 "   width = 1.5 style = filled, group =2];
+X2-> X3[dir=both];
+{ rank = same; Terminal; X2 }
+X2_5[label = "104,104,104 "   width = 1.5, group =2];
+X2-> X2_5[dir=both];
+X2_6[label = "104,104,104 "   width = 1.5, group =2];
+X2_5-> X2_6[dir=both];
+X3[label = "C3 "   width = 1.5 style = filled, group =3];
+X3-> X5[dir=both];
+{ rank = same; Terminal; X3 }
+X3_5[label = "104,104,104 "   width = 1.5, group =3];
+X3-> X3_5[dir=both];
+X5[label = "C5 "   width = 1.5 style = filled, group =5];
+{ rank = same; Terminal; X5 }
+X5_1[label = "104,104,104 "   width = 1.5, group =5];
+X5-> X5_1[dir=both];
+X5_5[label = "104,104,104 "   width = 1.5, group =5];
+X5_1-> X5_5[dir=both];
+}
