@@ -248,17 +248,16 @@ void BinaryTree::PrintNode() {
 void BinaryTree::PrintNode2(NodeBB *&Tree) {
     if (Tree != NULL) {
         PrintNode2(Tree->SonLeft);
-        cout << std::to_string(Contador) + " " + Tree->Name + "\n";
+        cout <<  Tree->Name + "\n";
         Contador++;
         InsertListNode(Contador, Tree->Name);
         PrintNode2(Tree->SonRight);
     }
 }
 
-string BinaryTree::SentFor(string Name) {
-
+NodeBB * BinaryTree::SentFor(string Name) {
     NodeBB *Temp = SentFor2(ATree, Name);
-    return Temp->Name;
+    return Temp;
 }
 
 NodeBB *Aux = NULL;
@@ -303,6 +302,28 @@ void BinaryTree::SelectList(int id) {
         if (AuxL->Id == id) {
             cout << "Se Encontron " + AuxL->Name + " \n";
             User = AuxL->Name;
+        }
+        AuxL = AuxL->NextNodeBB;
+    }
+}
+
+ListaNodeBB *BinaryTree::SelectL(int id) {
+    ListaNodeBB *AuxL = HeadList;
+    while (AuxL != NULL) {
+        if (AuxL->Id == id) {
+            cout << "Se Encontron " + AuxL->Name + " \n";
+            return AuxL;
+        }
+        AuxL = AuxL->NextNodeBB;
+    }
+}
+
+ListaNodeBB *BinaryTree::SelectL2(string Name) {
+    ListaNodeBB *AuxL = HeadList;
+    while (AuxL != NULL) {
+        if (AuxL->Name == Name) {
+            cout << "Se Encontron " + AuxL->Name + " \n";
+            return AuxL;
         }
         AuxL = AuxL->NextNodeBB;
     }
