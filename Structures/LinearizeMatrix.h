@@ -7,6 +7,9 @@
 #include "iostream"
 #include "Grayscale.h"
 #include "Negative.h"
+#include "LinearizeMatrix.h"
+#include "RotacionY.h"
+#include "RotacionX.h"
 
 using namespace std;
 struct Linearize{
@@ -17,14 +20,18 @@ struct Linearize{
     int ColorG;
     int ColorB;
     string ColorHexa;
+    Grayscale GNode;
+    Negative NNode;
+    RotacionY RNode;
+    RotacionX RNodeX;
     Linearize *NextLinearize;
     Linearize *PreviuosLinearize;
+
 };
 
 class LinearizeMatrix {
 public:
-    Grayscale GNode;
-    Negative NNode;
+
     Linearize *FirstLinearize = NULL;
     Linearize *EndLinearize = NULL;
     bool IsEmptyP();
@@ -37,13 +44,16 @@ public:
     Linearize *SearchHeader(int Pixel);
     bool IsMatrix(int Pixel);
     void Tamanio(int WidthM, int HeightM);
-    void CreateHTML();
-    void CreateCSS(int WidthC, int HeightC,int WidthP, int HeightP);
-    string Html(string html);
+    void CreateHTML(string name);
+    void CreateCSS(int WidthC, int HeightC,int WidthP, int HeightP, string name);
+    string Html(string html, string name);
     string Css(string css,int WidthC, int HeightC,int WidthP, int HeightP);
     void EnviarConvertir();
     string  ConvertirAHexa(int ColorR, int ColorG,int ColorB, bool Con);
     string Agrupar(string ColorHexa);
+
+    string H1();
+    string C1();
 
 
     //******************GRAYSCALE************************************//
@@ -55,13 +65,24 @@ public:
     string HtmlGRAYSCALE(string html);
     string CssGRAYSCALE(string css,int WidthC, int HeightC,int WidthP, int HeightP);
     string Conversor(int ColorR, int ColorG, int ColorB);
-
+    string TraerCSSGRAYSACLE();
     //******************NEGATIVE****************************/
     void ConvertirNEGATIVE();
     void NEGATIVES(Linearize *& Node);
-    void MandarTamanioNEGATIVE(int WidthC, int HeightC,int WidthP, int HeightP);
-    void CreateHTMLNEGATIVE();
-    void CreateCSSNEGATIVE(int WidthC, int HeightC,int WidthP, int HeightP);
+    string MandarAtraerNegativos();
+    void SentGraph();
+    //***************ROTACION Y******************************/
+   void ChangeId(int WidthC, int HeightC);
+    void ChangeId2(Linearize *&Node, int WidthC, int HeightC);
+    void MostrarChange();
+    string MandarAtraerRotacionY();
+
+    //**************ROTACION X********************************
+    void ChangeIdx(int WidthC, int HeightC);
+    void ChangeId2x(Linearize *&Node, int WidthC, int HeightC);
+    string MandarAtraerRotacionX();
+
+
 
 
 };
