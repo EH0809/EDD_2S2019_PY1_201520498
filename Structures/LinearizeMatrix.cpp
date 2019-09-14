@@ -25,7 +25,7 @@ Linearize *LinearizeMatrix::Create_Node(int Id, int Col, int Fil, int ColorR, in
 
 void LinearizeMatrix::AddLinearize(int Id, int Col, int Fil, int ColorR, int ColorG, int ColorB) {
     string ColorHexa = ConvertirAHexa(ColorR,ColorG,ColorB,true);
-   // string ColorHexa = Conversor(ColorR,ColorG,ColorB);
+    //string ColorHexa = Conversor(ColorR,ColorG,ColorB);
     Linearize *New_Nodo = Create_Node(Id, Col, Fil, ColorR, ColorG, ColorB, ColorHexa);
     if (IsEmptyP()) {
         FirstLinearize = EndLinearize = New_Nodo;
@@ -58,14 +58,7 @@ void LinearizeMatrix::AddLinearizeBetween(Linearize *&Node) {
     while (Aux->Id < Node->Id) {
         Aux = Aux->NextLinearize;
 
-    }/*
-    Aux = Aux->NextLinearize;
-    Aux2 = Aux->NextLinearize;
-    Aux2->PreviuosLinearize = Node;
-    Aux->NextLinearize = Node;
-    Node->PreviuosLinearize = Aux;
-    Node->NextLinearize = Aux2;
-    */
+    }
     Aux2 = Aux->PreviuosLinearize;
     Aux2->NextLinearize = Node;
     Aux->PreviuosLinearize = Node;
@@ -120,29 +113,31 @@ void LinearizeMatrix::Tamanio(int WidthM, int HeightM) {
     Tama = j;
 }
 
-void LinearizeMatrix::CreateHTML() {
+void LinearizeMatrix::CreateHTML(string name) {
     string a = "";
-    ofstream fd4("Imagen.html");
-    a += Html(a);
+    string nombre = name+".html";
+    ofstream fd4(nombre);
+    a += Html(a,name);
     fd4 << a;
     fd4.flush();
     fd4.close();
 }
 
-void LinearizeMatrix::CreateCSS(int WidthC, int HeightC, int WidthP, int HeightP) {
+void LinearizeMatrix::CreateCSS(int WidthC, int HeightC, int WidthP, int HeightP, string name) {
     string a = "";
-    ofstream fd4("Css.css");
+    string nombre = name+".css";
+    ofstream fd4(nombre);
     a += Css(a, WidthC, HeightC, WidthP, HeightP);
     fd4 << a;
     fd4.flush();
     fd4.close();
 }
 
-string LinearizeMatrix::Html(string html) {
+string LinearizeMatrix::Html(string html, string nombre) {
     html += "<!DOCTYPE html > \n";
     html += "<html> \n";
     html += "<head> \n";
-    html += "<link rel=\"stylesheet\" href=\"Css.css\"> \n";
+    html += "<link rel=\"stylesheet\" href=\""+nombre+".css\"> \n";
     html += "</head> \n <body> \n";
     html += "<div class=\"canvas\"> \n";
     int tam = Tama;
@@ -155,6 +150,14 @@ string LinearizeMatrix::Html(string html) {
     html += "</html> \n";
     return html;
 }
+string LinearizeMatrix::H1() {
+    string html ="";
+    for (int i = 1; i <= Tama; i++) {
+        html += "<div class=\"pixel\"></div> \n";
+    }
+    return  html;
+}
+
 
 string LinearizeMatrix::Css(string css, int WidthC, int HeightC, int WidthP, int HeightP) {
     int TCanvasW = WidthP * WidthC;
@@ -197,6 +200,19 @@ string LinearizeMatrix::ConvertirAHexa(int ColorR, int ColorG, int ColorB, bool 
 
 }
 
+string LinearizeMatrix::C1() {
+    string temp ="";
+    Linearize *Aux = FirstLinearize;
+    while (Aux != NULL) {
+        //css += Agrupar(Aux->ColorHexa);
+        temp += ".pixel:nth-child("+to_string(Aux->Id)+"){\n";
+        temp += "background:"+Aux->ColorHexa+";} \n";
+        Aux = Aux->NextLinearize;
+    }
+    return temp;
+}
+
+
 //***************************GRAYSCALE*********************////
 void LinearizeMatrix::Convertir() {
     Linearize *LNew = FirstLinearize;
@@ -215,15 +231,17 @@ void LinearizeMatrix::GrayS(Linearize *& Node) {
     int B =  (255-Node->ColorB);
      */
     string Hexa = ConvertirAHexa(R,G,B,true);
-    GNode.AddGRAYSCALE(Node->Id,Node->Col,Node->Fil,R,G,B,Hexa);
+    Node->GNode.AddGRAYSCALE(Node->Id,Node->Col,Node->Fil,R,G,B,Hexa);
 }
 
-void LinearizeMatrix::CreateHTMLGRAYSCALE() {
-    GNode.Tamanio(Tama);
-    GNode.CreateHTML();
-}
-void LinearizeMatrix::CreateCSSGRAYSCALE(int WidthC, int HeightC, int WidthP, int HeightP) {
-    GNode.CreateCSS(WidthC,HeightC,WidthP,HeightP);
+string LinearizeMatrix::TraerCSSGRAYSACLE() {
+    Linearize *Aux = FirstLinearize;
+    string a="";
+    while(Aux != NULL){
+        a += Aux->GNode.MandarCSS();
+        Aux = Aux->NextLinearize;
+    }
+    return  a;
 }
 
 string LinearizeMatrix::Conversor(int ColorR, int ColorG, int ColorB) {
@@ -232,40 +250,172 @@ string LinearizeMatrix::Conversor(int ColorR, int ColorG, int ColorB) {
     string Total ="";
     char hex[]={'0','1','2','3','4','5','6','7','8','9','A','B','C','D','E','F'};
     dec_num = ColorR;
-    while(dec_num>0)
-    {
-        r = dec_num % 16;
-        hexdec_num = hex[r] + hexdec_num;
-        dec_num = dec_num/16;
+    if (dec_num ==0 ){
+        Total ="00";
+    }else{
+        while(dec_num > 0)
+        {
+            r = dec_num % 16;
+            Total = hex[r] + dec_num;
+            dec_num = dec_num / 16;
+        }
+        if (Total == "1" | Total == "2" | Total == "3" | Total == "4" | Total == "5" | Total == "6" | Total == "7" | Total == "8" | Total == "9" | Total == "A" | Total == "B" | Total == "C" | Total == "D" | Total == "E" | Total == "F"){
+            Total = "0" + dec_num;
+        }else{
+            Total = dec_num;
+        }
     }
-    Total = hexdec_num;
-
     int dec_numG, rG;
     string hexdec_numG="";
     dec_numG = ColorG;
-    while(dec_numG>0)
-    {
-        rG = dec_numG % 16;
-        hexdec_numG = hex[rG] + hexdec_numG;
-        dec_numG = dec_numG/16;
+    if (dec_numG ==0){
+        Total = "00";
+    }else{
+        while(dec_numG > 0)
+        {
+            r = dec_numG % 16;
+            Total = hex[r] + dec_numG;
+            dec_numG = dec_numG / 16;
+        }
+        if (Total == "1" | Total == "2" | Total == "3" | Total == "4" | Total == "5" | Total == "6" | Total == "7" | Total == "8" | Total == "9" | Total == "A" | Total == "B" | Total == "C" | Total == "D" | Total == "E" | Total == "F"){
+            Total += "0" + hexdec_numG;
+        }else{
+            Total += hexdec_numG;
+        }
     }
-    Total += hexdec_numG;
 
     int dec_numB, rB;
     string hexdec_numB="";
     dec_numB = ColorB;
-    while(dec_numB>0)
-    {
-        rB = dec_numB % 16;
-        hexdec_numB = hex[rB] + hexdec_numB;
-        dec_numB = dec_numB/16;
+    if(dec_numB == 0){
+        Total = "00";
+    }else{
+        while(dec_numB > 0)
+        {
+            r = dec_numB % 16;
+            Total = hex[r] + dec_numB;
+            dec_numB = dec_numB / 16;
+        }
+        if (Total == "1" | Total == "2" | Total == "3" | Total == "4" | Total == "5" | Total == "6" | Total == "7" | Total == "8" | Total == "9" | Total == "A" | Total == "B" | Total == "C" | Total == "D" | Total == "E" | Total == "F"){
+            Total += "0" + dec_numB;
+        }else{
+            Total += dec_numB;
+        }
     }
-    Total += hexdec_numB;
     string to = "#"+Total;
-
     return to;
 }
-//****************************** NEGATIVE **********************//////////
+
+//**************************NEGATIVE*************************
+void LinearizeMatrix::ConvertirNEGATIVE() {
+    Linearize *LNew = FirstLinearize;
+    while(LNew != NULL){
+        NEGATIVES(LNew);
+        LNew = LNew->NextLinearize;
+    }
+}
+
+void LinearizeMatrix::NEGATIVES(Linearize *& Node) {
+    int R = (255 - Node->ColorR);
+    int G = (255- Node->ColorG);
+    int B =  (255-Node->ColorB);
+    string Hexa = ConvertirAHexa(R,G,B,true);
+    Node->NNode.AddNEGATIVE(Node->Id,Node->Col,Node->Fil,R,G,B,Hexa);
+    Node->NNode.MandarMatrix(Node->Col,Node->Fil,Node->ColorR,Node->ColorG,Node->ColorB);
+}
+
+string LinearizeMatrix::MandarAtraerNegativos() {
+    Linearize *Aux = FirstLinearize;
+    string a = "";
+    while(Aux != NULL){
+        a += Aux->NNode.MandarCSSNEgativo();
+        Aux = Aux->NextLinearize;
+    }
+    return a ;
+}
+
+void LinearizeMatrix::SentGraph() {
+    Linearize *Aux = FirstLinearize;
+    string a = "";
+    while(Aux != NULL){
+        Aux->NNode.GraphMatrix();
+        Aux = Aux->NextLinearize;
+    }
+}
+
+//**********************ROTATION Y *****************************
+int ContadorIds = 1;
+int ContadorIds2 = 1;
+int IdN = 1;
+
+void LinearizeMatrix::ChangeId(int WidthC, int HeightC) {
+    Linearize * Aux = FirstLinearize;
+    string a ="";
+    while(Aux != NULL){
+        ChangeId2(Aux, WidthC, HeightC);
+
+        Aux = Aux->NextLinearize;
+    }
+}
+
+void LinearizeMatrix::ChangeId2(Linearize *&Node, int WidthC, int HeightC) {
+    int a= WidthC *HeightC;
+    int TempId = Node->Id;
+    int TempCol = Node->Col;
+    int TempFil = Node->Fil;
+    int Total = a - (TempId-1);
+    Node->RNode.AddROTACIONY(Total,TempFil,TempCol,Node->ColorR,Node->ColorG,Node->ColorB,Node->ColorHexa);
+}
+
+string LinearizeMatrix::MandarAtraerRotacionY() {
+    Linearize *Temp = FirstLinearize;
+    string a = "";
+    while(Temp != NULL){
+        a += Temp->RNode.Rotacion();
+        Temp = Temp->NextLinearize;
+    }
+    return a;
+}
+
+void LinearizeMatrix::MostrarChange() {
+    Linearize * temp = FirstLinearize;
+    while(temp != NULL){
+        cout<<"Id: "+to_string(temp->Id)+" Col: "+to_string(temp->Col) +" Fil: "+ to_string(temp->Fil) +"\n";
+        temp = temp->NextLinearize;
+    }
+}
+
+//***********************ROTACION X ***************************
+void LinearizeMatrix::ChangeIdx(int WidthC, int HeightC) {
+    Linearize * Aux = FirstLinearize;
+    string a ="";
+    while(Aux != NULL){
+        ChangeId2x(Aux, WidthC, HeightC);
+        Aux = Aux->NextLinearize;
+    }
+}
+
+void LinearizeMatrix::ChangeId2x(Linearize *&Node, int WidthC, int HeightC) {
+    int a= WidthC *HeightC;
+    int TempId = Node->Id;
+    int TempCol = Node->Col;
+    int TempFil = Node->Fil;
+    int Total = a - (TempCol);
+    cout<<"ID:" +to_string(Total)+"\n";
+    //Node->RNodeX.AddROTACIONX(Total,TempFil,TempCol,Node->ColorR,Node->ColorG,Node->ColorB,Node->ColorHexa);
+}
+
+
+/*
+void LinearizeMatrix::CreateHTMLGRAYSCALE() {
+    GNode.Tamanio(Tama);
+    GNode.CreateHTML();
+}
+void LinearizeMatrix::CreateCSSGRAYSCALE(int WidthC, int HeightC, int WidthP, int HeightP) {
+    GNode.CreateCSS(WidthC,HeightC,WidthP,HeightP);
+}
+
+
 void LinearizeMatrix::ConvertirNEGATIVE() {
     Linearize *LNew = FirstLinearize;
     while(LNew != NULL){
@@ -290,4 +440,25 @@ void LinearizeMatrix::CreateCSSNEGATIVE(int WidthC, int HeightC, int WidthP, int
     NNode.CreateCSS(WidthC,HeightC,WidthP,HeightP);
 }
 
+void LinearizeMatrix::AgregarRotacionY() {
+    Linearize *Temp = FirstLinearize;
+    while(Temp != NULL){
+        RNode.AddROTACIONY(Temp->Id,Temp->Fil,Temp->Col,Temp->ColorR,Temp->ColorG,Temp->ColorB,Temp->ColorHexa);
+        Temp = Temp->NextLinearize;
+    }
+}
 
+void LinearizeMatrix::EnviarTamanioRotacionY(int WidthM, int HeightM) {
+    int a = WidthM * HeightM;
+    RNode.T(a);
+}
+
+void LinearizeMatrix::CreateHTMLROTATIONY() {
+    RNode.HTMLY();
+}
+
+void LinearizeMatrix::CreateCSSROTATIONY(int WidthC, int HeightC, int WidthP, int HeightP) {
+    RNode.CCSSY(WidthC,HeightC,WidthP,HeightP);
+}
+
+*/
