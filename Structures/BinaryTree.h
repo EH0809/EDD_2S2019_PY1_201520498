@@ -7,11 +7,15 @@
 #include <string>
 #include <iostream>
 #include "ListMatix.h"
+#include "CompleteMatrix.h"
+#include "ListFilters.h"
 using namespace std;
 
 struct NodeBB{
     string Name;
     ListMatix ListadeCapas;
+    CompleteMatrix CM;
+    ListFilters LFilters;
     NodeBB *SonLeft;
     NodeBB *SonRight;
 };
@@ -24,42 +28,36 @@ struct ListaNodeBB{
 
 class BinaryTree {
 public:
+
     int IdName(string Name);
     NodeBB* Create_Node(string Name);
     void SendInsert(string Name);
     void InsertNode(NodeBB *&Tree,string Name);
     void InsertNode2(NodeBB *&Tree,string Name);
-
     int Compare(string Name1 , string NameTree);
     void PrintNode();
     void PrintNode2(NodeBB *&Tree);
-
     string InOrder(NodeBB * &Tree,string Graph);
     void InOrder2();
     void PreOrder();
     void PostOrder();
-
     void Graph();
     void GraphInOrder();
     void GraphPreOrder();
     void GraphPostOrder();
-
     void PrintPreOrder2();
     void PrintPreOrder(NodeBB *&Tree);
     void PrintPostOrder();
     void PrintPostOrder2(NodeBB *&Tree);
-
-
     string InOrderE(NodeBB *&Tree,string Graph);
     void GraphE();
-
     NodeBB * Moretoleft(NodeBB *&Tree);
     NodeBB * DeleteNode(NodeBB *&Tree, string Name);
     void SentDelete(string Name);
-
     NodeBB* ModifyNode(NodeBB *&Tree,string Name, string Nombre2);
     void SentModify(string Name, string Nombre2);
-    string SentFor(string Name);
+    NodeBB * SentFor(string Name);
+    //string * SentFor(string Name);
     NodeBB *SentFor2(NodeBB *&Tree, string Name);
     string SentGraph();
     string User ="";
@@ -70,6 +68,8 @@ public:
     void InsertListNode(int Id, string Name);
     void PrintList();
     void SelectList(int id);
+    ListaNodeBB *SelectL(int id);
+    ListaNodeBB *SelectL2(string Name);
     void RestValues();
 
     void PN();
