@@ -26,44 +26,38 @@ int contadorLineal = 0;
 
 
 using namespace std;
-
 void MenuReports();
-
 void Agregar();
-
 void ADDFilters();
-
 void ReadFirstArchive();
-
 void ArchiveConfig(string Ruta);
-
 void ReadCapa(string Ruta);
-
 void ReadCapa1(string Archivo);
-
 void EnviarAMatrix(int Header, int Lateral, int ColorR, int ColorG, int ColorB);
-
 void ArchiveCapa(string Ruta);
-
 void ReadCapas(string Ruta);
-
 void ADDListMatix(int Id, string Name);
-
 void MenuCapas();
-
 void MenuCapasFiltros();
-
 void MenuFiltros();
-
+void InsertTree(string Name);
+void GuardarNodeTree(string Name);
+void ADDFiltrosCapas();
 int ContadorCapas;
 int MaxCol;
 int MaxFil;
 string GeneralUser;
 string Capas = "";
 MatrixList *TempMatrix;
-
+ListaNodeBB *TempNodeBB;
+NodeBB *TempInsert;
+int ContadorImagen =1;
+void MandarAMatriz();
 void DesEncapar();
-
+void All();
+void Individual();
+void AllFilters();
+string Name;
 int main() {
     int a = 0;
     while (a != 7) {
@@ -78,27 +72,28 @@ int main() {
         switch (a) {
             case 1:
                 cout << "File Upload \n";
-                //Agregar();
+                //
+                TempInsert = NULL;
                 ReadFirstArchive();
-                LMatrix.PrintList();
-                LMatrix.AgregarMatrixCompleta();
+                /*LMatrix.PrintList();
                 LMatrix.ADDMatrix();
                 LMatrix.MandarTamanio(Image_width, Image_height);
                 LMatrix.GraficarLFilas();
                 LMatrix.MandarHtml();
                 LMatrix.MandarCSS(Image_width, Image_height, Pixel_width, Pixel_height);
+                 */
+                MandarAMatriz();
                 BTree.PN();
                 BTree.PNPre();
                 BTree.PNPost();
+             //   TempInsert = NULL;
                 break;
             case 2:
-                int aaa;
                 cout << "Select Image \n";
                 BTree.PrintNode();
-                cout << "Insert your choise \n";
-                cin >> aaa;
-                BTree.SelectList(aaa + 1);
-                GeneralUser = BTree.User;
+                cout << "Insert the name of your choice \n";
+                cin >> Name;
+                TempInsert = BTree.SentFor(Name);
                 BTree.RestValues();
                 break;
             case 3:
@@ -154,13 +149,12 @@ void MenuReports() {
                 MenuCapas();
                 break;
             case 6:
-                LMatrix.GraficarMatizCompleta();
                 break;
             case 7:
-                Filters.GraphList();
+                TempInsert->LFilters.GraphList();
                 break;
             case 8:
-                MATRIX.Graph();
+                AllFilters();
                 break;
             case 9:
                 ab = 9;
@@ -169,69 +163,7 @@ void MenuReports() {
     }
 }
 
-void Agregar() {
-    cout << "Node Matrix \n";
-    /*
-    MATRIX.InsertMatrix(15, 10, 255, 229, 204);
-    MATRIX.InsertMatrix(3, 6, 255, 229, 204);
-    MATRIX.InsertMatrix(5, 2, 255, 229, 204);
-    MATRIX.InsertMatrix(16, 11, 255, 229, 204);
-    MATRIX.InsertMatrix(4, 1, 255, 229, 204);
-    MATRIX.InsertMatrix(1, 1, 255, 229, 204);
-    MATRIX.InsertMatrix(2, 2, 255, 229, 204);
-    MATRIX.InsertMatrix(2, 3, 255, 229, 204);
-    MATRIX.InsertMatrix(15, 1, 255, 229, 204);
-    MATRIX.InsertMatrix(15, 2, 255, 229, 204);
-    MATRIX.InsertMatrix(15, 3, 255, 229, 204);
-    MATRIX.InsertMatrix(15, 10, 255, 229, 204);
-    MATRIX.InsertMatrix(3, 6, 255, 229, 204);
-    MATRIX.InsertMatrix(5, 2, 255, 229, 204);
-    MATRIX.InsertMatrix(16, 11, 255, 229, 204);
-
-    MATRIX.InsertMatrix(4, 2, 225, 268, 251);
-    MATRIX.InsertMatrix(5, 2, 228, 147, 369);
-    MATRIX.InsertMatrix(6, 2, 147, 369, 258);
-    MATRIX.InsertMatrix(7, 2, 789, 456, 123);
-    MATRIX.InsertMatrix(4, 3, 789, 999, 888);
-    MATRIX.InsertMatrix(5, 3, 777, 888, 444);
-    MATRIX.InsertMatrix(6, 3, 888, 555, 777);
-    MATRIX.InsertMatrix(7, 3, 888, 222, 333);
-    MATRIX.InsertMatrix(4, 4, 456, 777, 888);
-    MATRIX.InsertMatrix(5, 4, 555, 666, 777);
-    MATRIX.InsertMatrix(6, 4, 111, 555, 999);
-    MATRIX.InsertMatrix(7, 4, 777, 444, 666);
-    MATRIX.InsertMatrix(2, 5, 111, 222, 333);
-    MATRIX.InsertMatrix(3, 5, 777, 888, 999);
-    MATRIX.InsertMatrix(4, 5, 222, 666, 444);
-    MATRIX.InsertMatrix(5, 5, 456, 465, 456);
-    MATRIX.InsertMatrix(6, 5, 852, 741, 456);
-    MATRIX.InsertMatrix(7, 5, 741, 852, 741);
-    MATRIX.InsertMatrix(8, 5, 123, 741, 148);
-    MATRIX.InsertMatrix(9, 5, 357, 15, 852);
-    MATRIX.InsertMatrix(4, 6, 666, 888, 999);
-    MATRIX.InsertMatrix(5, 6, 123, 456, 852);
-    MATRIX.InsertMatrix(6, 6, 852, 741, 632);
-    MATRIX.InsertMatrix(7, 6, 852, 963, 741);
-    MATRIX.InsertMatrix(4, 7, 666, 999, 444);
-    MATRIX.InsertMatrix(5, 7, 789, 456, 147);
-    MATRIX.InsertMatrix(6, 7, 456, 796, 632);
-    MATRIX.InsertMatrix(7, 7, 852, 456, 753);
-    MATRIX.InsertMatrix(4, 8, 777, 888, 222);
-    MATRIX.InsertMatrix(5, 8, 123, 147, 852);
-    MATRIX.InsertMatrix(6, 8, 456, 789, 154);
-    MATRIX.InsertMatrix(7, 8, 741, 789, 541);
-    //MATRIX.Graph();
-    cout << "En teoria si se agrego \n";
-    cout << "Arbol Binario \n";
-    BTree.SendInsert("Edgar");
-    BTree.SendInsert("Maria");
-    BTree.SendInsert("Alejandra");
-    BTree.SendInsert("Lucia");
-    BTree.SendInsert("Mario2");
-     */
-
-
-}
+int Tamanio = Image_width * Image_height;
 
 void MenuFiltros() {
     bool a = false;
@@ -247,7 +179,7 @@ void MenuFiltros() {
                 ADDFilters();
                 break;
             case 2:
-                MenuCapasFiltros();
+                ADDFiltrosCapas();
                 break;
             case 3:
                 a = true;
@@ -275,35 +207,41 @@ void ADDFilters() {
             switch (a) {
                 case 1:
                     cout << "NEGATIVE \n";
-                    Filters.InsertNodeFilter("NEGATIVE");
-                    LMatrix.MandarHtmlNEGATIVE();
-                    LMatrix.MandarCSSNEGATIVE(Image_width, Image_height, Pixel_width, Pixel_height);
+                    TempInsert->LFilters.InsertNodeFilter("NEGATIVE");
+                    TempInsert->ListadeCapas.MandarHTMLNEGATIVE(TempInsert->Name);
+                    TempInsert->ListadeCapas.EnviarAConvertirNEGATIVE();
+                    TempInsert->ListadeCapas.MandarCSSNEGATIVE(Image_width, Image_height, Pixel_width, Pixel_height,TempInsert->Name);
                     break;
                 case 2:
                     cout << "GRAYSCALE \n";
-                    Filters.InsertNodeFilter("GRAYSCALE");
-                    LMatrix.MandarHtmGRAYSCALEl();
-                    LMatrix.MandarCSSGRAYSCALE(Image_width, Image_height, Pixel_width, Pixel_height);
+                    TempInsert->LFilters.InsertNodeFilter("GRAYSCALE");
+                    TempInsert->ListadeCapas.MandarHtmGRAYSCALEl(TempInsert->Name,Tamanio);
+                    TempInsert->ListadeCapas.EnviarAConvertirGRAYSCALE();
+                    TempInsert->ListadeCapas.MandarCSSGRAYSCALEl(Image_width, Image_height, Pixel_width, Pixel_height,TempInsert->Name);
                     break;
                 case 3:
                     cout << "X-MIRROR \n";
-                    Filters.InsertNodeFilter("X_MIRROR");
+                    TempInsert->LFilters.InsertNodeFilter("X_MIRROR");
+                    TempInsert->ListadeCapas.EnviarAConvertirROTACIONESX(Image_width,Image_height);
                     break;
                 case 4:
                     cout << "Y-MIRROR \n";
-                    Filters.InsertNodeFilter("Y_MIRROR");
+                    TempInsert->LFilters.InsertNodeFilter("Y_MIRROR");
+                    TempInsert->ListadeCapas.MandarHTMLROTACIONY(TempInsert->Name);
+                    TempInsert->ListadeCapas.EnviarAConvertirROTACIONY(Image_width, Image_height);
+                    TempInsert->ListadeCapas.MandarCSSROTACIONY(Image_width, Image_height, Pixel_width, Pixel_height,TempInsert->Name);
                     break;
                 case 5:
                     cout << "DOUBLE MIRROR \n";
-                    Filters.InsertNodeFilter("DOUBLE MIRROR");
+                    TempInsert->LFilters.InsertNodeFilter("DOUBLE MIRROR");
                     break;
                 case 6:
                     cout << "COLLAGE\n";
-                    Filters.InsertNodeFilter("COLLAGE");
+                    TempInsert->LFilters.InsertNodeFilter("COLLAGE");
                     break;
                 case 7:
                     cout << "MOSAIC\n";
-                    Filters.InsertNodeFilter("MOSAIC");
+                    TempInsert->LFilters.InsertNodeFilter("MOSAIC");
                     break;
                 case 8:
                     a = 8;
@@ -313,14 +251,30 @@ void ADDFilters() {
     }
 }
 
+void MandarAMatriz(){
+    TempInsert->ListadeCapas.PrintList();
+    TempInsert->ListadeCapas.ADDMatrix();
+    TempInsert->ListadeCapas.MandarTamanio(Image_width, Image_height);
+    TempInsert->ListadeCapas.GraficarLFilas();
+    //TempInsert->ListadeCapas.MandarHtml(TempInsert->Name);
+    TempInsert->ListadeCapas.IntentoMandarHtml1(TempInsert->Name,Tamanio);
+    //TempInsert->ListadeCapas.MandarCSS(Image_width, Image_height, Pixel_width, Pixel_height,TempInsert->Name);
+    string a = "C"+TempInsert->Name;
+    TempInsert->ListadeCapas.IntentoMandarCSS1(Image_width, Image_height , Pixel_width,Pixel_height,TempInsert->Name);
+    cout<<"***************************\n";
+
+}
+
 void ReadFirstArchive() {
     string a = "";
     cout << "Insert the Name file \n";
     cin >> a;
+    InsertTree(a);
     std::ifstream Archivo(a);
     if (!Archivo.is_open()) cout << "Error al Abrir Primer Archivo \n";
     string Layer;
     string File;
+    BTree.InsertListNode(ContadorImagen,a);
     while (!Archivo.fail()) {
         getline(Archivo, Layer, ',');
         getline(Archivo, File, '\n');
@@ -337,10 +291,58 @@ void ReadFirstArchive() {
     Archivo.close();
 }
 
-void ADDListMatix(int Id, string Name) {
+void InsertTree(string Name){
+    BTree.SendInsert(Name);
+    TempInsert = BTree.SentFor(Name);
+}
 
+void AllFilters(){
+    bool a = false;
+    int num ;
+    while(a != true){
+        cout<<"1. All Filters Report \n";
+        cout<<"2. Individual Filter Report \n";
+        cout<<"3. Exit \n";
+        cin>>num;
+
+        switch (num){
+            case 1:
+                All();
+                break;
+            case 2:
+                Individual();
+            case 3:
+                a =true;
+                break;
+
+        }
+    }
+}
+
+void All(){
+    TempInsert->LFilters.PrintFilters();
+    cout<<"Insert your choise \n";
+    TempInsert->ListadeCapas.
+
+}
+void Individual(){
+    int ab = 0;
+
+}
+
+/*
+void ADDListMatix(int Id, string Name) {
     LMatrix.AddMatrixList(Id, Name);
     TempMatrix = LMatrix.SearchHeader(Id);
+    ReadCapa(Name);
+    TempMatrix->Archivo = Capas;
+    Capas = "";
+    //TempMatrix = NULL;
+}
+ */
+void ADDListMatix(int Id, string Name) {
+    TempInsert->ListadeCapas.AddMatrixList(Id, Name);
+    TempMatrix = TempInsert->ListadeCapas.SearchHeader(Id);
     ReadCapa(Name);
     TempMatrix->Archivo = Capas;
     Capas = "";
@@ -463,7 +465,6 @@ void ReadCapa1(string Archivo) {
     cout << Capas;
 }
 
-
 void ReadCapas(string Archivo) {
     std::stringstream ss(Archivo);
     string aux;
@@ -502,6 +503,8 @@ void ReadCapas(string Archivo) {
                             Temp += to_string(ContadorColumnas) + "," + to_string(ContadorFilas) + "," + to_string(R) +
                                     "," + to_string(G) + "," + to_string(B) + "," + to_string(contadorL) + "\n";
 
+                            TempInsert->CM.ADDCompleta(ContadorColumnas,ContadorFilas,R,G,B);
+
                         }
                     } else if (ContadorColumnas == Image_width) {
                         stringstream aux7(aux);
@@ -518,6 +521,8 @@ void ReadCapas(string Archivo) {
                         */
                         Temp += to_string(ContadorColumnas) + "," + to_string(ContadorFilas) + "," + to_string(R) +
                                 "," + to_string(G) + "," + to_string(B) + "," + to_string(contadorL) + "\n";
+
+                        TempInsert->CM.ADDCompleta(ContadorColumnas,ContadorFilas,R,G,B);
 
                         ContadorColumnas = 1;
                         ContadorFilas++;
@@ -537,28 +542,36 @@ void ReadCapas(string Archivo) {
     contadorL = 0;
 }
 
-
 void MenuCapas() {
     int ab = 0;
-    LMatrix.MostarCapas();
+    TempInsert->ListadeCapas.MostarCapas();
+    cout<<"10. Matriz Completa \n";
     cout << "Insert your Choise \n";
     cin >> ab;
-    LMatrix.GrayscapeCapas(ab);
+    if (ab != 10){
+    TempInsert->ListadeCapas.GraphCapas(ab);
+    }else {
+        TempInsert->CM.GraficarCompleta();
+    }
 }
 
 void MenuCapasFiltros() {
     int ab = 0;
-    LMatrix.MostarCapas();
+    TempInsert->ListadeCapas.MostarCapas();
     cout << "Insert your Choise \n";
     cin >> ab;
     //LMatrix.GrayscapeCapas(ab);
-    LMatrix.NegativeCapas(ab);
+//    LMatrix.NegativeCapas(ab);
 
 }
 
-void ADDFiltrosCapas(int ab){
+void ADDFiltrosCapas(){
         if (GeneralUser != " ") {
             int a = 0;
+            int ab= 0;
+            TempInsert->ListadeCapas.MostarCapas();
+            cout << "Insert your Choise \n";
+            cin >> ab;
             while (a != 8) {
                 cout << "Image:" + GeneralUser + "\n";
                 cout << "1.  NEGATIVE\n";
@@ -576,16 +589,18 @@ void ADDFiltrosCapas(int ab){
                     case 1:
                         cout << "NEGATIVE \n";
                         Filters.InsertNodeFilter("NEGATIVE");
-                        //LMatrix.MandarHtmlNEGATIVE();
-                        //LMatrix.MandarCSSNEGATIVE(Image_width, Image_height, Pixel_width, Pixel_height);
-                        LMatrix.NegativeCapas(ab);
+                        TempInsert->ListadeCapas.MandarHtmNEGATIVElCAPA(TempInsert->Name);
+                        TempInsert->ListadeCapas.MandarNEGATIVECAPA(ab);
+                        TempInsert->ListadeCapas.MandarCSSNEGATIVECApa(ab);
+                        TempInsert->ListadeCapas.MandarCSSNEGATIVECAPA(Image_width, Image_height , Pixel_width,Pixel_height,TempInsert->Name);
                         break;
                     case 2:
                         cout << "GRAYSCALE \n";
                         Filters.InsertNodeFilter("GRAYSCALE");
-                        LMatrix.GrayscapeCapas(ab)
-                        //LMatrix.MandarHtmGRAYSCALEl();
-                        //LMatrix.MandarCSSGRAYSCALE(Image_width, Image_height, Pixel_width, Pixel_height);
+                        TempInsert->ListadeCapas.MandarHtmGRAYSCALElCAPA(TempInsert->Name);
+                        TempInsert->ListadeCapas.MandarGRAYCAPA(ab);
+                        TempInsert->ListadeCapas.MandarCSSGrayCApa(ab);
+                        TempInsert->ListadeCapas.MandarCSSGRAYSCALElCAPA(Image_width, Image_height , Pixel_width,Pixel_height,TempInsert->Name);
                         break;
                     case 3:
                         cout << "X-MIRROR \n";
@@ -594,6 +609,9 @@ void ADDFiltrosCapas(int ab){
                     case 4:
                         cout << "Y-MIRROR \n";
                         Filters.InsertNodeFilter("Y_MIRROR");
+                      //  LMatrix.MandarRotacionY();
+                      //  LMatrix.CreatHTMLRY();
+                      //  LMatrix.CSSRY(Image_width,Image_height,Pixel_width,Pixel_height);
                         break;
                     case 5:
                         cout << "DOUBLE MIRROR \n";
