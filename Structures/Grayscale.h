@@ -5,8 +5,9 @@
 #ifndef P1_GRAYSCALE_H
 #define P1_GRAYSCALE_H
 
-
-#include "MatrixB.h"
+#include "iostream"
+#include "fstream"
+using namespace std;
 struct  GrayNode{
     int Id;
     int Col;
@@ -35,6 +36,7 @@ public:
     void CreateCSS(int WidthC, int HeightC,int WidthP, int HeightP);
     string Html(string html);
     string Css(string css,int WidthC, int HeightC,int WidthP, int HeightP);
+    string MandarCSS();
 };
 
 
