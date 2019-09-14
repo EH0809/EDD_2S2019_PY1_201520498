@@ -5,6 +5,7 @@
 #ifndef P1_NEGATIVE_H
 #define P1_NEGATIVE_H
 
+#include "MatrixB.h"
 #include "iostream"
 using  namespace std;
 
@@ -16,12 +17,14 @@ struct  NegativeNode{
     int ColorG;
     int ColorB;
     string ColorHexa;
+
     NegativeNode *NextGray;
     NegativeNode *PreviuosGray;
 };
 
 class Negative {
 public:
+    MatrixB NegativeMatrix;
     NegativeNode *FirstNode=NULL;
     NegativeNode *EndNode = NULL;
     bool IsEmptyP();
@@ -37,6 +40,11 @@ public:
     void CreateCSS(int WidthC, int HeightC,int WidthP, int HeightP);
     string Html(string html);
     string Css(string css,int WidthC, int HeightC,int WidthP, int HeightP);
+
+    string MandarCSSNEgativo();
+
+    void MandarMatrix(int Col, int Fil, int ColorR, int ColorG, int ColorB);
+    void GraphMatrix();
 };
 
 
