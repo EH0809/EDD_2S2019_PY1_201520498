@@ -283,6 +283,8 @@ void ADDFilters() {
                 case 5:
                     cout << "DOUBLE MIRROR \n";
                     TempInsert->LFilters.InsertNodeFilter("DOUBLE MIRROR");
+                    TempInsert->ListadeCapas.ADDMatrixY();
+                    TempInsert->ListadeCapas.EnviarAConvertirROTACIONY(Image_width, Image_height);
                     break;
                 case 6:
                     cout << "COLLAGE\n";
@@ -428,6 +430,16 @@ void Individual() {
                         cout << "Insert your Choise \n";
                         cin >> abcd;
                         TempInsert->ListadeCapas.MandarAGraficarY(abcd);
+                    } else {
+                        cout << "No Filters Applied \n ";
+                    }
+                    break;
+                case 5:
+                    if (TempInsert->ListadeCapas.IsEmptyMRY() == false) {
+                        TempInsert->ListadeCapas.MostarCapas();
+                        cout << "Insert your Choise \n";
+                        cin >> abcd;
+                        TempInsert->ListadeCapas.MandarAGraficarYX(abcd);
                     } else {
                         cout << "No Filters Applied \n ";
                     }
@@ -657,10 +669,10 @@ void MenuCapas() {
     cout << "20. All Layers \n";
     cout << "Insert your Choise \n";
     cin >> ab;
-    if (ab != 10) {
+    if (ab != 20) {
         TempInsert->ListadeCapas.GraphCapas(ab);
     } else {
-        TempInsert->CM.GraficarCompleta();
+        TempInsert->ListadeCapas.AllLayers();
     }
 }
 
