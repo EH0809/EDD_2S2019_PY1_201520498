@@ -6,7 +6,7 @@
 #include <iostream>
 #include <fstream>
 
-using  namespace std;
+using namespace std;
 /*
 NodeMatrixB *MatrixB::CreateNode(int Col, int Fil, int ColorR, int ColorG, int ColorB) {
     NodeMatrixB *New_Node = new NodeMatrixB;
@@ -291,27 +291,27 @@ void MatrixB::AddMatrixC(int Col, int Fil, int ColorR, int ColorG, int ColorB) {
     //NodeMatrixB * New_Node = CreateNode(Col, Fil, ColorR, ColorG, ColorB);
     CreateCabeceraC(Col);
     CreateHeadersC(Fil);
-    AddMatrixCabeceraC(Col,Fil,ColorR,ColorG,ColorB);
-    AddMatrixHeaderC(Col,Fil,ColorR,ColorG,ColorB);
+    AddMatrixCabeceraC(Col, Fil, ColorR, ColorG, ColorB);
+    AddMatrixHeaderC(Col, Fil, ColorR, ColorG, ColorB);
 
 }
+
 void MatrixB::CreateCabeceraC(int Col) {
-    if (HeadNode->RightNodeMatrix == NULL){
-        //NodeMatrixB2 *Aux = new NodeMatrixB2(Col,0,0,0,0);
-        NodeMatrixB2 *Aux1 = new NodeMatrixB2(Col,0,0,0,0);
+    if (HeadNode->RightNodeMatrix == NULL) {
+        NodeMatrixB2 *Aux1 = new NodeMatrixB2(Col, 0, 0, 0, 0);
         HeadNode->RightNodeMatrix = Aux1;
         Aux1->LeftNodeMatrix = HeadNode;
-    }else{
+    } else {
         NodeMatrixB2 *Aux = HeadNode;
-        while(Aux->RightNodeMatrix != NULL && Aux->RightNodeMatrix->Col < Col){
+        while (Aux->RightNodeMatrix != NULL && Aux->RightNodeMatrix->Col < Col) {
             Aux = Aux->RightNodeMatrix;
         }
-        if (Aux->RightNodeMatrix == NULL){
-            NodeMatrixB2 *New_Node = new NodeMatrixB2(Col,0,0,0,0);
+        if (Aux->RightNodeMatrix == NULL) {
+            NodeMatrixB2 *New_Node = new NodeMatrixB2(Col, 0, 0, 0, 0);
             Aux->RightNodeMatrix = New_Node;
             New_Node->LeftNodeMatrix = Aux;
-        }else if (Aux->RightNodeMatrix != NULL && Aux->RightNodeMatrix->Col != Col){
-            NodeMatrixB2 *New_Node =  new NodeMatrixB2(Col,0,0,0,0);
+        } else if (Aux->RightNodeMatrix != NULL && Aux->RightNodeMatrix->Col != Col) {
+            NodeMatrixB2 *New_Node = new NodeMatrixB2(Col, 0, 0, 0, 0);
             NodeMatrixB2 *AuxRight = Aux->RightNodeMatrix;
             Aux->RightNodeMatrix = New_Node;
             New_Node->LeftNodeMatrix = Aux;
@@ -322,22 +322,22 @@ void MatrixB::CreateCabeceraC(int Col) {
 }
 
 void MatrixB::CreateHeadersC(int Fil) {
-    if (HeadNode->DownNodeMatrix == NULL){
-        NodeMatrixB2 * New_Node = new NodeMatrixB2(0,Fil,0,0,0);
+    if (HeadNode->DownNodeMatrix == NULL) {
+        NodeMatrixB2 *New_Node = new NodeMatrixB2(0, Fil, 0, 0, 0);
         HeadNode->DownNodeMatrix = New_Node;
         New_Node->UpNodeMatrix = HeadNode;
-    }else{
+    } else {
         NodeMatrixB2 *AuxHeaders = HeadNode;
-        while(AuxHeaders->DownNodeMatrix != NULL && AuxHeaders->DownNodeMatrix->Fil < Fil){
+        while (AuxHeaders->DownNodeMatrix != NULL && AuxHeaders->DownNodeMatrix->Fil < Fil) {
             AuxHeaders = AuxHeaders->DownNodeMatrix;
         }
-        if(AuxHeaders->DownNodeMatrix == NULL){
-            NodeMatrixB2 * New_Node = new NodeMatrixB2(0,Fil,0,0,0);
+        if (AuxHeaders->DownNodeMatrix == NULL) {
+            NodeMatrixB2 *New_Node = new NodeMatrixB2(0, Fil, 0, 0, 0);
             AuxHeaders->DownNodeMatrix = New_Node;
             New_Node->UpNodeMatrix = AuxHeaders;
-        }else{
-            NodeMatrixB2 * New_Node = new NodeMatrixB2(0,Fil,0,0,0);
-            NodeMatrixB2 * AuxUp = AuxHeaders->DownNodeMatrix;
+        } else if (AuxHeaders->DownNodeMatrix != NULL && AuxHeaders->DownNodeMatrix->Fil != Fil) {
+            NodeMatrixB2 *New_Node = new NodeMatrixB2(0, Fil, 0, 0, 0);
+            NodeMatrixB2 *AuxUp = AuxHeaders->DownNodeMatrix;
             AuxHeaders->DownNodeMatrix = New_Node;
             New_Node->UpNodeMatrix = AuxHeaders;
             New_Node->DownNodeMatrix = AuxUp;
@@ -347,22 +347,22 @@ void MatrixB::CreateHeadersC(int Fil) {
 }
 
 void MatrixB::AddMatrixCabeceraC(int Col, int Fil, int ColorR, int ColorG, int ColorB) {
-    NodeMatrixB2 *New_Node = new NodeMatrixB2(Col, Fil, ColorR,ColorG,ColorB);
+    NodeMatrixB2 *New_Node = new NodeMatrixB2(Col, Fil, ColorR, ColorG, ColorB);
     NodeMatrixB2 *Aux = HeadNode;
-    while(Aux->Col != Col){
+    while (Aux->Col != Col) {
         Aux = Aux->RightNodeMatrix;
     }
-    if (Aux->DownNodeMatrix == NULL){
+    if (Aux->DownNodeMatrix == NULL) {
         Aux->DownNodeMatrix = New_Node;
         New_Node->UpNodeMatrix = Aux;
-    }else{
-        while(Aux->DownNodeMatrix != NULL && Aux->DownNodeMatrix->Fil < Fil){
+    } else {
+        while (Aux->DownNodeMatrix != NULL && Aux->DownNodeMatrix->Fil < Fil) {
             Aux = Aux->DownNodeMatrix;
         }
-        if(Aux->DownNodeMatrix == NULL){
+        if (Aux->DownNodeMatrix == NULL) {
             Aux->DownNodeMatrix = New_Node;
             New_Node->UpNodeMatrix = Aux;
-        }else if (Aux->DownNodeMatrix != NULL){
+        } else if (Aux->DownNodeMatrix != NULL) {
             NodeMatrixB2 *Aux2 = Aux->DownNodeMatrix;
             Aux->DownNodeMatrix = New_Node;
             New_Node->UpNodeMatrix = Aux;
@@ -373,22 +373,22 @@ void MatrixB::AddMatrixCabeceraC(int Col, int Fil, int ColorR, int ColorG, int C
 }
 
 void MatrixB::AddMatrixHeaderC(int Col, int Fil, int ColorR, int ColorG, int ColorB) {
-    NodeMatrixB2 *New_Node = new NodeMatrixB2(Col, Fil, ColorR, ColorG,ColorB);
-    NodeMatrixB2 * Aux = HeadNode;
-    while(Aux->Fil != Fil){
+    NodeMatrixB2 *New_Node = new NodeMatrixB2(Col, Fil, ColorR, ColorG, ColorB);
+    NodeMatrixB2 *Aux = HeadNode;
+    while (Aux->Fil != Fil) {
         Aux = Aux->DownNodeMatrix;
     }
-    if (Aux->RightNodeMatrix == NULL){
+    if (Aux->RightNodeMatrix == NULL) {
         Aux->RightNodeMatrix = New_Node;
         New_Node->LeftNodeMatrix = Aux;
-    }else{
-        while(Aux->RightNodeMatrix != NULL && Aux->RightNodeMatrix->Col < Col){
+    } else {
+        while (Aux->RightNodeMatrix != NULL && Aux->RightNodeMatrix->Col < Col) {
             Aux = Aux->RightNodeMatrix;
         }
-        if (Aux->RightNodeMatrix == NULL){
+        if (Aux->RightNodeMatrix == NULL) {
             Aux->RightNodeMatrix = New_Node;
             New_Node->LeftNodeMatrix = Aux;
-        }else if (Aux->RightNodeMatrix != NULL){
+        } else if (Aux->RightNodeMatrix != NULL) {
             NodeMatrixB2 *AuxHeader = Aux->RightNodeMatrix;
             Aux->RightNodeMatrix = New_Node;
             New_Node->LeftNodeMatrix = Aux;
@@ -397,6 +397,339 @@ void MatrixB::AddMatrixHeaderC(int Col, int Fil, int ColorR, int ColorG, int Col
         }
     }
 }
+
+string MatrixB::DotMatirx2C(string Dot) {
+    NodeMatrixB2 *temp = HeadNode->RightNodeMatrix;
+    NodeMatrixB2 *temp2 = HeadNode->DownNodeMatrix;
+    Dot += "digraph Sparse_Matrix{\n";
+    Dot += "node [shape=box]\n";
+    Dot += "graph[nodesep = 0.5];\n";
+    Dot += "Terminal [ label = \"Matrix\", width = 1.5, style = filled, group = 0 ];\n";
+    Dot += "e0[ shape = point, width = 0 ]\n";
+    Dot += "e1[ shape = point, width = 0 ]\n";
+    // headers Y
+    Dot += "Terminal -> Y" + to_string(temp2->Fil) + " [dir=both];\n";
+    while (temp2->DownNodeMatrix != NULL) {
+        Dot += "Y" + to_string(temp2->Fil) + "[label = \"" + "F" + to_string(temp2->Fil) + " \" , group =" +
+               to_string(0) + "];\n";
+        Dot += "Y" + to_string(temp2->Fil) + "-> Y" + to_string(temp2->DownNodeMatrix->Fil) + "[dir=both];\n";
+        NodeMatrixB2 *aux2 = temp2;
+        while (aux2->RightNodeMatrix != NULL) {
+            if (aux2->Col == 0) {
+                //Dot += "Y"+ to_string(aux2->Fil) + "-> X" + to_string(aux2->RightNodeMatrix->Col) + "_" + to_string(aux2->RightNodeMatrix->Fil) + "[dir=both];\n";
+                //Dot += "{ rank = same; Y" + to_string(temp2->Fil)+ "; X" + to_string(aux2->RightNodeMatrix->Col) + "_" + to_string(aux2->RightNodeMatrix->Fil) + " }\n";
+                Dot += "Y" + to_string(aux2->Fil) + "-> n" + to_string(aux2->RightNodeMatrix->Col) + "_" +
+                       to_string(aux2->RightNodeMatrix->Fil) + "[dir=both];\n";
+                Dot += "{ rank = same; Y" + to_string(temp2->Fil) + "; n" + to_string(aux2->RightNodeMatrix->Col) +
+                       "_" + to_string(aux2->RightNodeMatrix->Fil) + " }\n";
+            } else {
+                Dot += "n" + to_string(aux2->Col) + "_" + to_string(aux2->Fil) + "-> n" +
+                       to_string(aux2->RightNodeMatrix->Col) + "_" + to_string(aux2->RightNodeMatrix->Fil) +
+                       "[dir=both];\n";
+                Dot += "{ rank = same; n" + to_string(aux2->Col) + "_" + to_string(aux2->Fil) + "; n" +
+                       to_string(aux2->RightNodeMatrix->Col) + "_" + to_string(aux2->RightNodeMatrix->Fil) + " }\n";
+            }
+            aux2 = aux2->RightNodeMatrix;
+        }
+        temp2 = temp2->DownNodeMatrix;
+    }
+    Dot += "Y" + to_string(temp2->Fil) + "[label = \"" + "F" + to_string(temp2->Fil) + " \" ,group =" + to_string(0) +
+           "];\n";
+    while (temp2->RightNodeMatrix != NULL) {
+        if (temp2->Col == 0) {
+            Dot += "Y" + to_string(temp2->Fil) + "-> n" + to_string(temp2->RightNodeMatrix->Col) + "_" +
+                   to_string(temp2->Fil) + "[dir=both];\n";
+            Dot += "{ rank = same; Y" + to_string(temp2->Fil) + "; n" + to_string(temp2->RightNodeMatrix->Col) + "_" +
+                   to_string(temp2->Fil) + " }\n";
+        } else {
+            Dot += "n" + to_string(temp2->Col) + "_" + to_string(temp2->Fil) + "-> n" +
+                   to_string(temp2->RightNodeMatrix->Col) + "_" + to_string(temp2->Fil) + "[dir=both];\n";
+            Dot += "{ rank = same; n" + to_string(temp2->Col) + "_" + to_string(temp2->Fil) + "; n" +
+                   to_string(temp2->RightNodeMatrix->Col) + "_" + to_string(temp2->Fil) + " }\n";
+        }
+        temp2 = temp2->RightNodeMatrix;
+    }
+    Dot += "Terminal -> X" + to_string(temp->Col) + " [dir=both];\n";
+    while (temp->RightNodeMatrix != NULL) {
+        Dot += "X" + to_string(temp->Col) + "[label = \"" + "C" + to_string(temp->Col) + " \"  , group =" +
+               to_string(temp->Col) + "];\n";
+        Dot += "X" + to_string(temp->Col) + "-> X" + to_string(temp->RightNodeMatrix->Col) + "[dir=both];\n";
+        Dot += "{ rank = same; Terminal; X" + to_string(temp->Col) + " }\n";
+        NodeMatrixB2 *aux = temp;
+        while (aux->DownNodeMatrix != NULL) {
+            Dot += "n" + to_string(aux->Col) + "_" + to_string(aux->DownNodeMatrix->Fil) + "[label = \"" +
+                   to_string(aux->DownNodeMatrix->ColorR) + "," + to_string(aux->DownNodeMatrix->ColorG) + "," +
+                   to_string(aux->DownNodeMatrix->ColorB) + " \"   width = 1.5, group =" + to_string(aux->Col) + "];\n";
+            if (aux->Fil == 0) {
+                Dot += "X" + to_string(aux->Col) + "->n" + to_string(aux->Col) + "_" +
+                       to_string(aux->DownNodeMatrix->Fil) + "[dir=both];\n";
+            } else {
+                Dot += "n" + to_string(aux->Col) + "_" + to_string(aux->Fil) + "-> n" + to_string(aux->Col) + "_" +
+                       to_string(aux->DownNodeMatrix->Fil) + "[dir=both];\n";
+            }
+            aux = aux->DownNodeMatrix;
+        }
+        temp = temp->RightNodeMatrix;
+    }
+    Dot += "X" + to_string(temp->Col) + "[label = \"" + "C" + to_string(temp->Col) + " \" , group =" +
+           to_string(temp->Col) + "];\n";
+    Dot += "{ rank = same; Terminal; X" + to_string(temp->Col) + " }\n";
+    while (temp->DownNodeMatrix != NULL) {
+        Dot += "n" + to_string(temp->Col) + "_" + to_string(temp->DownNodeMatrix->Fil) + "[label = \"" +
+               to_string(temp->DownNodeMatrix->ColorR) + "," + to_string(temp->DownNodeMatrix->ColorG) + "," +
+               to_string(temp->DownNodeMatrix->ColorB) + " \"   width = 1.5, group =" + to_string(temp->Col) +
+               "];\n";
+        if (temp->Fil == 0) {
+
+            Dot += "X" + to_string(temp->Col) + "-> n" + to_string(temp->Col) + "_" +
+                   to_string(temp->DownNodeMatrix->Fil) + "[dir=both];\n";
+        } else {
+
+            Dot += "n" + to_string(temp->Col) + "_" + to_string(temp->Fil) + "-> n" + to_string(temp->Col) + "_" +
+                   to_string(temp->DownNodeMatrix->Fil) + "[dir=both];\n";
+        }
+        temp = temp->DownNodeMatrix;
+    }
+    Dot += "}";
+
+    return Dot;
+}
+
+string MatrixB::DotGrayScape(string Dot) {
+    NodeMatrixB2 *temp = HeadNode->RightNodeMatrix;
+    NodeMatrixB2 *temp2 = HeadNode->DownNodeMatrix;
+    Dot += "digraph Sparse_Matrix{\n";
+    Dot += "node [shape=box]\n";
+    Dot += "graph[nodesep = 0.5];\n";
+    Dot += "Terminal [ label = \"Matrix\", width = 1.5, style = filled, group = 0 ];\n";
+    Dot += "e0[ shape = point, width = 0 ]\n";
+    Dot += "e1[ shape = point, width = 0 ]\n";
+    // headers Y
+    Dot += "Terminal -> Y" + to_string(temp2->Fil) + " [dir=both];\n";
+    while (temp2->DownNodeMatrix != NULL) {
+        Dot += "Y" + to_string(temp2->Fil) + "[label = \"" + "F" + to_string(temp2->Fil) + " \" , group =" +
+               to_string(0) + "];\n";
+        Dot += "Y" + to_string(temp2->Fil) + "-> Y" + to_string(temp2->DownNodeMatrix->Fil) + "[dir=both];\n";
+        NodeMatrixB2 *aux2 = temp2;
+        while (aux2->RightNodeMatrix != NULL) {
+            if (aux2->Col == 0) {
+                //Dot += "Y"+ to_string(aux2->Fil) + "-> X" + to_string(aux2->RightNodeMatrix->Col) + "_" + to_string(aux2->RightNodeMatrix->Fil) + "[dir=both];\n";
+                //Dot += "{ rank = same; Y" + to_string(temp2->Fil)+ "; X" + to_string(aux2->RightNodeMatrix->Col) + "_" + to_string(aux2->RightNodeMatrix->Fil) + " }\n";
+                Dot += "Y" + to_string(aux2->Fil) + "-> n" + to_string(aux2->RightNodeMatrix->Col) + "_" +
+                       to_string(aux2->RightNodeMatrix->Fil) + "[dir=both];\n";
+                Dot += "{ rank = same; Y" + to_string(temp2->Fil) + "; n" + to_string(aux2->RightNodeMatrix->Col) +
+                       "_" + to_string(aux2->RightNodeMatrix->Fil) + " }\n";
+            } else {
+                Dot += "n" + to_string(aux2->Col) + "_" + to_string(aux2->Fil) + "-> n" +
+                       to_string(aux2->RightNodeMatrix->Col) + "_" + to_string(aux2->RightNodeMatrix->Fil) +
+                       "[dir=both];\n";
+                Dot += "{ rank = same; n" + to_string(aux2->Col) + "_" + to_string(aux2->Fil) + "; n" +
+                       to_string(aux2->RightNodeMatrix->Col) + "_" + to_string(aux2->RightNodeMatrix->Fil) + " }\n";
+            }
+            aux2 = aux2->RightNodeMatrix;
+        }
+        temp2 = temp2->DownNodeMatrix;
+    }
+    Dot += "Y" + to_string(temp2->Fil) + "[label = \"" + "F" + to_string(temp2->Fil) + " \" ,group =" + to_string(0) +
+           "];\n";
+    while (temp2->RightNodeMatrix != NULL) {
+        if (temp2->Col == 0) {
+            Dot += "Y" + to_string(temp2->Fil) + "-> n" + to_string(temp2->RightNodeMatrix->Col) + "_" +
+                   to_string(temp2->Fil) + "[dir=both];\n";
+            Dot += "{ rank = same; Y" + to_string(temp2->Fil) + "; n" + to_string(temp2->RightNodeMatrix->Col) + "_" +
+                   to_string(temp2->Fil) + " }\n";
+        } else {
+            Dot += "n" + to_string(temp2->Col) + "_" + to_string(temp2->Fil) + "-> n" +
+                   to_string(temp2->RightNodeMatrix->Col) + "_" + to_string(temp2->Fil) + "[dir=both];\n";
+            Dot += "{ rank = same; n" + to_string(temp2->Col) + "_" + to_string(temp2->Fil) + "; n" +
+                   to_string(temp2->RightNodeMatrix->Col) + "_" + to_string(temp2->Fil) + " }\n";
+        }
+        temp2 = temp2->RightNodeMatrix;
+    }
+    Dot += "Terminal -> X" + to_string(temp->Col) + " [dir=both];\n";
+    while (temp->RightNodeMatrix != NULL) {
+        Dot += "X" + to_string(temp->Col) + "[label = \"" + "C" + to_string(temp->Col) + " \"  , group =" +
+               to_string(temp->Col) + "];\n";
+        Dot += "X" + to_string(temp->Col) + "-> X" + to_string(temp->RightNodeMatrix->Col) + "[dir=both];\n";
+        Dot += "{ rank = same; Terminal; X" + to_string(temp->Col) + " }\n";
+        NodeMatrixB2 *aux = temp;
+        while (aux->DownNodeMatrix != NULL) {
+            int R = (aux->DownNodeMatrix->ColorR * 0.3) + (aux->DownNodeMatrix->ColorG * 0.59) +
+                    (aux->DownNodeMatrix->ColorB * 0.11);
+            int G = (aux->DownNodeMatrix->ColorR * 0.3) + (aux->DownNodeMatrix->ColorG * 0.59) +
+                    (aux->DownNodeMatrix->ColorB * 0.11);
+            int B = (aux->DownNodeMatrix->ColorR * 0.3) + (aux->DownNodeMatrix->ColorG * 0.59) +
+                    (aux->DownNodeMatrix->ColorB * 0.11);
+            Dot += "n" + to_string(aux->Col) + "_" + to_string(aux->DownNodeMatrix->Fil) + "[label = \"" +
+                   to_string(R) + "," + to_string(G) + "," + to_string(B) + " \"   width = 1.5, group =" +
+                   to_string(aux->Col) + "];\n";
+            if (aux->Fil == 0) {
+                Dot += "X" + to_string(aux->Col) + "->n" + to_string(aux->Col) + "_" +
+                       to_string(aux->DownNodeMatrix->Fil) + "[dir=both];\n";
+            } else {
+                Dot += "n" + to_string(aux->Col) + "_" + to_string(aux->Fil) + "-> n" + to_string(aux->Col) + "_" +
+                       to_string(aux->DownNodeMatrix->Fil) + "[dir=both];\n";
+            }
+            aux = aux->DownNodeMatrix;
+        }
+        temp = temp->RightNodeMatrix;
+    }
+    Dot += "X" + to_string(temp->Col) + "[label = \"" + "C" + to_string(temp->Col) + " \" , group =" +
+           to_string(temp->Col) + "];\n";
+    Dot += "{ rank = same; Terminal; X" + to_string(temp->Col) + " }\n";
+    while (temp->DownNodeMatrix != NULL) {
+        int R = (temp->DownNodeMatrix->ColorR * 0.3) + (temp->DownNodeMatrix->ColorG * 0.59) +
+                (temp->DownNodeMatrix->ColorB * 0.11);
+        int G = (temp->DownNodeMatrix->ColorR * 0.3) + (temp->DownNodeMatrix->ColorG * 0.59) +
+                (temp->DownNodeMatrix->ColorB * 0.11);
+        int B = (temp->DownNodeMatrix->ColorR * 0.3) + (temp->DownNodeMatrix->ColorG * 0.59) +
+                (temp->DownNodeMatrix->ColorB * 0.11);
+        if (temp->Fil == 0) {
+            Dot += "n" + to_string(temp->Col) + "_" + to_string(temp->DownNodeMatrix->Fil) + "[label = \"" +
+                   to_string(R) + "," + to_string(G) + "," + to_string(B) + " \"   width = 1.5, group =" +
+                   to_string(temp->Col) + "];\n";
+            Dot += "X" + to_string(temp->Col) + "-> n" + to_string(temp->Col) + "_" +
+                   to_string(temp->DownNodeMatrix->Fil) + "[dir=both];\n";
+        } else {
+            Dot += "n" + to_string(temp->Col) + "_" + to_string(temp->DownNodeMatrix->Fil) + "[label = \"" +
+                   to_string(R) + "," + to_string(G) + "," + to_string(B) + " \"   width = 1.5, group =" +
+                   to_string(temp->Col) + "];\n";
+            Dot += "n" + to_string(temp->Col) + "_" + to_string(temp->Fil) + "-> n" + to_string(temp->Col) + "_" +
+                   to_string(temp->DownNodeMatrix->Fil) + "[dir=both];\n";
+        }
+        temp = temp->DownNodeMatrix;
+    }
+    Dot += "}";
+
+    return Dot;
+}
+
+string MatrixB::DotNegative(string Dot) {
+    NodeMatrixB2 *temp = HeadNode->RightNodeMatrix;
+    NodeMatrixB2 *temp2 = HeadNode->DownNodeMatrix;
+    Dot += "digraph Sparse_Matrix{\n";
+    Dot += "node [shape=box]\n";
+    Dot += "graph[nodesep = 0.5];\n";
+    Dot += "Terminal [ label = \"Matrix\", width = 1.5, style = filled, group = 0 ];\n";
+    Dot += "e0[ shape = point, width = 0 ]\n";
+    Dot += "e1[ shape = point, width = 0 ]\n";
+    // headers Y
+    Dot += "Terminal -> Y" + to_string(temp2->Fil) + " [dir=both];\n";
+    while (temp2->DownNodeMatrix != NULL) {
+        Dot += "Y" + to_string(temp2->Fil) + "[label = \"" + "F" + to_string(temp2->Fil) + " \" , group =" +
+               to_string(0) + "];\n";
+        Dot += "Y" + to_string(temp2->Fil) + "-> Y" + to_string(temp2->DownNodeMatrix->Fil) + "[dir=both];\n";
+        NodeMatrixB2 *aux2 = temp2;
+        while (aux2->RightNodeMatrix != NULL) {
+            if (aux2->Col == 0) {
+                //Dot += "Y"+ to_string(aux2->Fil) + "-> X" + to_string(aux2->RightNodeMatrix->Col) + "_" + to_string(aux2->RightNodeMatrix->Fil) + "[dir=both];\n";
+                //Dot += "{ rank = same; Y" + to_string(temp2->Fil)+ "; X" + to_string(aux2->RightNodeMatrix->Col) + "_" + to_string(aux2->RightNodeMatrix->Fil) + " }\n";
+                Dot += "Y" + to_string(aux2->Fil) + "-> n" + to_string(aux2->RightNodeMatrix->Col) + "_" +
+                       to_string(aux2->RightNodeMatrix->Fil) + "[dir=both];\n";
+                Dot += "{ rank = same; Y" + to_string(temp2->Fil) + "; n" + to_string(aux2->RightNodeMatrix->Col) +
+                       "_" + to_string(aux2->RightNodeMatrix->Fil) + " }\n";
+            } else {
+                Dot += "n" + to_string(aux2->Col) + "_" + to_string(aux2->Fil) + "-> n" +
+                       to_string(aux2->RightNodeMatrix->Col) + "_" + to_string(aux2->RightNodeMatrix->Fil) +
+                       "[dir=both];\n";
+                Dot += "{ rank = same; n" + to_string(aux2->Col) + "_" + to_string(aux2->Fil) + "; n" +
+                       to_string(aux2->RightNodeMatrix->Col) + "_" + to_string(aux2->RightNodeMatrix->Fil) + " }\n";
+            }
+            aux2 = aux2->RightNodeMatrix;
+        }
+        temp2 = temp2->DownNodeMatrix;
+    }
+    Dot += "Y" + to_string(temp2->Fil) + "[label = \"" + "F" + to_string(temp2->Fil) + " \" ,group =" + to_string(0) +
+           "];\n";
+    while (temp2->RightNodeMatrix != NULL) {
+        if (temp2->Col == 0) {
+            Dot += "Y" + to_string(temp2->Fil) + "-> n" + to_string(temp2->RightNodeMatrix->Col) + "_" +
+                   to_string(temp2->Fil) + "[dir=both];\n";
+            Dot += "{ rank = same; Y" + to_string(temp2->Fil) + "; n" + to_string(temp2->RightNodeMatrix->Col) + "_" +
+                   to_string(temp2->Fil) + " }\n";
+        } else {
+            Dot += "n" + to_string(temp2->Col) + "_" + to_string(temp2->Fil) + "-> n" +
+                   to_string(temp2->RightNodeMatrix->Col) + "_" + to_string(temp2->Fil) + "[dir=both];\n";
+            Dot += "{ rank = same; n" + to_string(temp2->Col) + "_" + to_string(temp2->Fil) + "; n" +
+                   to_string(temp2->RightNodeMatrix->Col) + "_" + to_string(temp2->Fil) + " }\n";
+        }
+        temp2 = temp2->RightNodeMatrix;
+    }
+    Dot += "Terminal -> X" + to_string(temp->Col) + " [dir=both];\n";
+    while (temp->RightNodeMatrix != NULL) {
+        Dot += "X" + to_string(temp->Col) + "[label = \"" + "C" + to_string(temp->Col) + " \"  , group =" +
+               to_string(temp->Col) + "];\n";
+        Dot += "X" + to_string(temp->Col) + "-> X" + to_string(temp->RightNodeMatrix->Col) + "[dir=both];\n";
+        Dot += "{ rank = same; Terminal; X" + to_string(temp->Col) + " }\n";
+        NodeMatrixB2 *aux = temp;
+        while (aux->DownNodeMatrix != NULL) {
+            int R = (255 - aux->DownNodeMatrix->ColorR);
+            int G = (255 - aux->DownNodeMatrix->ColorG);
+            int B = (255 - aux->DownNodeMatrix->ColorB);
+            Dot += "n" + to_string(aux->Col) + "_" + to_string(aux->DownNodeMatrix->Fil) + "[label = \"" +
+                   to_string(R) + "," + to_string(G) + "," + to_string(B) + " \"   width = 1.5, group =" +
+                   to_string(aux->Col) + "];\n";
+            if (aux->Fil == 0) {
+                Dot += "X" + to_string(aux->Col) + "->n" + to_string(aux->Col) + "_" +
+                       to_string(aux->DownNodeMatrix->Fil) + "[dir=both];\n";
+            } else {
+                Dot += "n" + to_string(aux->Col) + "_" + to_string(aux->Fil) + "-> n" + to_string(aux->Col) + "_" +
+                       to_string(aux->DownNodeMatrix->Fil) + "[dir=both];\n";
+            }
+            aux = aux->DownNodeMatrix;
+        }
+        temp = temp->RightNodeMatrix;
+    }
+    Dot += "X" + to_string(temp->Col) + "[label = \"" + "C" + to_string(temp->Col) + " \" , group =" +
+           to_string(temp->Col) + "];\n";
+    Dot += "{ rank = same; Terminal; X" + to_string(temp->Col) + " }\n";
+    while (temp->DownNodeMatrix != NULL) {
+        int R = (255 - temp->DownNodeMatrix->ColorR);
+        int G = (255 - temp->DownNodeMatrix->ColorG);
+        int B = (255 - temp->DownNodeMatrix->ColorB);
+        if (temp->Fil == 0) {
+            Dot += "n" + to_string(temp->Col) + "_" + to_string(temp->DownNodeMatrix->Fil) + "[label = \"" +
+                   to_string(R) + "," + to_string(G) + "," + to_string(B) + " \"   width = 1.5, group =" +
+                   to_string(temp->Col) + "];\n";
+            Dot += "X" + to_string(temp->Col) + "-> n" + to_string(temp->Col) + "_" +
+                   to_string(temp->DownNodeMatrix->Fil) + "[dir=both];\n";
+        } else {
+            Dot += "n" + to_string(temp->Col) + "_" + to_string(temp->DownNodeMatrix->Fil) + "[label = \"" +
+                   to_string(R) + "," + to_string(G) + "," + to_string(B) + " \"   width = 1.5, group =" +
+                   to_string(temp->Col) + "];\n";
+            Dot += "n" + to_string(temp->Col) + "_" + to_string(temp->Fil) + "-> n" + to_string(temp->Col) + "_" +
+                   to_string(temp->DownNodeMatrix->Fil) + "[dir=both];\n";
+        }
+        temp = temp->DownNodeMatrix;
+    }
+    Dot += "}";
+
+    return Dot;
+
+}
+
+int contador11111 = 1;
+
+void MatrixB::EditNodeMatrix(int Col, int Fil, int ColorR, int ColorG, int ColorB) {
+    NodeMatrixB2 *temp = HeadNode;
+    while (temp != NULL) {
+        NodeMatrixB2 *temp2 = temp;
+        while (temp2 != NULL) {
+            if (temp->Col == Col && temp2->Fil == Fil) {
+                temp2->ColorR = ColorR;
+                temp2->ColorG = ColorG;
+                temp2->ColorB = ColorB;
+                cout << "Se Modifico Matriz ";
+            }
+            temp2 = temp2->DownNodeMatrix;
+        }
+        temp = temp->RightNodeMatrix;
+    }
+}
+
+
+
+/*
 string MatrixB::DotMatirx2C(string Dot) {
     NodeMatrixB2 *temp = HeadNode->RightNodeMatrix;
     NodeMatrixB2 *temp2 = HeadNode->DownNodeMatrix;
@@ -408,59 +741,59 @@ string MatrixB::DotMatirx2C(string Dot) {
     Dot += "e1[ shape = point, width = 0 ]\n";
     // headers Y
     Dot += "Terminal -> Y" + to_string(temp2->Fil) +  " [dir=both];\n";
-    while(temp2->DownNodeMatrix!=NULL){
-        Dot += "Y"+ to_string(temp2->Fil) + "[label = \"" + "F" + to_string(temp2->Fil) + " \"   width = 1.5 style = filled, group =" + to_string(0) + "];\n";
+    while(temp2->DownNodeMatrix != NULL){
+        Dot += "Y"+ to_string(temp2->Fil) + "[label = \"" + "Row: " + to_string(temp2->Fil) + " \"   width = 1.5 style = filled, group =" + to_string(0) + "];\n";
         Dot += "Y"+ to_string(temp2->Fil) + "-> Y" + to_string(temp2->DownNodeMatrix->Fil) + "[dir=both];\n";
         NodeMatrixB2 *aux2 = temp2;
         while (aux2->RightNodeMatrix != NULL){
-            if(aux2->Col==0){
-                Dot += "Y"+ to_string(aux2->Fil) + "-> X" + to_string(aux2->RightNodeMatrix->Col) + "_" + to_string(aux2->RightNodeMatrix->Fil) + "[dir=both];\n";
-                Dot += "{ rank = same; Y" + to_string(temp2->Fil)+ "; X" + to_string(aux2->RightNodeMatrix->Col) + "_" + to_string(aux2->RightNodeMatrix->Fil) + " }\n";
+            if(aux2->Col == 0){
+                Dot += "Y"+ to_string(aux2->Fil) + "-> N" + to_string(aux2->RightNodeMatrix->Col) + "_" + to_string(aux2->RightNodeMatrix->Fil) + "[dir=both];\n";
+                Dot += "{ rank = same; Y" + to_string(temp2->Fil)+ "; N" + to_string(aux2->RightNodeMatrix->Col) + "_" + to_string(aux2->RightNodeMatrix->Fil) + " }\n";
             }else{
-                Dot +="X"+ to_string(aux2->Col) + "_" + to_string(aux2->Fil) + "-> X" + to_string(aux2->RightNodeMatrix->Col) + "_" + to_string(aux2->RightNodeMatrix->Fil) + "[dir=both];\n";
-                Dot +="{ rank = same; X" + to_string(aux2->Col) + "" + to_string(aux2->Fil)+ "; X" + to_string(aux2->RightNodeMatrix->Col) + "" + to_string(aux2->RightNodeMatrix->Fil) + " }\n";
+                Dot +="N"+ to_string(aux2->Col) + "" + to_string(aux2->Fil) + "-> N" + to_string(aux2->RightNodeMatrix->Col) + "" + to_string(aux2->RightNodeMatrix->Fil) + "[dir=both];\n";
+                Dot +="{ rank = same; N" + to_string(aux2->Col) + "" + to_string(aux2->Fil)+ "; N" + to_string(aux2->RightNodeMatrix->Col) + "" + to_string(aux2->RightNodeMatrix->Fil) + " }\n";
             }
             aux2 = aux2->RightNodeMatrix;
         }
         temp2 = temp2->DownNodeMatrix;
     }
-    Dot +="Y"+ to_string(temp2->Fil) + "[label = \"" + "F" +  to_string(temp2->Fil) + " \"   width = 1.5 style = filled,group =" + to_string(0) + "];\n";
+    Dot +="Y"+ to_string(temp2->Fil) + "[label = \"" + "Row: " +  to_string(temp2->Fil) + " \"   width = 1.5 style = filled,group =" + to_string(0) + "];\n";
     while (temp2->RightNodeMatrix != NULL){
         if(temp2->Col==0) {
-            Dot +="Y" + to_string(temp2->Fil) + "-> X" + to_string(temp2->RightNodeMatrix->Col) + "_" + to_string(temp2->Fil) + "[dir=both];\n";
-            Dot +="{ rank = same; Y" + to_string(temp2->Fil) + "; X" + to_string(temp2->RightNodeMatrix->Col) + "_" + to_string(temp2->Fil) + " }\n";
+            Dot +="Y" + to_string(temp2->Fil) + "-> N" + to_string(temp2->RightNodeMatrix->Col) + "_" + to_string(temp2->Fil) + "[dir=both];\n";
+            Dot +="{ rank = same; Y" + to_string(temp2->Fil) + "; N" + to_string(temp2->RightNodeMatrix->Col) + "_" + to_string(temp2->Fil) + " }\n";
         }else{
-            Dot +="X"+ to_string(temp2->Col) + "_" + to_string(temp2->Fil) + "-> X" + to_string(temp2->RightNodeMatrix->Col) + "_" + to_string(temp2->Fil) + "[dir=both];\n";
-            Dot +="{ rank = same; X" + to_string(temp2->Col) + "_" + to_string(temp2->Fil)+ "; X" + to_string(temp2->RightNodeMatrix->Col) + "_" + to_string(temp2->Fil) + " }\n";
+            Dot +="N"+ to_string(temp2->Col) + "" + to_string(temp2->Fil) + "-> N" + to_string(temp2->RightNodeMatrix->Col) + "" + to_string(temp2->Fil) + "[dir=both];\n";
+            Dot +="{ rank = same; N" + to_string(temp2->Col) + "" + to_string(temp2->Fil)+ "; N" + to_string(temp2->RightNodeMatrix->Col) + "" + to_string(temp2->Fil) + " }\n";
         }
         temp2 = temp2->RightNodeMatrix;
     }
     Dot +="Terminal -> X" + to_string(temp->Col) +  " [dir=both];\n";
     while(temp->RightNodeMatrix!=NULL){
-        Dot +="X"+ to_string(temp->Col) + "[label = \"" + "C" +to_string(temp->Col) + " \"   width = 1.5 style = filled, group =" + to_string(temp->Col) + "];\n";
+        Dot +="X"+ to_string(temp->Col) + "[label = \"" + "Col: " +to_string(temp->Col) + " \"   width = 1.5 style = filled, group =" + to_string(temp->Col) + "];\n";
         Dot +="X"+ to_string(temp->Col) + "-> X" + to_string(temp->RightNodeMatrix->Col) + "[dir=both];\n";
         Dot +="{ rank = same; Terminal; X" + to_string(temp->Col)+ " }\n";
         NodeMatrixB2 *aux = temp;
         while (aux->DownNodeMatrix != NULL){
-            Dot +="X"+ to_string(aux->Col) + "_" + to_string(aux->DownNodeMatrix->Fil) + "[label = \"" + to_string(aux->DownNodeMatrix->ColorR) + "," + to_string(aux->DownNodeMatrix->ColorG) + "," + to_string(aux->DownNodeMatrix->ColorB) + " \"   width = 1.5, group =" + to_string(aux->Col) + "];\n";
+            Dot +="N"+ to_string(aux->Col) + "_" + to_string(aux->DownNodeMatrix->Fil) + "[label = \"" + to_string(aux->DownNodeMatrix->ColorR) + "," + to_string(aux->DownNodeMatrix->ColorG) + "," + to_string(aux->DownNodeMatrix->ColorB) + " \"   width = 1.5, group =" + to_string(aux->Col) + "];\n";
             if(aux->Fil==0){
-                Dot +="X"+ to_string(aux->Col) + "-> X" + to_string(aux->Col) + "_" + to_string(aux->DownNodeMatrix->Fil) + "[dir=both];\n";
+                Dot +="X"+ to_string(aux->Col) + "-> N" + to_string(aux->Col) + "_" + to_string(aux->DownNodeMatrix->Fil) + "[dir=both];\n";
             }else{
-                Dot +="X"+ to_string(aux->Col) + "_" + to_string(aux->Fil) + "-> X" + to_string(aux->Col) + "_" + to_string(aux->DownNodeMatrix->Fil) + "[dir=both];\n";
+                Dot +="N"+ to_string(aux->Col) + "" + to_string(aux->Fil) + "-> N" + to_string(aux->Col) + "" + to_string(aux->DownNodeMatrix->Fil) + "[dir=both];\n";
             }
             aux = aux->DownNodeMatrix;
         }
         temp = temp->RightNodeMatrix;
     }
-    Dot +="X"+ to_string(temp->Col) + "[label = \"" + "C" + to_string(temp->Col) + " \"   width = 1.5 style = filled, group =" + to_string(temp->Col) + "];\n";
+    Dot +="X"+ to_string(temp->Col) + "[label = \"" + "Col: " + to_string(temp->Col) + " \"   width = 1.5 style = filled, group =" + to_string(temp->Col) + "];\n";
     Dot +="{ rank = same; Terminal; X" + to_string(temp->Col)+ " }\n";
     while (temp->DownNodeMatrix != NULL){
         if(temp->Fil==0){
-            Dot +="X"+ to_string(temp->Col) + "_" + to_string(temp->DownNodeMatrix->Fil)  + "[label = \"" + to_string(temp->DownNodeMatrix->ColorR) + "," + to_string(temp->DownNodeMatrix->ColorG) + "," + to_string(temp->DownNodeMatrix->ColorB) + " \"   width = 1.5, group =" + to_string(temp->Col) + "];\n";
-            Dot +="X"+ to_string(temp->Col) + "-> X" + to_string(temp->Col) + "_" + to_string(temp->DownNodeMatrix->Fil) + "[dir=both];\n";
+            Dot +="N"+ to_string(temp->Col) + "_" + to_string(temp->DownNodeMatrix->Fil)  + "[label = \"" + to_string(temp->DownNodeMatrix->ColorR) + "," + to_string(temp->DownNodeMatrix->ColorG) + "," + to_string(temp->DownNodeMatrix->ColorB) + " \"   width = 1.5, group =" + to_string(temp->Col) + "];\n";
+            Dot +="X"+ to_string(temp->Col) + "-> N" + to_string(temp->Col) + "_" + to_string(temp->DownNodeMatrix->Fil) + "[dir=both];\n";
         }else{
-            Dot +="X"+ to_string(temp->Col) + "_" + to_string(temp->DownNodeMatrix->Fil)  + "[label = \"" + to_string(temp->DownNodeMatrix->ColorR) + "," + to_string(temp->DownNodeMatrix->ColorG) + "," + to_string(temp->DownNodeMatrix->ColorB) + " \"   width = 1.5, group =" + to_string(temp->Col) + "];\n";
-            Dot +="X"+ to_string(temp->Col) + "_" + to_string(temp->Fil) + "-> X" + to_string(temp->Col) + "_" + to_string(temp->DownNodeMatrix->Fil) + "[dir=both];\n";
+            Dot +="N"+ to_string(temp->Col) + "_" + to_string(temp->DownNodeMatrix->Fil)  + "[label = \"" + to_string(temp->DownNodeMatrix->ColorR) + "," + to_string(temp->DownNodeMatrix->ColorG) + "," + to_string(temp->DownNodeMatrix->ColorB) + " \"   width = 1.5, group =" + to_string(temp->Col) + "];\n";
+            Dot +="N"+ to_string(temp->Col) + "" + to_string(temp->Fil) + "-> N" + to_string(temp->Col) + "" + to_string(temp->DownNodeMatrix->Fil) + "[dir=both];\n";
         }
         temp = temp->DownNodeMatrix;
     }
@@ -468,7 +801,6 @@ string MatrixB::DotMatirx2C(string Dot) {
 
     return Dot;
 }
-
 
 string MatrixB::DotGrayScape(string Dot) {
     NodeMatrixB2 *temp = HeadNode->RightNodeMatrix;
@@ -481,7 +813,7 @@ string MatrixB::DotGrayScape(string Dot) {
     Dot += "e1[ shape = point, width = 0 ]\n";
     Dot += "Terminal -> Y" + to_string(temp2->Fil) +  " [dir=both];\n";
     while(temp2->DownNodeMatrix!=NULL){
-        Dot += "Y"+ to_string(temp2->Fil) + "[label = \"" + "F" + to_string(temp2->Fil) + " \"   width = 1.5 style = filled, group =" + to_string(0) + "];\n";
+        Dot += "Y"+ to_string(temp2->Fil) + "[label = \"" + "F" + to_string(temp2->Fil) + " \" , group =" + to_string(0) + "];\n";
         Dot += "Y"+ to_string(temp2->Fil) + "-> Y" + to_string(temp2->DownNodeMatrix->Fil) + "[dir=both];\n";
         NodeMatrixB2 *aux2 = temp2;
         while (aux2->RightNodeMatrix != NULL){
@@ -496,7 +828,7 @@ string MatrixB::DotGrayScape(string Dot) {
         }
         temp2 = temp2->DownNodeMatrix;
     }
-    Dot +="Y"+ to_string(temp2->Fil) + "[label = \"" + "F" +  to_string(temp2->Fil) + " \"   width = 1.5 style = filled,group =" + to_string(0) + "];\n";
+    Dot +="Y"+ to_string(temp2->Fil) + "[label = \"" + "F" +  to_string(temp2->Fil) + " \" ,group =" + to_string(0) + "];\n";
     while (temp2->RightNodeMatrix != NULL){
         if(temp2->Col==0) {
             Dot +="Y" + to_string(temp2->Fil) + "-> X" + to_string(temp2->RightNodeMatrix->Col) + "_" + to_string(temp2->Fil) + "[dir=both];\n";
@@ -509,7 +841,7 @@ string MatrixB::DotGrayScape(string Dot) {
     }
     Dot +="Terminal -> X" + to_string(temp->Col) +  " [dir=both];\n";
     while(temp->RightNodeMatrix!=NULL){
-        Dot +="X"+ to_string(temp->Col) + "[label = \"" + "C" +to_string(temp->Col) + " \"   width = 1.5 style = filled, group =" + to_string(temp->Col) + "];\n";
+        Dot +="X"+ to_string(temp->Col) + "[label = \"" + "C" +to_string(temp->Col) + " \" , group =" + to_string(temp->Col) + "];\n";
         Dot +="X"+ to_string(temp->Col) + "-> X" + to_string(temp->RightNodeMatrix->Col) + "[dir=both];\n";
         Dot +="{ rank = same; Terminal; X" + to_string(temp->Col)+ " }\n";
         NodeMatrixB2 *aux = temp;
@@ -527,7 +859,7 @@ string MatrixB::DotGrayScape(string Dot) {
         }
         temp = temp->RightNodeMatrix;
     }
-    Dot +="X"+ to_string(temp->Col) + "[label = \"" + "C" + to_string(temp->Col) + " \"   width = 1.5 style = filled, group =" + to_string(temp->Col) + "];\n";
+    Dot +="X"+ to_string(temp->Col) + "[label = \"" + "C" + to_string(temp->Col) + " \", group =" + to_string(temp->Col) + "];\n";
     Dot +="{ rank = same; Terminal; X" + to_string(temp->Col)+ " }\n";
     while (temp->DownNodeMatrix != NULL){
         if(temp->Fil==0){
@@ -555,12 +887,12 @@ string MatrixB::DotNegative(string Dot) {
     Dot += "digraph{\n";
     Dot += "node [shape=box]\n";
     Dot += "graph[nodesep = 0.5];\n";
-    Dot += "Terminal [ label = \"Matrix\", width = 1.5, style = filled, group = 0 ];\n";
+    Dot += "Terminal [ label = \"Matrix\", group = 0 ];\n";
     Dot += "e0[ shape = point, width = 0 ]\n";
     Dot += "e1[ shape = point, width = 0 ]\n";
     Dot += "Terminal -> Y" + to_string(temp2->Fil) +  " [dir=both];\n";
     while(temp2->DownNodeMatrix!=NULL){
-        Dot += "Y"+ to_string(temp2->Fil) + "[label = \"" + "F" + to_string(temp2->Fil) + " \"   width = 1.5 style = filled, group =" + to_string(0) + "];\n";
+        Dot += "Y"+ to_string(temp2->Fil) + "[label = \"" + "F" + to_string(temp2->Fil) + " \", group =" + to_string(0) + "];\n";
         Dot += "Y"+ to_string(temp2->Fil) + "-> Y" + to_string(temp2->DownNodeMatrix->Fil) + "[dir=both];\n";
         NodeMatrixB2 *aux2 = temp2;
         while (aux2->RightNodeMatrix != NULL){
@@ -575,7 +907,7 @@ string MatrixB::DotNegative(string Dot) {
         }
         temp2 = temp2->DownNodeMatrix;
     }
-    Dot +="Y"+ to_string(temp2->Fil) + "[label = \"" + "F" +  to_string(temp2->Fil) + " \"   width = 1.5 style = filled,group =" + to_string(0) + "];\n";
+    Dot +="Y"+ to_string(temp2->Fil) + "[label = \"" + "F" +  to_string(temp2->Fil) + " \",group =" + to_string(0) + "];\n";
     while (temp2->RightNodeMatrix != NULL){
         if(temp2->Col==0) {
             Dot +="Y" + to_string(temp2->Fil) + "-> X" + to_string(temp2->RightNodeMatrix->Col) + "_" + to_string(temp2->Fil) + "[dir=both];\n";
@@ -588,7 +920,7 @@ string MatrixB::DotNegative(string Dot) {
     }
     Dot +="Terminal -> X" + to_string(temp->Col) +  " [dir=both];\n";
     while(temp->RightNodeMatrix!=NULL){
-        Dot +="X"+ to_string(temp->Col) + "[label = \"" + "C" +to_string(temp->Col) + " \"   width = 1.5 style = filled, group =" + to_string(temp->Col) + "];\n";
+        Dot +="X"+ to_string(temp->Col) + "[label = \"" + "C" +to_string(temp->Col) + " \", group =" + to_string(temp->Col) + "];\n";
         Dot +="X"+ to_string(temp->Col) + "-> X" + to_string(temp->RightNodeMatrix->Col) + "[dir=both];\n";
         Dot +="{ rank = same; Terminal; X" + to_string(temp->Col)+ " }\n";
         NodeMatrixB2 *aux = temp;
@@ -606,7 +938,7 @@ string MatrixB::DotNegative(string Dot) {
         }
         temp = temp->RightNodeMatrix;
     }
-    Dot +="X"+ to_string(temp->Col) + "[label = \"" + "C" + to_string(temp->Col) + " \"   width = 1.5 style = filled, group =" + to_string(temp->Col) + "];\n";
+    Dot +="X"+ to_string(temp->Col) + "[label = \"" + "C" + to_string(temp->Col) + " \", group =" + to_string(temp->Col) + "];\n";
     Dot +="{ rank = same; Terminal; X" + to_string(temp->Col)+ " }\n";
     while (temp->DownNodeMatrix != NULL){
         if(temp->Fil==0){
@@ -627,3 +959,4 @@ string MatrixB::DotNegative(string Dot) {
     Dot +="}";
     return Dot;
 }
+ */
