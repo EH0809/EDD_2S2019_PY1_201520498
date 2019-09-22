@@ -11,6 +11,10 @@
 NodeFilter *FirstListFilters = NULL;
 NodeFilter *EndListFilters = NULL;
 
+bool ListFilters::IsEmpety() {
+    return FirstListFilters == NULL;
+}
+
 NodeFilter * ListFilters::CreateNode(string Name) {
     NodeFilter * New_Node = new NodeFilter;
     New_Node->Name = Name;
@@ -32,13 +36,14 @@ void ListFilters::InsertNodeFilter(string Name) {
         FirstListFilters->PreviousFilter = EndListFilters;
     }
 }
-
+int contador = 1;
 void ListFilters::PrintFilters() {
     NodeFilter *Aux = FirstListFilters;
     if (FirstListFilters != NULL){
         do{
-            cout<<"Filters: "+Aux->Name+"->";
+            cout<<"No.: "+to_string(contador)+" Filters: "+Aux->Name+"->";
             Aux= Aux->NextFilter;
+            contador++;
         }while (Aux != FirstListFilters);
     }
 }
