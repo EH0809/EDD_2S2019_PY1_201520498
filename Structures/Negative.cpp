@@ -154,7 +154,7 @@ string Negative::MandarCSSNEgativo() {
     }
     return css;
 }
-
+/*
 void Negative::MandarMatrix(int Col, int Fil, int ColorR, int ColorG, int ColorB) {
     NegativeMatrix.AddMatrixC(Col,Fil,ColorR,ColorG,ColorB);
 }
@@ -162,3 +162,4 @@ void Negative::MandarMatrix(int Col, int Fil, int ColorR, int ColorG, int ColorB
 void Negative::GraphMatrix() {
     NegativeMatrix.GraficarMatrixC();
 }
+ */
