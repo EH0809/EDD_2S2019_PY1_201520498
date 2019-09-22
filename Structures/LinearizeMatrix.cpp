@@ -298,6 +298,12 @@ bool LinearizeMatrix::isEmptyMRY() {
     bool a = Aux->RNode.IsEmptyP();
     return a;
 }
+
+bool LinearizeMatrix::isEmptyRXY() {
+    Linearize *Aux = FirstLinearize;
+    bool a = Aux->RNode.IsEmptyP();
+    return a;
+}
 string LinearizeMatrix::Conversor(int ColorR, int ColorG, int ColorB) {
     int decRed, r;
     string HexaRed="";
@@ -458,7 +464,35 @@ void LinearizeMatrix::MostrarChange() {
 }
 
 
+//***********************ROTACION XY**************
+void LinearizeMatrix::ChangeIdXY(int WidthC, int HeightC) {
+    Linearize * Aux = FirstLinearize;
+    string a ="";
+    while(Aux != NULL){
+        ChangeId2XY(Aux, WidthC, HeightC);
+        Aux = Aux->NextLinearize;
+    }
+}
 
+void LinearizeMatrix::ChangeId2XY(Linearize *&Node, int WidthC, int HeightC) {
+    int a= WidthC *HeightC;
+    int TempId = Node->Id;
+    int TempCol = Node->Col;
+    int TempFil = Node->Fil;
+    int Total = a - (TempId-1);
+    Node->RNodeXY.AddROTACIONY(Total,TempFil,TempCol,Node->ColorR,Node->ColorG,Node->ColorB,Node->ColorHexa);
+
+}
+
+string LinearizeMatrix::MandarAtraerRotacionXY() {
+    Linearize *Temp = FirstLinearize;
+    string a = "";
+    while(Temp != NULL){
+        a += Temp->RNodeXY.Rotacion();
+        Temp = Temp->NextLinearize;
+    }
+    return a;
+}
 
 //***********************ROTACION X ***************************
 void LinearizeMatrix::ChangeIdx(int WidthC, int HeightC) {
