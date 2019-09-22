@@ -7,6 +7,9 @@
 #include "iostream"
 #include "MatrixB.h"
 #include "LinearizeMatrix.h"
+#include "MatrixRotationY.h"
+#include "MatrixRotationX.h"
+
 using namespace std;
 struct MatrixList{
     int Id;
@@ -14,6 +17,8 @@ struct MatrixList{
     string Archivo;
     MatrixB PunteroMatrixB;
     LinearizeMatrix Linalizador;
+    MatrixRotationY RotacionY;
+    MatrixRotationX RotacionX;
     MatrixList *NextMatrix;
     MatrixList *PreviousMatrix;
 };
@@ -49,97 +54,89 @@ public:
     //void MandarHtml(int WidthC, int HeightC, int WidthP, int HeightP, string name);
     void MandarCSS(int WidthC, int HeightC, int WidthP, int HeightP,string name);
     void MandarTamanio(int WidthM, int HeightM);
-    string IntentoMandarHtml();
-    void IntentoMandarHtml1(string name, int tamanio);
-    string IntentoMandarHtml2(string html, string nombre, int tamanio);
+    string IntentoMandarHtml(int Image_width, int Image_height);
+    void IntentoMandarHtml1(string name,int Image_width, int Image_height);
+    string IntentoMandarHtml2(string html, string nombre, int Image_width, int Image_height);
 
     string IntentoMandarCSS();
     void IntentoMandarCSS1(int WidthC, int HeightC, int WidthP, int HeightP,string name);
     string IntentoMandarCSS2(string html,int WidthC, int HeightC, int WidthP, int HeightP);
 
+    void UpdateNodeLinealizar(int Col, int Fil, int ColoR, int ColorG, int ColorB);
+    void UpdateNodeLinealizar2(int Id, int Col, int Fil, int ColorR, int ColorG, int ColorB);
 
 
     string IntentoMandarCss();
     //*****************Mandar GRAYSCALE ******//////////
     void EnviarAConvertirGRAYSCALE();
-    void MandarHtmGRAYSCALEl(string name,int tamanio);
-    string MandarHtmGRAYSCALE2(string html, string nombre);
-    string MandarHtmGRAYSCALE3();
+    void MandarHtmGRAYSCALEl(string name,int Image_width, int Image_height);
+    string MandarHtmGRAYSCALE2(string html, string nombre,int Image_width, int Image_height);
+    string MandarHtmGRAYSCALE3(int Image_width, int Image_height);
     void MandarCSSGRAYSCALEl(int WidthC, int HeightC, int WidthP, int HeightP,string name);
     string MandarCSSGRAYSCALE2(string css,int WidthC, int HeightC, int WidthP, int HeightP);
     string MandarCSSGRAYSCALE3();
+    bool IsEmptyGrayScale();
     void SentToGraph();
     //***********************MANDAR NEGATIVE **********
     void EnviarAConvertirNEGATIVE();
-    void MandarHTMLNEGATIVE(string name);
-    string MandarHtmNEGATIVE(string html, string nombre);
-    string MandarHtmNEGATIVE3();
+    void MandarHTMLNEGATIVE(string name,int Image_width, int Image_height);
+    string MandarHtmNEGATIVE(string html, string nombre,int Image_width, int Image_height);
+    string MandarHtmNEGATIVE3(int Image_width, int Image_height);
     void MandarCSSNEGATIVE(int WidthC, int HeightC, int WidthP, int HeightP,string name);
     string MandarCSSNEGATIVE2(string css,int WidthC, int HeightC, int WidthP, int HeightP);
     string MandarCSSNEGATIVE3();
+    bool IsEmptyNegative();
 
     //***********************MANDAR ROTACIONY ***********
     void EnviarAConvertirROTACIONY(int WidthC, int HeightC);
-    void MandarHTMLROTACIONY(string name);
-    string MandarHtMLROTACIONY2(string html, string nombre);
-    string MandarHtmROTACIONY3();
+    void MandarHTMLROTACIONY(string name,int Image_width, int Image_height);
+    string MandarHtMLROTACIONY2(string html, string nombre,int Image_width, int Image_height);
+    string MandarHtmROTACIONY3(int Image_width, int Image_height);
     void MandarCSSROTACIONY(int WidthC, int HeightC, int WidthP, int HeightP,string name);
     string MandarCSSROTACIONY2(string css,int WidthC, int HeightC, int WidthP, int HeightP);
     string MandarCSSROTACIONY3();
+    bool IsEmptyMRY();
+    bool IsEmptyMRX();
+    //************************NEW MATRIX ESPEJO Y*******************///
+    void ADDMatrixY();
+    void DesEncaparMatrixY(MatrixList *&Node);
+    void MandarAGraficarY(int Id);
+
 
     //************************MANDAR ROTACIONES X*************
     void EnviarAConvertirROTACIONESX(int WidthC, int HeightC);
-
+    void ADDMatrixX();
+    void DesEncaparMatrixX(MatrixList *&Node);
+    void MandarAGraficarX(int Id);
 
     //*******************************CAPAS**************************
     //*****************************MANDAR CAPA GRAYSCALE
     void MandarGRAYCAPA(int id);
 
     string MandarCSSGrayCApa(int Id);
-    void MandarHtmGRAYSCALElCAPA(string name);
-    string MandarHtmGRAYSCALE2CAPA(string html, string nombre);
-    string MandarHtmGRAYSCALE3CAPA();
+    void MandarHtmGRAYSCALElCAPA(string name,int Image_width, int Image_height);
+    string MandarHtmGRAYSCALE2CAPA(string html, string nombre,int Image_width, int Image_height);
+    string MandarHtmGRAYSCALE3CAPA(int Image_width, int Image_height);
     void MandarCSSGRAYSCALElCAPA(int WidthC, int HeightC, int WidthP, int HeightP,string name);
     string MandarCSSGRAYSCALE2CAPA(string css,int WidthC, int HeightC, int WidthP, int HeightP);
     string MandarCSSGRAYSCALE3CAPA();
 
+    void GraphLayers(int a);
     //***************************MANDAR CAPA NEGATIVE **********
 
     void MandarNEGATIVECAPA(int Id);
     string MandarCSSNEGATIVECApa(int Id);
-    void MandarHtmNEGATIVElCAPA(string name);
-    string MandarHtmNEGATIVE2CAPA(string html, string nombre);
-    string MandarHtmNEGATICE3CAPA();
+    void MandarHtmNEGATIVElCAPA(string name,int Image_width, int Image_height);
+    string MandarHtmNEGATIVE2CAPA(string html, string nombre,int Image_width, int Image_height);
+    string MandarHtmNEGATICE3CAPA(int Image_width, int Image_height);
     void MandarCSSNEGATIVECAPA(int WidthC, int HeightC, int WidthP, int HeightP,string name);
     string MandarCSSNEGATIVE2CAPA(string css,int WidthC, int HeightC, int WidthP, int HeightP);
     string MandarCSSNEGATIVECAPA();
+    void GraphLayersNegative(int a);
+    //**********************************EDIT LAYER ************
 
-
-
-
-
-
-
-
-
-
-    void MandarCSSGRAYSCALE(int WidthC, int HeightC, int WidthP, int HeightP);
-    //******************MANDAR NEGATIVE *********////////
-    void MandarHtmlNEGATIVE();
-    void MandarCSSNEGATIVE(int WidthC, int HeightC, int WidthP, int HeightP);
-
-    //***********************MANDAR POR CAPAS *****///////////
-    void GrayscapeCapas(int Id);
-    void NegativeCapas(int Id);
-
-
-    //************************MANDAR ROTACION Y************************/////
-    void MandarRotacionY();
-    void CreatHTMLRY();
-    void CSSRY(int WidthC, int HeightC, int WidthP, int HeightP);
-    void EnviarTRotacionY(int WidthM, int HeightM);
-
-
+    void EditNodeMatrix(int Id, int Col, int Fil, int ColorR, int ColorG, int ColorB);
+    void EditNodeMatrixGrayScale(int Id, int Col,int Fil, int ColorR, int ColorG, int ColorB);
 
 
 };
