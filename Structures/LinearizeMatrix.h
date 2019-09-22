@@ -10,6 +10,7 @@
 #include "LinearizeMatrix.h"
 #include "RotacionY.h"
 #include "RotacionX.h"
+#include "RotacionXY.h"
 
 using namespace std;
 struct Linearize{
@@ -24,6 +25,7 @@ struct Linearize{
     Negative NNode;
     RotacionY RNode;
     RotacionX RNodeX;
+    RotacionXY RNodeXY;
     Linearize *NextLinearize;
     Linearize *PreviuosLinearize;
 
@@ -88,6 +90,12 @@ public:
     void ChangeId2x(Linearize *&Node, int WidthC, int HeightC);
     string MandarAtraerRotacionX();
     bool isEmptyMRX();
+    //**********ROTACION XY************
+    void ChangeIdXY(int WidthC, int HeightC);
+    void ChangeId2XY(Linearize *&Node, int WidthC, int HeightC);
+    void MostrarChangeXY();
+    string MandarAtraerRotacionXY();
+    bool isEmptyRXY();
 
 
 
