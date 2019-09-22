@@ -252,6 +252,13 @@ void ListMatix::MostarCapas() {
     }
 }
 
+void ListMatix::AllLayers() {
+    MatrixList *Aux = FirstMatrixList;
+    while(Aux != NULL){
+        GraphCapas(Aux->Id);
+        Aux = Aux->NextMatrix;
+    }
+}
 
 void ListMatix::GraficarLFilas() {
     cout << "///************MATRIX******** \n";
@@ -463,6 +470,12 @@ bool ListMatix::IsEmptyMRY() {
     return a;
 }
 
+bool ListMatix::isEmptyRXY() {
+    MatrixList *Aux = FirstMatrixList;
+    bool a = Aux->Linalizador.isEmptyMRY();
+    return a;
+}
+
 
 //****************************NEGATIVE**************************************
 
@@ -618,6 +631,22 @@ void  ListMatix::MandarAGraficarY(int ID){
     system(command);
 }
 
+void  ListMatix::MandarAGraficarYX(int ID){
+    MatrixList *Temp = MandarAGraficar(ID);
+    string a = "";
+    string Capa = "CapaRY" + to_string(Temp->Id);
+    ofstream fd4(Capa + ".dot");
+    //a += Temp->PunteroMatrix.Dot3(a);
+    a += Temp->RotacionY.DotMatirx2C(a);
+    fd4 << a;
+    fd4.flush();
+    fd4.close();
+    cout << " GENERANDO IMAGEN Capa \n";
+    string ab = "dot -Tpng " + Capa + ".dot -o " + Capa + ".png";
+    const char *command = ab.c_str();
+    system(command);
+}
+
 
 void ListMatix::EnviarAConvertirROTACIONY(int WidthC, int HeightC) {
     MatrixList *Aux = FirstMatrixList;
@@ -694,6 +723,148 @@ string ListMatix::MandarCSSROTACIONY2(string css, int WidthC, int HeightC, int W
 }
 
 string ListMatix::MandarCSSROTACIONY3() {
+    MatrixList *Aux = FirstMatrixList;
+    string temp ="";
+    while (Aux != NULL) {
+        temp += Aux->Linalizador.MandarAtraerRotacionY();
+        Aux = Aux->NextMatrix;
+    }
+    return temp;
+}
+//*************************ROTACIONES XY
+void ListMatix::ADDMatrixXY() {
+    MatrixList *Aux741 = FirstMatrixList;
+    while (Aux741 != NULL) {
+        DesEncaparMatrixXY(Aux741);
+        Aux741 = Aux741->NextMatrix;
+    }
+}
+
+void ListMatix::DesEncaparMatrixXY(MatrixList *&Node) {
+    string Archivo = Node->Archivo;
+    string Col;
+    string Fil;
+    string R;
+    string G;
+    string B;
+    string PiL;
+    stringstream AuxLectura(Archivo);
+    while (!AuxLectura.fail()) {
+        getline(AuxLectura, Col, ',');
+        getline(AuxLectura, Fil, ',');
+        getline(AuxLectura, R, ',');
+        getline(AuxLectura, G, ',');
+        getline(AuxLectura, B, ',');
+        getline(AuxLectura, PiL, '\n');
+        int Columna = atoi(Col.c_str());
+        int Fila = atoi(Fil.c_str());
+        int ColorR = atoi(R.c_str());
+        int ColorG = atoi(G.c_str());
+        int ColorB = atoi(B.c_str());
+        int Pixel = atoi(PiL.c_str());
+        if (Node->PunteroMatrixB.HeadNode == NULL) {
+            cout << "Matrix Vacia para" + Node->Name << "\n";
+        }
+        if (Col != "") {
+           // Node->RotacionY.AddMatrixC(Columna, Fila, ColorR, ColorG, ColorB);
+
+        }
+
+    }
+}
+
+void  ListMatix::MandarAGraficarXXY(int ID){
+    MatrixList *Temp = MandarAGraficar(ID);
+    string a = "";
+    string Capa = "CapaRY" + to_string(Temp->Id);
+    ofstream fd4(Capa + ".dot");
+    //a += Temp->PunteroMatrix.Dot3(a);
+    a += Temp->RotacionY.DotMatirx2C(a);
+    fd4 << a;
+    fd4.flush();
+    fd4.close();
+    cout << " GENERANDO IMAGEN Capa \n";
+    string ab = "dot -Tpng " + Capa + ".dot -o " + Capa + ".png";
+    const char *command = ab.c_str();
+    system(command);
+}
+
+
+void ListMatix::EnviarAConvertirROTACIONXY(int WidthC, int HeightC) {
+    MatrixList *Aux = FirstMatrixList;
+    while(Aux != NULL){
+        Aux->Linalizador.ChangeId(WidthC, HeightC);
+        Aux = Aux->NextMatrix;
+    }
+}
+
+void ListMatix::MandarHTMLROTACIONXY(string name,int Image_width, int Image_height){
+    string a = "";
+    string nombre = "RY"+name+".html";
+    ofstream fd4(nombre);
+    a += MandarHtMLROTACIONY2(a,name, Image_width, Image_height);
+    fd4 << a;
+    fd4.flush();
+    fd4.close();
+}
+
+string ListMatix::MandarHtMLROTACIONXY2(string html, string nombre,int Image_width, int Image_height){
+    html += "<!DOCTYPE html > \n";
+    html += "<html> \n";
+    html += "<head> \n";
+    html += "<link rel=\"stylesheet\" href=\" RY"+nombre+".css\"> \n";
+    html += "</head> \n <body> \n";
+    html += "<div class=\"canvas\"> \n";
+    html += MandarHtmROTACIONY3( Image_width, Image_height);
+    html += "</div>\n";
+    html += "</body> \n";
+    html += "</html> \n";
+    return html;
+}
+
+string ListMatix::MandarHtmROTACIONXY3(int Image_width, int Image_height) {
+    MatrixList *Aux = FirstMatrixList;
+    string temp ="";
+    temp += Aux->Linalizador.H1(Image_width,Image_height);
+    return temp;
+}
+
+void ListMatix::MandarCSSROTACIONXY(int WidthC, int HeightC, int WidthP, int HeightP,string name) {
+    string a = "";
+    string nombre1 ="RY"+name+".css";
+    ofstream fd4(nombre1);
+    a += MandarCSSROTACIONY2(a, WidthC, HeightC, WidthP, HeightP);
+    fd4 << a;
+    fd4.flush();
+    fd4.close();
+}
+
+string ListMatix::MandarCSSROTACIONXY2(string css, int WidthC, int HeightC, int WidthP, int HeightP) {
+    int TCanvasW = WidthP * WidthC;
+    int TConvasH = HeightP * HeightC;
+    css += "body {\n"
+           "  background: #333333;      /* Background color of the whole page */\n"
+           "  height: 100vh;            /* 100 viewport heigh units */\n"
+           "  display: flex;            /* defines a flex container */\n"
+           "  justify-content: center;  /* centers the canvas horizontally */\n"
+           "  align-items: center;      /* centers the canvas vertically */\n"
+           "} \n";
+
+    css += ".canvas {\n"
+           "  width:" + to_string(TCanvasW) + "px;   /* Width of the canvas */\n"
+                                              "  height:" + to_string(TConvasH) + "px;  /* Height of the canvas */\n"
+                                                                                  "} \n";
+    css += ".pixel {\n"
+           "  width:" + to_string(WidthP) + "px;    /* Width of each pixel */\n"
+                                            "  height:" + to_string(HeightP) + "px;   /* Height of each pixel */\n"
+                                                                               "  float: left;    /* Everytime it fills the canvas div it will begin a new line */\n"
+                                                                               "  box-shadow: 0px 0px 1px #fff;  /* Leave commented, showing the pixel boxes */\n"
+                                                                               "} \n";
+    css += MandarCSSROTACIONY3();
+    return css;
+}
+
+string ListMatix::MandarCSSROTACIONXY3() {
     MatrixList *Aux = FirstMatrixList;
     string temp ="";
     while (Aux != NULL) {
