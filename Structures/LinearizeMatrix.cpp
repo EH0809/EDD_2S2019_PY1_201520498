@@ -24,8 +24,8 @@ Linearize *LinearizeMatrix::Create_Node(int Id, int Col, int Fil, int ColorR, in
 }
 
 void LinearizeMatrix::AddLinearize(int Id, int Col, int Fil, int ColorR, int ColorG, int ColorB) {
-    string ColorHexa = ConvertirAHexa(ColorR,ColorG,ColorB,true);
-    //string ColorHexa = Conversor(ColorR,ColorG,ColorB);
+    //string ColorHexa = ConvertirAHexa(ColorR,ColorG,ColorB,true);
+    string ColorHexa = Conversor(ColorR,ColorG,ColorB);
     Linearize *New_Nodo = Create_Node(Id, Col, Fil, ColorR, ColorG, ColorB, ColorHexa);
     if (IsEmptyP()) {
         FirstLinearize = EndLinearize = New_Nodo;
@@ -150,9 +150,10 @@ string LinearizeMatrix::Html(string html, string nombre) {
     html += "</html> \n";
     return html;
 }
-string LinearizeMatrix::H1() {
+string LinearizeMatrix::H1(int Image_width, int Image_height) {
+    int a = Image_width * Image_height;
     string html ="";
-    for (int i = 1; i <= Tama; i++) {
+    for (int i = 1; i <= a; i++) {
         html += "<div class=\"pixel\"></div> \n";
     }
     return  html;
@@ -204,7 +205,6 @@ string LinearizeMatrix::C1() {
     string temp ="";
     Linearize *Aux = FirstLinearize;
     while (Aux != NULL) {
-        //css += Agrupar(Aux->ColorHexa);
         temp += ".pixel:nth-child("+to_string(Aux->Id)+"){\n";
         temp += "background:"+Aux->ColorHexa+";} \n";
         Aux = Aux->NextLinearize;
@@ -213,6 +213,41 @@ string LinearizeMatrix::C1() {
 }
 
 
+void LinearizeMatrix::UpdateNodeLinealizar(int Col, int Fil, int ColorR, int ColorG, int ColorB) {
+    Linearize *Temp = FirstLinearize;
+    while (Temp != NULL){
+        if(Temp->Col == Col && Temp->Fil == Fil){
+            Temp->ColorR = ColorR;
+            Temp->ColorG = ColorG;
+            Temp->ColorB = ColorB;
+            Temp->ColorHexa = Conversor(ColorR,ColorG,ColorB);
+            cout<<"Si Modifico Linealizaar \n";
+        }
+        Temp = Temp->NextLinearize;
+    }
+}
+
+void LinearizeMatrix::UpdateNodeCSSGrayScale(int Col, int Fil, int ColorR, int ColorG, int ColorB) {
+    Linearize *Temp = FirstLinearize;
+    while (Temp != NULL){
+        if(Temp->Col == Col && Temp->Fil == Fil){
+            Temp->ColorR = ColorR;
+            Temp->ColorG = ColorG;
+            Temp->ColorB = ColorB;
+            Temp->ColorHexa = ConvertirAHexa(ColorR,ColorG,ColorB, true);
+            cout<<"Si Modifico Linealizaar \n";
+        }
+        Temp = Temp->NextLinearize;
+    }
+}
+
+void LinearizeMatrix::UpdateNodeMatrixGrayScale(int Col, int Fil, int ColorR, int ColorG, int ColorB) {
+    Linearize *Temp = FirstLinearize;
+    while (Temp != NULL){
+
+        Temp = Temp->NextLinearize;
+    }
+}
 //***************************GRAYSCALE*********************////
 void LinearizeMatrix::Convertir() {
     Linearize *LNew = FirstLinearize;
@@ -226,11 +261,7 @@ void LinearizeMatrix::GrayS(Linearize *& Node) {
     int R = (Node->ColorR *0.3)+(Node->ColorG *0.59)+(Node->ColorB *0.11);
     int G = (Node->ColorR *0.3)+(Node->ColorG *0.59)+(Node->ColorB *0.11);
     int B = (Node->ColorR *0.3)+(Node->ColorG *0.59)+(Node->ColorB *0.11);
-    /*int R = (255 - Node->ColorR);
-    int G = (255- Node->ColorG);
-    int B =  (255-Node->ColorB);
-     */
-    string Hexa = ConvertirAHexa(R,G,B,true);
+    string Hexa = Conversor(R,G,B);
     Node->GNode.AddGRAYSCALE(Node->Id,Node->Col,Node->Fil,R,G,B,Hexa);
 }
 
@@ -244,67 +275,108 @@ string LinearizeMatrix::TraerCSSGRAYSACLE() {
     return  a;
 }
 
+bool LinearizeMatrix::isEmptyGrayScale(){
+    Linearize *Aux = FirstLinearize;
+    bool a = Aux->GNode.IsEmptyP();
+    return a;
+}
+
+bool LinearizeMatrix::isEmptyNegative(){
+    Linearize *Aux = FirstLinearize;
+    bool a = Aux->NNode.IsEmptyP();
+    return a;
+}
+
+bool LinearizeMatrix::isEmptyMRX() {
+    Linearize *Aux = FirstLinearize;
+    bool a = Aux->RNodeX.IsEmptyP();
+    return a;
+}
+
+bool LinearizeMatrix::isEmptyMRY() {
+    Linearize *Aux = FirstLinearize;
+    bool a = Aux->RNode.IsEmptyP();
+    return a;
+}
 string LinearizeMatrix::Conversor(int ColorR, int ColorG, int ColorB) {
-    int dec_num, r;
-    string hexdec_num="";
+    int decRed, r;
+    string HexaRed="";
     string Total ="";
+    string HexaCompletoRed;
     char hex[]={'0','1','2','3','4','5','6','7','8','9','A','B','C','D','E','F'};
-    dec_num = ColorR;
-    if (dec_num ==0 ){
-        Total ="00";
+    decRed = ColorR;
+    if (decRed == 0 ){
+        HexaCompletoRed ="00";
     }else{
-        while(dec_num > 0)
+        while(decRed > 0)
         {
-            r = dec_num % 16;
-            Total = hex[r] + dec_num;
-            dec_num = dec_num / 16;
+            r = decRed % 16;
+            Total = hex[r] + Total;
+            decRed = decRed / 16;
         }
-        if (Total == "1" | Total == "2" | Total == "3" | Total == "4" | Total == "5" | Total == "6" | Total == "7" | Total == "8" | Total == "9" | Total == "A" | Total == "B" | Total == "C" | Total == "D" | Total == "E" | Total == "F"){
-            Total = "0" + dec_num;
+        if (Total == "1" | Total == "2" | Total == "3" | Total == "4" |
+            Total == "5" | Total == "6" | Total == "7" | Total == "8" |
+            Total == "9" | Total == "A" | Total == "B" | Total == "C" |
+            Total == "D" | Total == "E" | Total == "F"){
+            HexaCompletoRed = "0" + Total;
         }else{
-            Total = dec_num;
-        }
-    }
-    int dec_numG, rG;
-    string hexdec_numG="";
-    dec_numG = ColorG;
-    if (dec_numG ==0){
-        Total = "00";
-    }else{
-        while(dec_numG > 0)
-        {
-            r = dec_numG % 16;
-            Total = hex[r] + dec_numG;
-            dec_numG = dec_numG / 16;
-        }
-        if (Total == "1" | Total == "2" | Total == "3" | Total == "4" | Total == "5" | Total == "6" | Total == "7" | Total == "8" | Total == "9" | Total == "A" | Total == "B" | Total == "C" | Total == "D" | Total == "E" | Total == "F"){
-            Total += "0" + hexdec_numG;
-        }else{
-            Total += hexdec_numG;
+            HexaCompletoRed = Total;
         }
     }
 
-    int dec_numB, rB;
-    string hexdec_numB="";
-    dec_numB = ColorB;
-    if(dec_numB == 0){
-        Total = "00";
+    int decGreen, G;
+    string HexaGreen="";
+    string TotalGreen ="";
+
+    decGreen = ColorG;
+    if (decGreen == 0 ){
+        HexaGreen ="00";
     }else{
-        while(dec_numB > 0)
+        while(decGreen > 0)
         {
-            r = dec_numB % 16;
-            Total = hex[r] + dec_numB;
-            dec_numB = dec_numB / 16;
+            G = decGreen % 16;
+            TotalGreen = hex[G] + TotalGreen;
+            decGreen = decGreen / 16;
         }
-        if (Total == "1" | Total == "2" | Total == "3" | Total == "4" | Total == "5" | Total == "6" | Total == "7" | Total == "8" | Total == "9" | Total == "A" | Total == "B" | Total == "C" | Total == "D" | Total == "E" | Total == "F"){
-            Total += "0" + dec_numB;
+        if (TotalGreen == "1" | TotalGreen == "2" | TotalGreen == "3" | TotalGreen == "4" |
+                TotalGreen == "5" | TotalGreen == "6" | TotalGreen == "7" | TotalGreen == "8" |
+                TotalGreen == "9" | TotalGreen == "A" | TotalGreen == "B" | TotalGreen == "C" |
+                TotalGreen == "D" | TotalGreen == "E" | TotalGreen == "F"){
+
+            HexaGreen = "0" + TotalGreen;
+
         }else{
-            Total += dec_numB;
+            HexaGreen = TotalGreen;
         }
     }
-    string to = "#"+Total;
-    return to;
+
+    int decBlue, B;
+    string HexaBlue="";
+    string TotalBlue ="";
+    decBlue = ColorB;
+    if (decBlue==0 ){
+        HexaBlue="00";
+    }else{
+        while(decBlue > 0)
+        {
+            B = decBlue % 16;
+            TotalBlue = hex[B] + TotalBlue;
+            decBlue = decBlue / 16;
+        }
+        if (TotalBlue == "1" | TotalBlue == "2" | TotalBlue == "3" | TotalBlue == "4" |
+                TotalBlue == "5" | TotalBlue == "6" | TotalBlue == "7" | TotalBlue == "8" |
+                TotalBlue == "9" | TotalBlue == "A" | TotalBlue == "B" | TotalBlue == "C" |
+                TotalBlue == "D" | TotalBlue == "E" | TotalBlue == "F"){
+            HexaBlue += "0" + TotalBlue;
+        }else{
+            HexaBlue += TotalBlue;
+        }
+    }
+    string Hexa = "#"+HexaCompletoRed + HexaGreen +HexaBlue;
+  //  cout<<Hexa + "\n";
+    return Hexa;
 }
+
 
 //**************************NEGATIVE*************************
 void LinearizeMatrix::ConvertirNEGATIVE() {
@@ -319,9 +391,9 @@ void LinearizeMatrix::NEGATIVES(Linearize *& Node) {
     int R = (255 - Node->ColorR);
     int G = (255- Node->ColorG);
     int B =  (255-Node->ColorB);
-    string Hexa = ConvertirAHexa(R,G,B,true);
+    string Hexa = Conversor(R,G,B);
     Node->NNode.AddNEGATIVE(Node->Id,Node->Col,Node->Fil,R,G,B,Hexa);
-    Node->NNode.MandarMatrix(Node->Col,Node->Fil,Node->ColorR,Node->ColorG,Node->ColorB);
+    //Node->NNode.CompleteNegative.ADDCompleta(Node->Col,Node->Fil,R,G,B);
 }
 
 string LinearizeMatrix::MandarAtraerNegativos() {
@@ -333,7 +405,7 @@ string LinearizeMatrix::MandarAtraerNegativos() {
     }
     return a ;
 }
-
+/*
 void LinearizeMatrix::SentGraph() {
     Linearize *Aux = FirstLinearize;
     string a = "";
@@ -342,7 +414,7 @@ void LinearizeMatrix::SentGraph() {
         Aux = Aux->NextLinearize;
     }
 }
-
+*/
 //**********************ROTATION Y *****************************
 int ContadorIds = 1;
 int ContadorIds2 = 1;
@@ -385,6 +457,9 @@ void LinearizeMatrix::MostrarChange() {
     }
 }
 
+
+
+
 //***********************ROTACION X ***************************
 void LinearizeMatrix::ChangeIdx(int WidthC, int HeightC) {
     Linearize * Aux = FirstLinearize;
@@ -400,7 +475,7 @@ void LinearizeMatrix::ChangeId2x(Linearize *&Node, int WidthC, int HeightC) {
     int TempId = Node->Id;
     int TempCol = Node->Col;
     int TempFil = Node->Fil;
-    int Total = a - (TempCol);
+    int Total = a - (WidthC * TempCol);
     cout<<"ID:" +to_string(Total)+"\n";
     //Node->RNodeX.AddROTACIONX(Total,TempFil,TempCol,Node->ColorR,Node->ColorG,Node->ColorB,Node->ColorHexa);
 }
