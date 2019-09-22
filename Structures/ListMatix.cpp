@@ -77,10 +77,10 @@ MatrixList *ListMatix::SearchHeader(int Id) {
         while (Aux->Id != Id) {
             Aux = Aux->NextMatrix;
         }
-        cout << "Si se Encuentra en la ListaMatrix \n";
+      //  cout << "Si se Encuentra en la ListaMatrix \n";
         return Aux;
     } else {
-        cout << "No se ha Encontrado en la Lista";
+        //cout << "No se ha Encontrado en la Lista";
         return Create_Matrix(-1, "");
     }
 }
@@ -113,12 +113,12 @@ void ListMatix::PrintList() {
 void ListMatix::ADDMatrix() {
     MatrixList *Aux741 = FirstMatrixList;
     while (Aux741 != NULL) {
-        cout << "***************************\n";
-        cout << "Nombre: " + Aux741->Name + "\n";
+        //cout << "***************************\n";
+        //cout << "Nombre: " + Aux741->Name + "\n";
         DesEncapar(Aux741);
-       // cout << Aux->Archivo << "\n";
-        cout << "******CAPA COMPLETA" + Aux741->Name + "********\n";
-        cout << "***************************\n";
+        //cout << Aux741->Archivo << "\n";
+        //cout << "******CAPA COMPLETA" + Aux741->Name + "********\n";
+        //cout << "***************************\n";
         //MatrixB();
         Aux741 = Aux741->NextMatrix;
     }
@@ -153,13 +153,7 @@ void ListMatix::DesEncapar(MatrixList *&Node) {
         }
         if (Col != "") {
             Node->PunteroMatrixB.AddMatrixC(Columna, Fila, ColorR, ColorG, ColorB);
-            //cout << "Col:" + Col + " Fil: " + Fil + " R: " + R + " G: " + G + " B: " + B + "\n";
-            //LinealizarMatriz.AddLinearize(Pixel,Columna,Fila,ColorR,ColorG,ColorB);
             Node->Linalizador.AddLinearize(Pixel,Columna,Fila,ColorR,ColorG,ColorB);
-           //cout << "/////////****************Linealizar \n";
-           // cout << "Id: " + to_string(Pixel) + " Col:" + to_string(Columna) + " Fil: " + to_string(Fila) + " R: " + to_string(ColorR) + " G: " + to_string(ColorG) + " B: " +
-           //         to_string(ColorB) + "\n";
-
         }
 
     }
@@ -182,6 +176,39 @@ void ListMatix::GraphCapas(int Id) {
     ofstream fd4(Capa + ".dot");
     //a += Temp->PunteroMatrix.Dot3(a);
     a += Temp->PunteroMatrixB.DotMatirx2C(a);
+    fd4 << a;
+    fd4.flush();
+    fd4.close();
+    cout << " GENERANDO IMAGEN Capa \n";
+    string ab = "dot -Tpng " + Capa + ".dot -o " + Capa + ".png";
+    const char *command = ab.c_str();
+    system(command);
+}
+//*****************************GrayScale************
+
+void ListMatix::GraphLayers(int Id) {
+    MatrixList *Temp = MandarAGraficar(Id);
+    string a = "";
+    string Capa = "GrayCapa" + to_string(Temp->Id);
+    ofstream fd4(Capa + ".dot");
+    //a += Temp->PunteroMatrix.Dot3(a);
+    a += Temp->PunteroMatrixB.DotGrayScape(a);
+    fd4 << a;
+    fd4.flush();
+    fd4.close();
+    cout << " GENERANDO IMAGEN Capa \n";
+    string ab = "dot -Tpng " + Capa + ".dot -o " + Capa + ".png";
+    const char *command = ab.c_str();
+    system(command);
+}
+
+void ListMatix::GraphLayersNegative(int Id) {
+    MatrixList *Temp = MandarAGraficar(Id);
+    string a = "";
+    string Capa = "NegativeCapa" + to_string(Temp->Id);
+    ofstream fd4(Capa + ".dot");
+    //a += Temp->PunteroMatrix.Dot3(a);
+    a += Temp->PunteroMatrixB.DotNegative(a);
     fd4 << a;
     fd4.flush();
     fd4.close();
@@ -227,38 +254,40 @@ void ListMatix::MostarCapas() {
 
 
 void ListMatix::GraficarLFilas() {
-    cout << "///************Matriz Linealizada******** \n";
+    cout << "///************MATRIX******** \n";
     LinealizarMatriz.PrintList();
 }
 
-void ListMatix::IntentoMandarHtml1(string name, int tamanio) {
+void ListMatix::IntentoMandarHtml1(string name,int Image_width, int Image_height) {
     string a = "";
+    int b = Image_width *Image_height;
     string nombre = name+".html";
     ofstream fd4(nombre);
-    a += IntentoMandarHtml2(a,name,tamanio);
+    a += IntentoMandarHtml2(a,name,Image_width, Image_height);
     fd4 << a;
     fd4.flush();
     fd4.close();
 }
 
-string ListMatix::IntentoMandarHtml2(string html, string nombre, int tamanio) {
+
+string ListMatix::IntentoMandarHtml2(string html, string nombre,int Image_width, int Image_height) {
     html += "<!DOCTYPE html > \n";
     html += "<html> \n";
     html += "<head> \n";
     html += "<link rel=\"stylesheet\" href=\""+nombre+".css\"> \n";
     html += "</head> \n <body> \n";
     html += "<div class=\"canvas\"> \n";
-    html += IntentoMandarHtml();
+    html += IntentoMandarHtml(Image_width , Image_height);
     html += "</div>\n";
     html += "</body> \n";
     html += "</html> \n";
     return html;
 }
 
-string ListMatix::IntentoMandarHtml() {
+string ListMatix::IntentoMandarHtml(int Image_width, int Image_height) {
     MatrixList *Aux = FirstMatrixList;
     string temp ="";
-    temp += Aux->Linalizador.H1();
+    temp += Aux->Linalizador.H1(Image_width, Image_height);
     return temp;
 }
 
@@ -308,38 +337,51 @@ string ListMatix::IntentoMandarCSS(){
     return temp;
 }
 
+void ListMatix::UpdateNodeLinealizar(int Col, int Fil, int ColoR, int ColorG, int ColorB) {
+    MatrixList *Temp = FirstMatrixList;
+    while(Temp!= NULL){
+        Temp->Linalizador.UpdateNodeLinealizar(Col, Fil, ColoR,ColorG, ColorB);
+        Temp = Temp->NextMatrix;
+    }
+}
+
+
+void ListMatix::UpdateNodeLinealizar2(int Id, int Col, int Fil, int ColorR, int ColorG, int ColorB) {
+    MatrixList *Temp = MandarAGraficar(Id);
+    Temp->Linalizador.UpdateNodeLinealizar(Col, Fil, ColorR, ColorG, ColorB);
+}
 //***************************FILTROS COMPLETOS********************************
 
 
 //*******************************GRAYSCALE*********************************
-void ListMatix::MandarHtmGRAYSCALEl(string name, int tamanio){
+void ListMatix::MandarHtmGRAYSCALEl(string name, int Image_width, int Image_height){
     string a = "";
     string nombre = "N"+name+".html";
     ofstream fd4(nombre);
-    a += MandarHtmGRAYSCALE2(a,name);
+    a += MandarHtmGRAYSCALE2(a,name, Image_width,Image_height);
     fd4 << a;
     fd4.flush();
     fd4.close();
 }
 
-string ListMatix::MandarHtmGRAYSCALE2(string html, string nombre){
+string ListMatix::MandarHtmGRAYSCALE2(string html, string nombre,int Image_width, int Image_height){
     html += "<!DOCTYPE html > \n";
     html += "<html> \n";
     html += "<head> \n";
     html += "<link rel=\"stylesheet\" href=\" N"+nombre+".css\"> \n";
     html += "</head> \n <body> \n";
     html += "<div class=\"canvas\"> \n";
-    html += MandarHtmGRAYSCALE3();
+    html += MandarHtmGRAYSCALE3(Image_width, Image_height);
     html += "</div>\n";
     html += "</body> \n";
     html += "</html> \n";
     return html;
 }
 
-string ListMatix::MandarHtmGRAYSCALE3() {
+string ListMatix::MandarHtmGRAYSCALE3(int Image_width, int Image_height) {
     MatrixList *Aux = FirstMatrixList;
     string temp ="";
-    temp += Aux->Linalizador.H1();
+    temp += Aux->Linalizador.H1(Image_width, Image_height);
     return temp;
 }
 
@@ -397,6 +439,31 @@ void ListMatix::EnviarAConvertirGRAYSCALE() {
     }
 }
 
+bool ListMatix::IsEmptyGrayScale() {
+    MatrixList *Aux = FirstMatrixList;
+    bool a = Aux->Linalizador.isEmptyGrayScale();
+    return a;
+}
+
+bool ListMatix::IsEmptyNegative() {
+    MatrixList *Aux = FirstMatrixList;
+    bool a = Aux->Linalizador.isEmptyNegative();
+    return a;
+}
+
+bool ListMatix::IsEmptyMRX() {
+    MatrixList *Aux = FirstMatrixList;
+    bool a = Aux->Linalizador.isEmptyMRX();
+    return a;
+}
+
+bool ListMatix::IsEmptyMRY() {
+    MatrixList *Aux = FirstMatrixList;
+    bool a = Aux->Linalizador.isEmptyMRY();
+    return a;
+}
+
+
 //****************************NEGATIVE**************************************
 
 void ListMatix::EnviarAConvertirNEGATIVE() {
@@ -407,34 +474,34 @@ void ListMatix::EnviarAConvertirNEGATIVE() {
     }
 }
 
-void ListMatix::MandarHTMLNEGATIVE(string name){
+void ListMatix::MandarHTMLNEGATIVE(string name,int Image_width, int Image_height){
     string a = "";
     string nombre = "Neg"+name+".html";
     ofstream fd4(nombre);
-    a += MandarHtmNEGATIVE(a,name);
+    a += MandarHtmNEGATIVE(a,name, Image_width, Image_height);
     fd4 << a;
     fd4.flush();
     fd4.close();
 }
 
-string ListMatix::MandarHtmNEGATIVE(string html, string nombre){
+string ListMatix::MandarHtmNEGATIVE(string html, string nombre,int Image_width, int Image_height){
     html += "<!DOCTYPE html > \n";
     html += "<html> \n";
     html += "<head> \n";
     html += "<link rel=\"stylesheet\" href=\" Neg"+nombre+".css\"> \n";
     html += "</head> \n <body> \n";
     html += "<div class=\"canvas\"> \n";
-    html += MandarHtmNEGATIVE3();
+    html += MandarHtmNEGATIVE3(Image_width,Image_height);
     html += "</div>\n";
     html += "</body> \n";
     html += "</html> \n";
     return html;
 }
 
-string ListMatix::MandarHtmNEGATIVE3() {
+string ListMatix::MandarHtmNEGATIVE3(int Image_width, int Image_height) {
     MatrixList *Aux = FirstMatrixList;
     string temp ="";
-    temp += Aux->Linalizador.H1();
+    temp += Aux->Linalizador.H1(Image_width, Image_height);
     return temp;
 }
 
@@ -490,7 +557,67 @@ void ListMatix::SentToGraph() {
         Aux = Aux->NextMatrix;
     }
 }
+
+
 //************************ROTACION Y************************************
+
+
+void ListMatix::ADDMatrixY() {
+    MatrixList *Aux741 = FirstMatrixList;
+    while (Aux741 != NULL) {
+        DesEncaparMatrixY(Aux741);
+        Aux741 = Aux741->NextMatrix;
+    }
+}
+
+void ListMatix::DesEncaparMatrixY(MatrixList *&Node) {
+    string Archivo = Node->Archivo;
+    string Col;
+    string Fil;
+    string R;
+    string G;
+    string B;
+    string PiL;
+    stringstream AuxLectura(Archivo);
+    while (!AuxLectura.fail()) {
+        getline(AuxLectura, Col, ',');
+        getline(AuxLectura, Fil, ',');
+        getline(AuxLectura, R, ',');
+        getline(AuxLectura, G, ',');
+        getline(AuxLectura, B, ',');
+        getline(AuxLectura, PiL, '\n');
+        int Columna = atoi(Col.c_str());
+        int Fila = atoi(Fil.c_str());
+        int ColorR = atoi(R.c_str());
+        int ColorG = atoi(G.c_str());
+        int ColorB = atoi(B.c_str());
+        int Pixel = atoi(PiL.c_str());
+        if (Node->PunteroMatrixB.HeadNode == NULL) {
+            cout << "Matrix Vacia para" + Node->Name << "\n";
+        }
+        if (Col != "") {
+            Node->RotacionY.AddMatrixC(Columna, Fila, ColorR, ColorG, ColorB);
+        }
+
+    }
+}
+
+void  ListMatix::MandarAGraficarY(int ID){
+    MatrixList *Temp = MandarAGraficar(ID);
+    string a = "";
+    string Capa = "CapaRY" + to_string(Temp->Id);
+    ofstream fd4(Capa + ".dot");
+    //a += Temp->PunteroMatrix.Dot3(a);
+    a += Temp->RotacionY.DotMatirx2C(a);
+    fd4 << a;
+    fd4.flush();
+    fd4.close();
+    cout << " GENERANDO IMAGEN Capa \n";
+    string ab = "dot -Tpng " + Capa + ".dot -o " + Capa + ".png";
+    const char *command = ab.c_str();
+    system(command);
+}
+
 
 void ListMatix::EnviarAConvertirROTACIONY(int WidthC, int HeightC) {
     MatrixList *Aux = FirstMatrixList;
@@ -500,34 +627,34 @@ void ListMatix::EnviarAConvertirROTACIONY(int WidthC, int HeightC) {
     }
 }
 
-void ListMatix::MandarHTMLROTACIONY(string name){
+void ListMatix::MandarHTMLROTACIONY(string name,int Image_width, int Image_height){
     string a = "";
     string nombre = "RY"+name+".html";
     ofstream fd4(nombre);
-    a += MandarHtMLROTACIONY2(a,name);
+    a += MandarHtMLROTACIONY2(a,name, Image_width, Image_height);
     fd4 << a;
     fd4.flush();
     fd4.close();
 }
 
-string ListMatix::MandarHtMLROTACIONY2(string html, string nombre){
+string ListMatix::MandarHtMLROTACIONY2(string html, string nombre,int Image_width, int Image_height){
     html += "<!DOCTYPE html > \n";
     html += "<html> \n";
     html += "<head> \n";
     html += "<link rel=\"stylesheet\" href=\" RY"+nombre+".css\"> \n";
     html += "</head> \n <body> \n";
     html += "<div class=\"canvas\"> \n";
-    html += MandarHtmROTACIONY3();
+    html += MandarHtmROTACIONY3( Image_width, Image_height);
     html += "</div>\n";
     html += "</body> \n";
     html += "</html> \n";
     return html;
 }
 
-string ListMatix::MandarHtmROTACIONY3() {
+string ListMatix::MandarHtmROTACIONY3(int Image_width, int Image_height) {
     MatrixList *Aux = FirstMatrixList;
     string temp ="";
-    temp += Aux->Linalizador.H1();
+    temp += Aux->Linalizador.H1(Image_width,Image_height);
     return temp;
 }
 
@@ -587,6 +714,61 @@ void ListMatix::EnviarAConvertirROTACIONESX(int WidthC, int HeightC) {
     }
 }
 
+
+void ListMatix::ADDMatrixX() {
+    MatrixList *Aux741 = FirstMatrixList;
+    while (Aux741 != NULL) {
+        DesEncaparMatrixX(Aux741);
+        Aux741 = Aux741->NextMatrix;
+    }
+}
+
+void ListMatix::DesEncaparMatrixX(MatrixList *&Node) {
+    string Archivo = Node->Archivo;
+    string Col;
+    string Fil;
+    string R;
+    string G;
+    string B;
+    string PiL;
+    stringstream AuxLectura(Archivo);
+    while (!AuxLectura.fail()) {
+        getline(AuxLectura, Col, ',');
+        getline(AuxLectura, Fil, ',');
+        getline(AuxLectura, R, ',');
+        getline(AuxLectura, G, ',');
+        getline(AuxLectura, B, ',');
+        getline(AuxLectura, PiL, '\n');
+        int Columna = atoi(Col.c_str());
+        int Fila = atoi(Fil.c_str());
+        int ColorR = atoi(R.c_str());
+        int ColorG = atoi(G.c_str());
+        int ColorB = atoi(B.c_str());
+        int Pixel = atoi(PiL.c_str());
+        if (Node->PunteroMatrixB.HeadNode == NULL) {
+            cout << "Matrix Vacia para" + Node->Name << "\n";
+        }
+        if (Col != "") {
+            Node->RotacionX.AddMatrixC(Columna, Fila, ColorR, ColorG, ColorB);
+        }
+
+    }
+}
+
+void  ListMatix::MandarAGraficarX(int ID){
+    MatrixList *Temp = MandarAGraficar(ID);
+    string a = "";
+    string Capa = "CapaRX" + to_string(Temp->Id);
+    ofstream fd4(Capa + ".dot");
+    a += Temp->RotacionX.DotMatirx2C(a);
+    fd4 << a;
+    fd4.flush();
+    fd4.close();
+    cout << " GENERANDO IMAGEN Capa \n";
+    string ab = "dot -Tpng " + Capa + ".dot -o " + Capa + ".png";
+    const char *command = ab.c_str();
+    system(command);
+}
 //*************************POR CAPAS *************************************
 //*******************GRAYSCALE**********
 
@@ -604,34 +786,34 @@ string ListMatix::MandarCSSGrayCApa(int Id) {
     return  VariableCapa;
 }
 
-void ListMatix::MandarHtmGRAYSCALElCAPA(string name){
+void ListMatix::MandarHtmGRAYSCALElCAPA(string name,int Image_width, int Image_height){
     string a = "";
     string nombre = "GC"+name+".html";
     ofstream fd4(nombre);
-    a += MandarHtmGRAYSCALE2CAPA(a,name);
+    a += MandarHtmGRAYSCALE2CAPA(a,name, Image_width,Image_height);
     fd4 << a;
     fd4.flush();
     fd4.close();
 }
 
-string ListMatix::MandarHtmGRAYSCALE2CAPA(string html, string nombre){
+string ListMatix::MandarHtmGRAYSCALE2CAPA(string html, string nombre,int Image_width, int Image_height){
     html += "<!DOCTYPE html > \n";
     html += "<html> \n";
     html += "<head> \n";
     html += "<link rel=\"stylesheet\" href=\" GC"+nombre+".css\"> \n";
     html += "</head> \n <body> \n";
     html += "<div class=\"canvas\"> \n";
-    html += MandarHtmGRAYSCALE3CAPA();
+    html += MandarHtmGRAYSCALE3CAPA(Image_width,Image_height);
     html += "</div>\n";
     html += "</body> \n";
     html += "</html> \n";
     return html;
 }
 
-string ListMatix::MandarHtmGRAYSCALE3CAPA() {
+string ListMatix::MandarHtmGRAYSCALE3CAPA(int Image_width, int Image_height) {
     MatrixList *Aux = FirstMatrixList;
     string temp ="";
-    temp += Aux->Linalizador.H1();
+    temp += Aux->Linalizador.H1(Image_width, Image_height);
     return temp;
 }
 
@@ -688,34 +870,34 @@ string ListMatix::MandarCSSNEGATIVECApa(int Id) {
     return  VariableCapaNegative;
 }
 
-void ListMatix::MandarHtmNEGATIVElCAPA(string name){
+void ListMatix::MandarHtmNEGATIVElCAPA(string name,int Image_width, int Image_height){
     string a = "";
     string nombre = "NC"+name+".html";
     ofstream fd4(nombre);
-    a += MandarHtmNEGATIVE2CAPA(a,name);
+    a += MandarHtmNEGATIVE2CAPA(a,name, Image_width, Image_height);
     fd4 << a;
     fd4.flush();
     fd4.close();
 }
 
-string ListMatix::MandarHtmNEGATIVE2CAPA(string html, string nombre){
+string ListMatix::MandarHtmNEGATIVE2CAPA(string html, string nombre,int Image_width, int Image_height){
     html += "<!DOCTYPE html > \n";
     html += "<html> \n";
     html += "<head> \n";
     html += "<link rel=\"stylesheet\" href=\" NC"+nombre+".css\"> \n";
     html += "</head> \n <body> \n";
     html += "<div class=\"canvas\"> \n";
-    html += MandarHtmNEGATICE3CAPA();
+    html += MandarHtmNEGATICE3CAPA(Image_width,Image_height);
     html += "</div>\n";
     html += "</body> \n";
     html += "</html> \n";
     return html;
 }
 
-string ListMatix::MandarHtmNEGATICE3CAPA() {
+string ListMatix::MandarHtmNEGATICE3CAPA(int Image_width, int Image_height) {
     MatrixList *Aux = FirstMatrixList;
     string temp ="";
-    temp += Aux->Linalizador.H1();
+    temp += Aux->Linalizador.H1(Image_width, Image_height);
     return temp;
 }
 
@@ -758,8 +940,20 @@ string ListMatix::MandarCSSNEGATIVE2CAPA(string css, int WidthC, int HeightC, in
 }
 
 
+//**************************EDITAR
+
+void ListMatix::EditNodeMatrix(int Id, int Col, int Fil, int ColorR, int ColorG, int ColorB) {
+    MatrixList *Temp = MandarAGraficar(Id);
+    while(Temp != NULL){
+        Temp->PunteroMatrixB.EditNodeMatrix(Col, Fil, ColorR , ColorG , ColorB);
+        Temp = Temp->NextMatrix;
+    }
+}
+
+void ListMatix::EditNodeMatrixGrayScale(int Id, int Col, int Fil, int ColorR, int ColorG, int ColorB){
 
 
+}
 
 
 
