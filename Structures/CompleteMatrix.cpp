@@ -13,7 +13,6 @@ void CompleteMatrix::ADDCompleta(int Col, int Fil, int ColorR, int ColorG, int C
 void CompleteMatrix::GraficarCompleta() {
     string a ="";
     ofstream fd4("Completa.dot");
-    //a += Temp->PunteroMatrix.Dot3(a);
     a += PunteroMatriz.DotMatirx2C(a);
     fd4 << a;
     fd4.flush();
@@ -22,7 +21,17 @@ void CompleteMatrix::GraficarCompleta() {
     string ab = "dot -Tpng Completa.dot -o Completa.png";
     const char *command = ab.c_str();
     system(command);
+
+    //PunteroMatriz.Graficar();
 }
+
+void CompleteMatrix::UpdateNode(int Col, int Fil, int ColorR, int ColorG, int ColorB) {
+    PunteroMatriz.EditNodeMatrix(Col,Fil,ColorR,ColorG,ColorB);
+}
+
+
+
+
 
 
 
