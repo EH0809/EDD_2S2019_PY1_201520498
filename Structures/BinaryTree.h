@@ -9,12 +9,24 @@
 #include "ListMatix.h"
 #include "CompleteMatrix.h"
 #include "ListFilters.h"
+#include "MatrixGrayScale.h"
+#include "MatrixRotationY.h"
+#include "MatrixRotationX.h"
 using namespace std;
 
 struct NodeBB{
     string Name;
+    string Ruta;
     ListMatix ListadeCapas;
     CompleteMatrix CM;
+    int Image_width;
+    int Image_height;
+    int Pixel_width;
+    int Pixel_height;
+    MatrixNegative MNegative;
+    MatrixGrayScale MGrayScale;
+    MatrixRotationY MRotationY;
+    MatrixRotationX MRotationX;
     ListFilters LFilters;
     NodeBB *SonLeft;
     NodeBB *SonRight;
@@ -30,15 +42,15 @@ class BinaryTree {
 public:
 
     int IdName(string Name);
-    NodeBB* Create_Node(string Name);
-    void SendInsert(string Name);
-    void InsertNode(NodeBB *&Tree,string Name);
+    NodeBB* Create_Node(string Name, string ruta);
+    void SendInsert(string Name, string Ruta);
+    void InsertNode(NodeBB *&Tree,string Name, string ruta);
     void InsertNode2(NodeBB *&Tree,string Name);
     int Compare(string Name1 , string NameTree);
     void PrintNode();
     void PrintNode2(NodeBB *&Tree);
     string InOrder(NodeBB * &Tree,string Graph);
-    void InOrder2();
+    string InOrder2();
     void PreOrder();
     void PostOrder();
     void Graph();
