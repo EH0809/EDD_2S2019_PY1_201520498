@@ -8,6 +8,7 @@
 #include "Structures/MatrixB.h"
 #include "Structures/Grayscale.h"
 #include "fstream"
+#include <sys/stat.h>
 
 Matrix MATRIX;
 BinaryTree BTree;
@@ -26,23 +27,43 @@ int contadorLineal = 0;
 
 
 using namespace std;
+
 void MenuReports();
+
 void Agregar();
+
 void ADDFilters();
+
 void ReadFirstArchive();
+
 void ArchiveConfig(string Ruta);
+
 void ReadCapa(string Ruta);
+
 void ReadCapa1(string Archivo);
+
 void EnviarAMatrix(int Header, int Lateral, int ColorR, int ColorG, int ColorB);
+
 void ArchiveCapa(string Ruta);
+
 void ReadCapas(string Ruta);
+
 void ADDListMatix(int Id, string Name);
+
 void MenuCapas();
+
 void MenuCapasFiltros();
+
 void MenuFiltros();
-void InsertTree(string Name);
+
+void InsertTree(string Name, string Ruta);
+
 void GuardarNodeTree(string Name);
+
 void ADDFiltrosCapas();
+
+void EditMatrix();
+
 int ContadorCapas;
 int MaxCol;
 int MaxFil;
@@ -51,13 +72,33 @@ string Capas = "";
 MatrixList *TempMatrix;
 ListaNodeBB *TempNodeBB;
 NodeBB *TempInsert;
-int ContadorImagen =1;
+int ContadorImagen = 1;
+
 void MandarAMatriz();
+
 void DesEncapar();
+
 void All();
+
 void Individual();
+
 void AllFilters();
+
+void EditMatrixFilter();
+
+void MenuEdit();
+
+void Export();
+
 string Name;
+int Tamanio;
+
+void EnviarTamanio();
+
+void MenuExport();
+
+void MenuExportCapas();
+
 int main() {
     int a = 0;
     while (a != 7) {
@@ -86,7 +127,7 @@ int main() {
                 BTree.PN();
                 BTree.PNPre();
                 BTree.PNPost();
-             //   TempInsert = NULL;
+                TempInsert = NULL;
                 break;
             case 2:
                 cout << "Select Image \n";
@@ -94,6 +135,7 @@ int main() {
                 cout << "Insert the name of your choice \n";
                 cin >> Name;
                 TempInsert = BTree.SentFor(Name);
+                EnviarTamanio();
                 BTree.RestValues();
                 break;
             case 3:
@@ -101,8 +143,10 @@ int main() {
                 MenuFiltros();
                 break;
             case 4:
+                MenuEdit();
                 break;
             case 5:
+                Export();
                 break;
             case 6:
                 cout << "Reports\n";
@@ -114,8 +158,6 @@ int main() {
                 break;
         }
     }
-
-
     return 0;
 }
 
@@ -163,7 +205,14 @@ void MenuReports() {
     }
 }
 
-int Tamanio = Image_width * Image_height;
+
+void EnviarTamanio() {
+    Tamanio = TempInsert->Image_width * TempInsert->Image_height;
+    Image_width = TempInsert->Image_width;
+    Image_height = TempInsert->Image_height;
+    Pixel_height = TempInsert->Pixel_height;
+    Pixel_width = TempInsert->Pixel_width;
+}
 
 void MenuFiltros() {
     bool a = false;
@@ -208,28 +257,28 @@ void ADDFilters() {
                 case 1:
                     cout << "NEGATIVE \n";
                     TempInsert->LFilters.InsertNodeFilter("NEGATIVE");
-                    TempInsert->ListadeCapas.MandarHTMLNEGATIVE(TempInsert->Name);
                     TempInsert->ListadeCapas.EnviarAConvertirNEGATIVE();
-                    TempInsert->ListadeCapas.MandarCSSNEGATIVE(Image_width, Image_height, Pixel_width, Pixel_height,TempInsert->Name);
+                    //TempInsert->MNegative.GraficarCompleta();
                     break;
                 case 2:
                     cout << "GRAYSCALE \n";
                     TempInsert->LFilters.InsertNodeFilter("GRAYSCALE");
-                    TempInsert->ListadeCapas.MandarHtmGRAYSCALEl(TempInsert->Name,Tamanio);
                     TempInsert->ListadeCapas.EnviarAConvertirGRAYSCALE();
-                    TempInsert->ListadeCapas.MandarCSSGRAYSCALEl(Image_width, Image_height, Pixel_width, Pixel_height,TempInsert->Name);
+
+                    //TempInsert->MGrayScale.GraficarCompleta();
                     break;
                 case 3:
                     cout << "X-MIRROR \n";
                     TempInsert->LFilters.InsertNodeFilter("X_MIRROR");
-                    TempInsert->ListadeCapas.EnviarAConvertirROTACIONESX(Image_width,Image_height);
+                    TempInsert->ListadeCapas.EnviarAConvertirROTACIONESX(Image_width, Image_height);
                     break;
                 case 4:
                     cout << "Y-MIRROR \n";
-                    TempInsert->LFilters.InsertNodeFilter("Y_MIRROR");
-                    TempInsert->ListadeCapas.MandarHTMLROTACIONY(TempInsert->Name);
+                    TempInsert->LFilters.InsertNodeFilter("Y_Mirror");
+                    TempInsert->ListadeCapas.ADDMatrixY();
                     TempInsert->ListadeCapas.EnviarAConvertirROTACIONY(Image_width, Image_height);
-                    TempInsert->ListadeCapas.MandarCSSROTACIONY(Image_width, Image_height, Pixel_width, Pixel_height,TempInsert->Name);
+
+                    //TempInsert->MRotationY.GraficarCompleta();
                     break;
                 case 5:
                     cout << "DOUBLE MIRROR \n";
@@ -251,30 +300,30 @@ void ADDFilters() {
     }
 }
 
-void MandarAMatriz(){
+void MandarAMatriz() {
+
     TempInsert->ListadeCapas.PrintList();
     TempInsert->ListadeCapas.ADDMatrix();
     TempInsert->ListadeCapas.MandarTamanio(Image_width, Image_height);
-    TempInsert->ListadeCapas.GraficarLFilas();
+    //TempInsert->ListadeCapas.GraficarLFilas();
     //TempInsert->ListadeCapas.MandarHtml(TempInsert->Name);
-    TempInsert->ListadeCapas.IntentoMandarHtml1(TempInsert->Name,Tamanio);
-    //TempInsert->ListadeCapas.MandarCSS(Image_width, Image_height, Pixel_width, Pixel_height,TempInsert->Name);
-    string a = "C"+TempInsert->Name;
-    TempInsert->ListadeCapas.IntentoMandarCSS1(Image_width, Image_height , Pixel_width,Pixel_height,TempInsert->Name);
-    cout<<"***************************\n";
+    cout << "***************************\n";
 
 }
 
 void ReadFirstArchive() {
     string a = "";
+    string b = "";
     cout << "Insert the Name file \n";
     cin >> a;
-    InsertTree(a);
     std::ifstream Archivo(a);
     if (!Archivo.is_open()) cout << "Error al Abrir Primer Archivo \n";
+    cout << "Insert the Name of Image\n";
+    cin >> b;
+    InsertTree(b, a);
     string Layer;
     string File;
-    BTree.InsertListNode(ContadorImagen,a);
+    //BTree.InsertListNode(ContadorImagen,b);
     while (!Archivo.fail()) {
         getline(Archivo, Layer, ',');
         getline(Archivo, File, '\n');
@@ -291,43 +340,105 @@ void ReadFirstArchive() {
     Archivo.close();
 }
 
-void InsertTree(string Name){
-    BTree.SendInsert(Name);
+void InsertTree(string Name, string Ruta) {
+    BTree.SendInsert(Name, Ruta);
     TempInsert = BTree.SentFor(Name);
 }
 
-void AllFilters(){
+void AllFilters() {
     bool a = false;
-    int num ;
-    while(a != true){
-        cout<<"1. All Filters Report \n";
-        cout<<"2. Individual Filter Report \n";
-        cout<<"3. Exit \n";
-        cin>>num;
+    int num;
+    while (a != true) {
+        cout << "1. All Filters Report \n";
+        cout << "2. Individual Filter Report \n";
+        cout << "3. Exit \n";
+        cin >> num;
 
-        switch (num){
+        switch (num) {
             case 1:
                 All();
                 break;
             case 2:
                 Individual();
             case 3:
-                a =true;
+                a = true;
                 break;
 
         }
     }
 }
 
-void All(){
+void All() {
     TempInsert->LFilters.PrintFilters();
-    cout<<"Insert your choise \n";
-    TempInsert->ListadeCapas.
-
 }
-void Individual(){
-    int ab = 0;
 
+void Individual() {
+    int ab = 0;
+    bool var1 = false;
+    string var2;
+    while (var1 != true) {
+        if (TempInsert->LFilters.IsEmpety()) {
+            cout << "No Filters Applied \n";
+            var1 = true;
+        } else {
+            int ab;
+            cout << "1. Negative \n";
+            cout << "2. GrayScale \n";
+            cout << "3. Mirror X \n";
+            cout << "4. Mirror Y \n";
+            cout << "5. Mirror XY \n";
+            cout << "6. Exit \n";
+            cin >> ab;
+            int abcd;
+            switch (ab) {
+                case 1:
+                    if (TempInsert->ListadeCapas.IsEmptyNegative() == false) {
+                        TempInsert->ListadeCapas.MostarCapas();
+                        cout << "Insert your Choise \n";
+                        cin >> abcd;
+                        TempInsert->ListadeCapas.GraphLayersNegative(abcd);
+
+                    } else {
+                        cout << "No Filters Applied \n ";
+                    }
+                    break;
+                case 2:
+                    if (TempInsert->ListadeCapas.IsEmptyGrayScale() == false) {
+                        TempInsert->ListadeCapas.MostarCapas();
+                        cout << "Insert your Choise \n";
+                        cin >> abcd;
+                        TempInsert->ListadeCapas.GraphLayers(abcd);
+                    } else {
+                        cout << "No Filters Applied \n ";
+                    }
+                    break;
+                case 3:
+                    if (TempInsert->ListadeCapas.IsEmptyMRX() == false) {
+                        TempInsert->ListadeCapas.MostarCapas();
+                        cout << "Insert your Choise \n";
+                        cin >> abcd;
+                        //TempInsert->ListadeCapas.GraphLayersNegative(abcd);
+                    } else {
+                        cout << "No Filters Applied \n ";
+                    }
+                    break;
+                case 4:
+                    if (TempInsert->ListadeCapas.IsEmptyMRY() == false) {
+                        TempInsert->ListadeCapas.MostarCapas();
+                        cout << "Insert your Choise \n";
+                        cin >> abcd;
+                        TempInsert->ListadeCapas.MandarAGraficarY(abcd);
+                    } else {
+                        cout << "No Filters Applied \n ";
+                    }
+                    break;
+                case 6:
+                    var1 = true;
+                    break;
+
+            }
+        }
+    }
 }
 
 /*
@@ -361,21 +472,26 @@ void ArchiveConfig(string Ruta) {
         if (Config != "Confing" && Value != "Value") {
             if (Config == "image_width") {
                 Image_width = stoi(Value);
+                TempInsert->Image_width = Image_width;
             } else if (Config == "image_height") {
                 Image_height = stoi(Value);
+                TempInsert->Image_height = Image_height;
             } else if (Config == "pixel_width") {
                 Pixel_width = stoi(Value);
+                TempInsert->Pixel_width = Pixel_width;
             } else if (Config == "pixel_height") {
                 Pixel_height = stoi(Value);
+                TempInsert->Pixel_height = Pixel_height;
             }
         }
 
     }
-    cout << "Archivo de Configuracion \n";
+    cout << "Configuration File \n";
     cout << "image_width:" << Image_width << "\n";
     cout << "image_height:" << Image_height << "\n";
     cout << "Pixel_width:" << Pixel_width << "\n";
     cout << "Pixel_height:" << Pixel_height << "\n";
+    cout << "****************************\n";
     Archivo.close();
 }
 
@@ -487,25 +603,23 @@ void ReadCapas(string Archivo) {
                 if (aux != "x") {
                     if (ContadorColumnas != Image_width) {
                         stringstream aux5(aux);
-                        //getline(aux5, aux6, '\n');
                         getline(aux5, ColorR, '-');
                         getline(aux5, ColorG, '-');
                         getline(aux5, ColorB, '-');
                         int R = std::atoi(ColorR.c_str());
                         int G = std::atoi(ColorG.c_str());
                         int B = std::atoi(ColorB.c_str());
-                        if (R != 0) {
-                            /* aux4 += "Col:" + to_string(ContadorColumnas) + " Fil:" + to_string(ContadorFilas) +
-                                     " ColorR: " + to_string(R) + " ColorG: " + to_string(G) + " ColorB:" +
-                                     to_string(B) +
-                                     "\n";
-                                    */
-                            Temp += to_string(ContadorColumnas) + "," + to_string(ContadorFilas) + "," + to_string(R) +
-                                    "," + to_string(G) + "," + to_string(B) + "," + to_string(contadorL) + "\n";
 
-                            TempInsert->CM.ADDCompleta(ContadorColumnas,ContadorFilas,R,G,B);
+                        Temp += to_string(ContadorColumnas) + "," + to_string(ContadorFilas) + "," + to_string(R) +
+                                "," + to_string(G) + "," + to_string(B) + "," + to_string(contadorL) + "\n";
 
-                        }
+                        //   TempInsert->CM.ADDCompleta(ContadorColumnas,ContadorFilas,R,G,B);
+                        //   TempInsert->MNegative.ADDCompleta(ContadorColumnas,ContadorFilas,R,G,B);
+                        //   TempInsert->MGrayScale.ADDCompleta(ContadorColumnas,ContadorFilas,R,G,B);
+                        //  TempInsert->MRotationY.AddMatrixC(ContadorColumnas,ContadorFilas,R,G,B);
+                        //  TempInsert->MRotationX.AddMatrixC(ContadorColumnas,ContadorFilas,R,G,B);
+
+
                     } else if (ContadorColumnas == Image_width) {
                         stringstream aux7(aux);
                         getline(aux7, ColorR, '-');
@@ -514,18 +628,13 @@ void ReadCapas(string Archivo) {
                         int R = std::atoi(ColorR.c_str());
                         int G = std::atoi(ColorG.c_str());
                         int B = std::atoi(ColorB.c_str());
-                        /*
-                        aux4 += "Col:" + to_string(ContadorColumnas) + " Fil:" + to_string(ContadorFilas) +
-                                " ColorR: " + to_string(R) + " ColorG: " + to_string(G) + " ColorB:" + to_string(B) +
-                                "\n";
-                        */
                         Temp += to_string(ContadorColumnas) + "," + to_string(ContadorFilas) + "," + to_string(R) +
                                 "," + to_string(G) + "," + to_string(B) + "," + to_string(contadorL) + "\n";
 
-                        TempInsert->CM.ADDCompleta(ContadorColumnas,ContadorFilas,R,G,B);
-
-                        ContadorColumnas = 1;
-                        ContadorFilas++;
+                        //  TempInsert->CM.ADDCompleta(ContadorColumnas,ContadorFilas,R,G,B);
+                        //  TempInsert->MNegative.ADDCompleta(ContadorColumnas,ContadorFilas,R,G,B);
+                        //  TempInsert->MGrayScale.ADDCompleta(ContadorColumnas,ContadorFilas,R,G,B);
+                        //  TempInsert->MRotationY.AddMatrixC(ContadorColumnas,ContadorFilas,R,G,B);
                     }
                 }
                 if (ContadorColumnas == Image_width) {
@@ -537,7 +646,7 @@ void ReadCapas(string Archivo) {
             }
         }
     }
-    //contadorLineal = contadorL;
+
     Capas = Temp;
     contadorL = 0;
 }
@@ -545,12 +654,12 @@ void ReadCapas(string Archivo) {
 void MenuCapas() {
     int ab = 0;
     TempInsert->ListadeCapas.MostarCapas();
-    cout<<"10. Matriz Completa \n";
+    cout << "20. All Layers \n";
     cout << "Insert your Choise \n";
     cin >> ab;
-    if (ab != 10){
-    TempInsert->ListadeCapas.GraphCapas(ab);
-    }else {
+    if (ab != 10) {
+        TempInsert->ListadeCapas.GraphCapas(ab);
+    } else {
         TempInsert->CM.GraficarCompleta();
     }
 }
@@ -565,74 +674,214 @@ void MenuCapasFiltros() {
 
 }
 
-void ADDFiltrosCapas(){
-        if (GeneralUser != " ") {
-            int a = 0;
-            int ab= 0;
-            TempInsert->ListadeCapas.MostarCapas();
-            cout << "Insert your Choise \n";
-            cin >> ab;
-            while (a != 8) {
-                cout << "Image:" + GeneralUser + "\n";
-                cout << "1.  NEGATIVE\n";
-                cout << "2.  GRAYSCALE\n";
-                cout << "3. X-MIRROR\n";
-                cout << "4. Y-MIRROR\n";
-                cout << "5. DOUBLE MIRROR\n";
-                cout << "6. COLLAGE\n";
-                cout << "7. MOSAIC\n";
-                cout << "8. EXIT\n";
-                cout << "Insert your choise \n";
-                cin >>
-                    a;
-                switch (a) {
-                    case 1:
-                        cout << "NEGATIVE \n";
-                        Filters.InsertNodeFilter("NEGATIVE");
-                        TempInsert->ListadeCapas.MandarHtmNEGATIVElCAPA(TempInsert->Name);
-                        TempInsert->ListadeCapas.MandarNEGATIVECAPA(ab);
-                        TempInsert->ListadeCapas.MandarCSSNEGATIVECApa(ab);
-                        TempInsert->ListadeCapas.MandarCSSNEGATIVECAPA(Image_width, Image_height , Pixel_width,Pixel_height,TempInsert->Name);
-                        break;
-                    case 2:
-                        cout << "GRAYSCALE \n";
-                        Filters.InsertNodeFilter("GRAYSCALE");
-                        TempInsert->ListadeCapas.MandarHtmGRAYSCALElCAPA(TempInsert->Name);
-                        TempInsert->ListadeCapas.MandarGRAYCAPA(ab);
-                        TempInsert->ListadeCapas.MandarCSSGrayCApa(ab);
-                        TempInsert->ListadeCapas.MandarCSSGRAYSCALElCAPA(Image_width, Image_height , Pixel_width,Pixel_height,TempInsert->Name);
-                        break;
-                    case 3:
-                        cout << "X-MIRROR \n";
-                        Filters.InsertNodeFilter("X_MIRROR");
-                        break;
-                    case 4:
-                        cout << "Y-MIRROR \n";
-                        Filters.InsertNodeFilter("Y_MIRROR");
-                      //  LMatrix.MandarRotacionY();
-                      //  LMatrix.CreatHTMLRY();
-                      //  LMatrix.CSSRY(Image_width,Image_height,Pixel_width,Pixel_height);
-                        break;
-                    case 5:
-                        cout << "DOUBLE MIRROR \n";
-                        Filters.InsertNodeFilter("DOUBLE MIRROR");
-                        break;
-                    case 6:
-                        cout << "COLLAGE\n";
-                        Filters.InsertNodeFilter("COLLAGE");
-                        break;
-                    case 7:
-                        cout << "MOSAIC\n";
-                        Filters.InsertNodeFilter("MOSAIC");
-                        break;
-                    case 8:
-                        a = 8;
-                        break;
-                }
+void ADDFiltrosCapas() {
+    if (GeneralUser != " ") {
+        int a = 0;
+        int ab = 0;
+        TempInsert->ListadeCapas.MostarCapas();
+        cout << "Insert your Choise \n";
+        cin >> ab;
+        while (a != 8) {
+            cout << "Image:" + GeneralUser + "\n";
+            cout << "1.  NEGATIVE\n";
+            cout << "2.  GRAYSCALE\n";
+            cout << "3. X-MIRROR\n";
+            cout << "4. Y-MIRROR\n";
+            cout << "5. DOUBLE MIRROR\n";
+            cout << "6. COLLAGE\n";
+            cout << "7. MOSAIC\n";
+            cout << "8. EXIT\n";
+            cout << "Insert your choise \n";
+            cin >>
+                a;
+            switch (a) {
+                case 1:
+                    cout << "NEGATIVE \n";
+                    Filters.InsertNodeFilter("NEGATIVE");
+                    TempInsert->ListadeCapas.MandarNEGATIVECAPA(ab);
+                    TempInsert->ListadeCapas.MandarCSSNEGATIVECApa(ab);
+                    TempInsert->ListadeCapas.MandarHtmNEGATIVElCAPA(TempInsert->Name, TempInsert->Image_width,
+                                                                    TempInsert->Image_height);
+                    TempInsert->ListadeCapas.MandarCSSNEGATIVECAPA(Image_width, Image_height, Pixel_width, Pixel_height,
+                                                                   TempInsert->Name);
+
+                    //TempInsert->ListadeCapas.GraphLayersNegative(ab);
+                    break;
+                case 2:
+                    cout << "GRAYSCALE \n";
+                    Filters.InsertNodeFilter("GRAYSCALE");
+                    TempInsert->ListadeCapas.MandarGRAYCAPA(ab);
+                    TempInsert->ListadeCapas.MandarCSSGrayCApa(ab);
+                    TempInsert->ListadeCapas.MandarHtmGRAYSCALElCAPA(TempInsert->Name, TempInsert->Image_width,
+                                                                     TempInsert->Image_height);
+                    TempInsert->ListadeCapas.MandarCSSGRAYSCALElCAPA(Image_width, Image_height, Pixel_width,
+                                                                     Pixel_height, TempInsert->Name);
+                    //TempInsert->ListadeCapas.GraphLayers(ab);
+                    break;
+                case 3:
+                    cout << "X-MIRROR \n";
+                    Filters.InsertNodeFilter("X_MIRROR");
+                    break;
+                case 4:
+                    cout << "Y-MIRROR \n";
+                    Filters.InsertNodeFilter("Y_MIRROR");
+                    TempInsert->ListadeCapas.MandarAGraficarY(2);
+                    //  LMatrix.MandarRotacionY();
+                    //  LMatrix.CreatHTMLRY();
+                    //  LMatrix.CSSRY(Image_width,Image_height,Pixel_width,Pixel_height);
+                    break;
+                case 5:
+                    cout << "DOUBLE MIRROR \n";
+                    Filters.InsertNodeFilter("DOUBLE MIRROR");
+                    break;
+                case 6:
+                    cout << "COLLAGE\n";
+                    Filters.InsertNodeFilter("COLLAGE");
+                    break;
+                case 7:
+                    cout << "MOSAIC\n";
+                    Filters.InsertNodeFilter("MOSAIC");
+                    break;
+                case 8:
+                    a = 8;
+                    break;
             }
         }
     }
+}
 
+
+void MenuEdit() {
+    bool var1 = false;
+    int var2;
+    while (var1 != true) {
+        cout << "1. Original Image \n";
+        cout << "2. Filters Image \n";
+        cout << "3. Exit \n";
+        cin >> var2;
+        switch (var2) {
+            case 1:
+                cout << "Original Image \n";
+                EditMatrix();
+                break;
+            case 2:
+                cout << "Filters Image \n";
+                EditMatrixFilter();
+                break;
+            case 3:
+                var1 = true;
+                break;
+        }
+    }
+
+}
+
+void EditMatrix() {
+    int ab;
+    int EditRow;
+    int EditCol;
+    int EditColorR;
+    int EditColorG;
+    int EditColorB;
+    TempInsert->ListadeCapas.MostarCapas();
+    cout << "Insert your Choise \n";
+    cin >> ab;
+    cout << "Insert Col \n";
+    cin >> EditCol;
+    cout << "Insert Row \n";
+    cin >> EditRow;
+    cout << "Insert Color R \n";
+    cin >> EditColorR;
+    cout << "Insert Color G \n";
+    cin >> EditColorG;
+    cout << "Insert Color B \n";
+    cin >> EditColorB;
+    TempInsert->ListadeCapas.EditNodeMatrix(ab, EditCol, EditRow, EditColorR, EditColorG, EditColorB);
+    TempInsert->ListadeCapas.UpdateNodeLinealizar2(ab, EditCol, EditRow, EditColorR, EditColorG, EditColorB);
+    TempInsert->ListadeCapas.IntentoMandarHtml1("M" + TempInsert->Name, TempInsert->Image_width,
+                                                TempInsert->Image_height);
+    TempInsert->ListadeCapas.IntentoMandarCSS1(Image_width, Image_height, Pixel_width, Pixel_height,
+                                               "M" + TempInsert->Name);
+
+}
+
+void EditMatrixFilter() {
+    int ab;
+    if (TempInsert->LFilters.IsEmpety() == false) {
+        TempInsert->LFilters.PrintFilters();
+        cout << "Write your Choise \n";
+        string choise;
+        cin >> choise;
+        TempInsert->ListadeCapas.MostarCapas();
+        cout << "Insert your Choise \n";
+        cin >> ab;
+        int EditRow;
+        int EditCol;
+        int EditColorR;
+        int EditColorG;
+        int EditColorB;
+        cout << "Insert Col \n";
+        cin >> EditCol;
+        cout << "Insert Row \n";
+        cin >> EditRow;
+        cout << "Insert Color R \n";
+        cin >> EditColorR;
+        cout << "Insert Color G \n";
+        cin >> EditColorG;
+        cout << "Insert Color B \n";
+        cin >> EditColorB;
+        if (choise == "NEGATIVE") {
+            TempInsert->ListadeCapas.EditNodeMatrix(ab, EditCol, EditRow, EditColorR, EditColorG, EditColorB);
+            TempInsert->ListadeCapas.UpdateNodeLinealizar2(ab, EditCol, EditRow, EditColorR, EditColorG, EditColorB);
+            TempInsert->ListadeCapas.MandarHtmNEGATIVElCAPA("EditNegative"+TempInsert->Name, TempInsert->Image_width,
+                                                            TempInsert->Image_height);
+            TempInsert->ListadeCapas.MandarCSSNEGATIVECAPA(Image_width, Image_height, Pixel_width, Pixel_height,
+                                                           "EditNegative"+TempInsert->Name);
+
+        } else if (choise == "GRAYSCALE"|| choise == "grayscale") {
+            TempInsert->ListadeCapas.EditNodeMatrix(ab, EditCol, EditRow, EditColorR, EditColorG, EditColorB);
+            TempInsert->ListadeCapas.UpdateNodeLinealizar2(ab, EditCol, EditRow, EditColorR, EditColorG, EditColorB);
+            TempInsert->ListadeCapas.MandarHtmGRAYSCALEl("EditGrayScale"+TempInsert->Name, TempInsert->Image_width,
+                                                         TempInsert->Image_height);
+            TempInsert->ListadeCapas.MandarCSSGRAYSCALEl(Image_width, Image_height, Pixel_width, Pixel_height,
+                                                         "EditGrayScale"+TempInsert->Name);
+
+
+        } else if (choise == "X_MIRROR") {
+
+        } else if (choise == "Y_MIRROR") {
+
+        }
+
+    } else {
+        cout << "No Filters Applied \n ";
+    }
+}
+
+
+void Export() {
+    TempInsert->ListadeCapas.IntentoMandarHtml1(TempInsert->Name, Image_width, Image_height);
+    TempInsert->ListadeCapas.IntentoMandarCSS1(Image_width, Image_height, Pixel_width, Pixel_height, TempInsert->Name);
+    if (TempInsert->ListadeCapas.IsEmptyNegative() == false) {
+        TempInsert->ListadeCapas.MandarHTMLNEGATIVE(TempInsert->Name, TempInsert->Image_width,
+                                                    TempInsert->Image_height);
+        TempInsert->ListadeCapas.MandarCSSNEGATIVE(Image_width, Image_height, Pixel_width, Pixel_height,
+                                                   TempInsert->Name);
+
+    } else if (TempInsert->ListadeCapas.IsEmptyGrayScale() == false) {
+        TempInsert->ListadeCapas.MandarHtmGRAYSCALEl(TempInsert->Name, TempInsert->Image_width,
+                                                     TempInsert->Image_height);
+        TempInsert->ListadeCapas.MandarCSSGRAYSCALEl(Image_width, Image_height, Pixel_width, Pixel_height,
+                                                     TempInsert->Name);
+
+    } else if (TempInsert->ListadeCapas.IsEmptyMRY() == false) {
+        TempInsert->ListadeCapas.MandarHTMLROTACIONY(TempInsert->Name, TempInsert->Image_width,
+                                                     TempInsert->Image_height);
+        TempInsert->ListadeCapas.MandarCSSROTACIONY(Image_width, Image_height, Pixel_width, Pixel_height,
+                                                    TempInsert->Name);
+    }
+
+}
 /*
 void ReadCapas(string Archivo) {
     std::stringstream ss(Archivo);
