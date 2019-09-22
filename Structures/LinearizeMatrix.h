@@ -52,7 +52,11 @@ public:
     string  ConvertirAHexa(int ColorR, int ColorG,int ColorB, bool Con);
     string Agrupar(string ColorHexa);
 
-    string H1();
+
+    void UpdateNodeLinealizar(int Col, int Fil, int ColorR, int ColorG, int ColorB);
+    void UpdateNodeCSSGrayScale(int Col, int Fil, int ColorR, int ColorG, int ColorB);
+    void UpdateNodeMatrixGrayScale(int Col, int Fil, int ColorR, int ColorG, int ColorB);
+    string H1(int Image_width, int Image_height);
     string C1();
 
 
@@ -66,21 +70,24 @@ public:
     string CssGRAYSCALE(string css,int WidthC, int HeightC,int WidthP, int HeightP);
     string Conversor(int ColorR, int ColorG, int ColorB);
     string TraerCSSGRAYSACLE();
+    bool isEmptyGrayScale();
     //******************NEGATIVE****************************/
     void ConvertirNEGATIVE();
     void NEGATIVES(Linearize *& Node);
     string MandarAtraerNegativos();
     void SentGraph();
+    bool isEmptyNegative();
     //***************ROTACION Y******************************/
    void ChangeId(int WidthC, int HeightC);
     void ChangeId2(Linearize *&Node, int WidthC, int HeightC);
     void MostrarChange();
     string MandarAtraerRotacionY();
-
+    bool isEmptyMRY();
     //**************ROTACION X********************************
     void ChangeIdx(int WidthC, int HeightC);
     void ChangeId2x(Linearize *&Node, int WidthC, int HeightC);
     string MandarAtraerRotacionX();
+    bool isEmptyMRX();
 
 
 
