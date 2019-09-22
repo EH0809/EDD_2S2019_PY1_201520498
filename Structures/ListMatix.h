@@ -21,6 +21,7 @@ struct MatrixList{
     MatrixRotationX RotacionX;
     MatrixList *NextMatrix;
     MatrixList *PreviousMatrix;
+
 };
 class ListMatix {
 public:
@@ -138,6 +139,21 @@ public:
     void EditNodeMatrix(int Id, int Col, int Fil, int ColorR, int ColorG, int ColorB);
     void EditNodeMatrixGrayScale(int Id, int Col,int Fil, int ColorR, int ColorG, int ColorB);
 
+    void AllLayers();
+    void MandarAGraficarYX(int ID);
+    bool isEmptyRXY();
+
+    //****************************ROTACION XY
+    void EnviarAConvertirROTACIONXY(int WidthC, int HeightC);
+    void MandarHTMLROTACIONXY(string name,int Image_width, int Image_height);
+    string MandarHtMLROTACIONXY2(string html, string nombre,int Image_width, int Image_height);
+    string MandarHtmROTACIONXY3(int Image_width, int Image_height);
+    void MandarCSSROTACIONXY(int WidthC, int HeightC, int WidthP, int HeightP,string name);
+    string MandarCSSROTACIONXY2(string css,int WidthC, int HeightC, int WidthP, int HeightP);
+    string MandarCSSROTACIONXY3();
+    void ADDMatrixXY();
+    void DesEncaparMatrixXY(MatrixList *&Node);
+    void MandarAGraficarXXY(int Id);
 
 };
 
