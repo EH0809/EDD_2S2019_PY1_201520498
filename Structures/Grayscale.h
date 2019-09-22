@@ -37,6 +37,8 @@ public:
     string Html(string html);
     string Css(string css,int WidthC, int HeightC,int WidthP, int HeightP);
     string MandarCSS();
+
+    void UpdateMatrixGrayScale(int Col, int Fil, int ColorR, int ColorG, int ColorB);
 };
 
 
