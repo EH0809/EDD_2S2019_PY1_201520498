@@ -5,8 +5,9 @@
 #ifndef P1_NEGATIVE_H
 #define P1_NEGATIVE_H
 
-#include "MatrixB.h"
+
 #include "iostream"
+#include "MatrixNegative.h"
 using  namespace std;
 
 struct  NegativeNode{
@@ -24,7 +25,7 @@ struct  NegativeNode{
 
 class Negative {
 public:
-    MatrixB NegativeMatrix;
+    MatrixNegative CompleteNegative;
     NegativeNode *FirstNode=NULL;
     NegativeNode *EndNode = NULL;
     bool IsEmptyP();
