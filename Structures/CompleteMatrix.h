@@ -19,7 +19,9 @@ public:
     MatrixB PunteroMatriz;
     void ADDCompleta(int Col, int Fil, int ColorR, int ColorG, int ColorB);
     void GraficarCompleta();
+    void GraphLayer(int ab);
     string GraficarC();
+    void UpdateNode(int Col, int Fil, int ColorR, int ColorG, int ColorB);
 /*
     CompleteM *FirstMatrixC=NULL;
     CompleteM *EndMatrixC= NULL;
